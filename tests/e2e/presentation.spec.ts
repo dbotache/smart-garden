@@ -1,0 +1,150 @@
+import { expect, test } from "@playwright/test";
+import { clickInScene, dragCanvas, stageButton, waitForGarden, watchConsole } from "./helpers";
+
+const ORDER = ["title", "team", "problem", "vision", "market", "tech", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation", "architecture", "business", "next-steps", "call"];
+/** open the deck and wait until hydration attached the keyboard handler (keys pressed earlier are lost) */
+async function openDeck(page: import("@playwright/test").Page, slide?: number) {
+  await page.goto(slide ? `/presentation#/${slide}` : "/presentation");
+  await expect(page.getByTestId("deck")).toHaveAttribute("data-keys", "ready");
+}
+const slideId = (page: import("@playwright/test").Page) => page.getByTestId("deck").getAttribute("data-slide-id");
+
+test.describe("presentation", () => {
+  test("loads and navigates through all slides in order", async ({ page }) => {
+    const problems = watchConsole(page);
+    await openDeck(page);
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "title");
+    // three.js is not loaded on regular slides
+    expect(await page.evaluate(() => (window as { __THREE__?: string }).__THREE__)).toBeUndefined();
+    for (let i = 1; i < ORDER.length; i++) {
+      await page.keyboard.press("ArrowRight");
+      await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", ORDER[i]!);
+      await expect(page).toHaveURL(new RegExp(`#/${i + 1}$`));
+    }
+    await page.keyboard.press("ArrowRight"); // stays on the last slide
+    expect(await slideId(page)).toBe("call");
+    await page.keyboard.press("Home");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "title");
+    await page.getByTestId("deck-next").click();
+    await expect(page.getByTestId("deck-counter")).toHaveText("2 / 14");
+    expect(problems).toEqual([]);
+  });
+
+  test("the full presenter journey: reach the garden, use it, continue", async ({ page }) => {
+    const problems = watchConsole(page);
+    await openDeck(page, 6);
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "demo-planning");
+    await waitForGarden(page);
+    const garden = page.locator("[data-garden-root]");
+    await expect(garden).toHaveAttribute("data-stage", "planning");
+
+    // rotate
+    await dragCanvas(page, 200, 30);
+    expect(await slideId(page)).toBe("demo-planning");
+    // zoom with the wheel over the canvas
+    await page.mouse.wheel(0, -400);
+    expect(await slideId(page)).toBe("demo-planning");
+    // click a zone in 3D
+    await clickInScene(page, { type: "zone", id: "bed-1" });
+    await expect(page.getByTestId("zone-panel")).toBeVisible();
+    expect(await slideId(page)).toBe("demo-planning");
+
+    // switch stage inside the garden: slide does not change
+    await stageButton(page, "planting").click();
+    await expect(garden).toHaveAttribute("data-stage", "planting");
+    expect(await slideId(page)).toBe("demo-planning");
+    // Space on a focused garden button must not advance the deck
+    await page.keyboard.press("Space");
+    expect(await slideId(page)).toBe("demo-planning");
+
+    // click a plant (selection carried over from the zone: tomato)
+    await clickInScene(page, { type: "plant", id: "basil" });
+    await expect(page.getByTestId("plant-panel")).toHaveAttribute("data-plant-id", "basil");
+
+    // sensor plot
+    await stageButton(page, "monitoring").click();
+    await clickInScene(page, { type: "sensor", id: "probe-1" });
+    await expect(page.getByTestId("chart-soil-moisture")).toBeVisible();
+
+    // irrigation demo
+    await stageButton(page, "irrigation").click();
+    await page.getByTestId("run-irrigation").click();
+    await expect(page.getByTestId("irrigation-panel")).toHaveAttribute("data-demo-status", "done", { timeout: 15_000 });
+
+    // continue presenting with the keyboard after interacting
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "demo-planting");
+    await expect(garden).toHaveAttribute("data-stage", "planting"); // slide drives the stage
+    await page.getByTestId("deck-next").click();
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "demo-monitoring");
+    expect(problems).toEqual([]);
+  });
+
+  test("one persistent WebGL garden across demo slides; paused when hidden", async ({ page }) => {
+    await openDeck(page, 7);
+    await waitForGarden(page);
+    await page.evaluate(() => {
+      (window as { __gardenCanvasNode?: Element }).__gardenCanvasNode = document.querySelector('[data-testid="garden-canvas"] canvas')!;
+    });
+    for (const id of ["demo-planting", "demo-monitoring", "demo-irrigation"]) {
+      await page.keyboard.press("ArrowRight");
+      await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", id);
+    }
+    expect(await page.evaluate(() => document.querySelector('[data-testid="garden-canvas"] canvas') === (window as { __gardenCanvasNode?: Element }).__gardenCanvasNode)).toBe(true);
+    expect(await page.locator('[data-testid="garden-canvas"] canvas').count()).toBe(1);
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck-garden")).toHaveAttribute("data-visible", "false");
+    await expect(page.getByTestId("deck-garden")).toBeHidden();
+  });
+
+  test("garden resizes with the slide frame and in full screen", async ({ page }) => {
+    await openDeck(page, 8);
+    await waitForGarden(page);
+    const sizeOf = () => page.locator('[data-testid="garden-canvas"] canvas').evaluate((c: HTMLCanvasElement) => ({ css: Math.round(c.getBoundingClientRect().width), backing: Math.round(c.width / devicePixelRatio) }));
+    const a = await sizeOf();
+    await page.setViewportSize({ width: 1100, height: 700 });
+    await expect.poll(async () => (await sizeOf()).css).toBeLessThan(a.css);
+    const b = await sizeOf();
+    expect(Math.abs(b.css - b.backing)).toBeLessThan(2);
+    // full screen toggle via F (headless Chromium supports the Fullscreen API)
+    await page.locator("body").click({ position: { x: 3, y: 3 } });
+    await page.keyboard.press("f");
+    await expect.poll(() => page.evaluate(() => !!document.fullscreenElement)).toBe(true);
+    await expect(page.locator("[data-garden-root]")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect.poll(() => page.evaluate(() => !!document.fullscreenElement)).toBe(false);
+  });
+
+  test("architecture slide follows the garden demo and is interactive without moving the deck", async ({ page }) => {
+    const problems = watchConsole(page);
+    await openDeck(page, 10);
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "architecture");
+    await expect(page.getByTestId("deck-garden")).toHaveAttribute("data-visible", "false");
+    const arch = page.getByTestId("architecture");
+    await page.locator('[data-node="mqtt"]').click();
+    await expect(page.getByTestId("arch-detail")).toHaveAttribute("data-node", "mqtt");
+    await page.getByTestId("arch-level-1").click();
+    await page.keyboard.press("Space"); // focused button: Space must not advance the deck
+    await expect(arch).toHaveAttribute("data-level", "1");
+    await expect(page.locator('[data-node="mqtt"]')).toBeDisabled();
+    expect(await slideId(page)).toBe("architecture");
+    // the diagram fits the slide: map and panel stay inside the frame
+    const frame = (await page.locator(".deck-frame").boundingBox())!;
+    for (const sel of ['[data-testid="architecture-map"]', ".arch-panel"]) {
+      const b = (await page.locator(sel).boundingBox())!;
+      expect(b.x + b.width).toBeLessThanOrEqual(frame.x + frame.width);
+      expect(b.y + b.height).toBeLessThanOrEqual(frame.y + frame.height);
+    }
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "business");
+    expect(problems).toEqual([]);
+  });
+
+  test("speaker notes from the PPTX are available", async ({ page }) => {
+    await openDeck(page, 5);
+    await page.keyboard.press("n");
+    await expect(page.getByTestId("speaker-notes")).toContainText("KfW Research");
+  });
+});

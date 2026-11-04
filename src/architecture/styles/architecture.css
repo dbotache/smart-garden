@@ -1,0 +1,288 @@
+/*
+ * Architecture diagram in the deck's style (light surface, PlantWiz greens, Calibri/Carlito + Cambria/Noto Serif).
+ * Two units:
+ *   --u  one slide point: the component is laid out on 873 × 388 pt, the slide body of the deck
+ *   --m  one unit of the original 1100 × 745 map
+ * Both are container-query units, so everything scales with the slide frame (no CSS transforms).
+ */
+.arch {
+  container-type: inline-size;
+  width: 100%;
+  height: 100%;
+  color: var(--color-pw-ink);
+  font-family: var(--font-sans);
+}
+.arch-body {
+  --u: calc(100cqw / 873);
+  display: grid;
+  grid-template-columns: calc(var(--u) * 573) 1fr;
+  grid-template-rows: auto 1fr;
+  column-gap: calc(var(--u) * 16);
+  height: 100%;
+}
+.arch-header {
+  grid-column: 1 / -1;
+  margin-bottom: calc(var(--u) * 12);
+}
+.arch-header h2 {
+  font-size: calc(var(--u) * 24);
+  font-weight: 700;
+  color: var(--color-pw-900);
+  line-height: 1.15;
+}
+.arch-header p {
+  margin-top: calc(var(--u) * 2);
+  font-size: calc(var(--u) * 12);
+  color: var(--color-pw-muted);
+}
+.arch-scroll {
+  grid-row: 2;
+  min-width: 0;
+}
+
+/* map: aspect of the original canvas, own container for --m */
+.arch-map {
+  container-type: inline-size;
+  --m: calc(100cqw / 1100);
+  position: relative;
+  aspect-ratio: 1100 / 745;
+  width: 100%;
+  border-radius: calc(var(--u) * 10);
+  background: var(--color-pw-50);
+  overflow: hidden;
+}
+.arch-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.arch-flow {
+  stroke-dasharray: 7 6;
+  animation: arch-move 1.2s linear infinite;
+}
+@keyframes arch-move {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+.arch-band {
+  position: absolute;
+  left: calc(var(--m) * 25);
+  font-size: calc(var(--m) * 13);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-pw-700);
+  pointer-events: none;
+}
+.arch-band.is-off {
+  color: var(--color-pw-muted);
+  opacity: 0.45;
+}
+.arch-band-line {
+  position: absolute;
+  left: calc(var(--m) * 18);
+  right: calc(var(--m) * 18);
+  border-top: 1px dashed var(--color-pw-200);
+}
+
+.arch-node {
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(var(--m) * 5);
+  padding: 0 calc(var(--m) * 8) 0 calc(var(--m) * 16);
+  border: 0;
+  border-radius: calc(var(--m) * 12);
+  background: #fff;
+  box-shadow: inset calc(var(--m) * 6) 0 0 var(--c), 0 0 0 1px var(--color-pw-200), 0 calc(var(--m) * 3) calc(var(--m) * 10) rgb(27 67 50 / 0.08);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.3s, box-shadow 0.2s;
+}
+.arch-node b {
+  font-size: calc(var(--m) * 17);
+  line-height: 1.1;
+  white-space: nowrap;
+  color: var(--color-pw-900);
+}
+.arch-node small {
+  font-size: calc(var(--m) * 13.5);
+  line-height: 1.15;
+  color: var(--color-pw-muted);
+}
+.arch-node:hover:not(:disabled),
+.arch-node[aria-pressed="true"] {
+  transform: translateY(calc(var(--m) * -3));
+  box-shadow: inset calc(var(--m) * 6) 0 0 var(--c), 0 0 0 calc(var(--m) * 2.5) var(--color-pw-700), 0 calc(var(--m) * 6) calc(var(--m) * 16) rgb(27 67 50 / 0.18);
+}
+.arch-node:focus-visible {
+  outline: calc(var(--m) * 3) solid var(--color-pw-400);
+  outline-offset: calc(var(--m) * 3);
+}
+.arch-node:disabled {
+  opacity: 0.28;
+  cursor: default;
+  box-shadow: inset calc(var(--m) * 6) 0 0 var(--c), 0 0 0 1px var(--color-pw-200);
+}
+
+.arch-legend {
+  position: absolute;
+  left: calc(var(--m) * 880);
+  top: calc(var(--m) * 360);
+  display: grid;
+  gap: calc(var(--m) * 7);
+  font-size: calc(var(--m) * 13.5);
+  color: var(--color-pw-muted);
+}
+.arch-legend li,
+.arch-chip {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--m) * 8);
+}
+.arch-legend i {
+  width: calc(var(--m) * 12);
+  height: calc(var(--m) * 12);
+  border-radius: 50%;
+}
+
+/* side panel */
+.arch-panel {
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 10);
+  min-height: 0;
+}
+.arch-levels {
+  display: grid;
+  gap: calc(var(--u) * 5);
+}
+.arch-btn {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 8);
+  padding: calc(var(--u) * 5) calc(var(--u) * 10);
+  border-radius: calc(var(--u) * 7);
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--color-pw-200);
+  font-size: calc(var(--u) * 12.5);
+  font-weight: 700;
+  color: var(--color-pw-900);
+  cursor: pointer;
+  text-align: left;
+}
+.arch-btn:hover {
+  background: var(--color-pw-50);
+}
+.arch-levels .arch-btn[aria-pressed="true"] {
+  background: var(--color-pw-700);
+  color: #fff;
+  box-shadow: none;
+}
+.arch-btn:focus-visible {
+  outline: 2px solid var(--color-pw-400);
+  outline-offset: 2px;
+}
+.arch-swatch {
+  width: calc(var(--u) * 16);
+  height: calc(var(--u) * 3);
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px #fff;
+}
+.arch-btn-quiet {
+  align-self: flex-start;
+  padding: calc(var(--u) * 3) calc(var(--u) * 9);
+  font-size: calc(var(--u) * 11);
+  font-weight: 600;
+  color: var(--color-pw-700);
+}
+
+.arch-detail {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: calc(var(--u) * 11) calc(var(--u) * 13);
+  border-radius: calc(var(--u) * 10);
+  background: var(--color-pw-50);
+}
+.arch-chip {
+  gap: calc(var(--u) * 6);
+  font-size: calc(var(--u) * 10.5);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-pw-700);
+}
+.arch-chip i {
+  width: calc(var(--u) * 8);
+  height: calc(var(--u) * 8);
+  border-radius: 50%;
+}
+.arch-detail h3 {
+  margin-top: calc(var(--u) * 4);
+  font-size: calc(var(--u) * 17);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-pw-900);
+}
+.arch-text {
+  margin-top: calc(var(--u) * 5);
+  font-size: calc(var(--u) * 12);
+  line-height: 1.35;
+}
+.arch-links {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: calc(var(--u) * 2) calc(var(--u) * 8);
+  margin-top: calc(var(--u) * 8);
+  font-size: calc(var(--u) * 11);
+  line-height: 1.3;
+}
+.arch-links dt {
+  font-weight: 700;
+  color: var(--color-pw-700);
+}
+.arch-foot {
+  display: grid;
+  gap: calc(var(--u) * 5);
+}
+.arch-foot p {
+  font-size: calc(var(--u) * 10);
+  line-height: 1.3;
+  color: var(--color-pw-muted);
+}
+
+/* standalone page on narrow screens: stack, keep the map legible and let it scroll sideways */
+@container (max-width: 720px) {
+  .arch[data-fit="responsive"] .arch-body {
+    --u: 1.25px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    row-gap: 14px;
+    height: auto;
+  }
+  .arch[data-fit="responsive"] .arch-scroll {
+    overflow-x: auto;
+  }
+  .arch[data-fit="responsive"] .arch-map {
+    min-width: 700px;
+  }
+  .arch[data-fit="responsive"] .arch-panel {
+    grid-row: 3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arch-flow {
+    animation: none;
+  }
+  .arch-node {
+    transition: none;
+  }
+}

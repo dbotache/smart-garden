@@ -1,0 +1,97 @@
+@import "tailwindcss";
+/* Module stylesheets live in the global sheet: per-component CSS chunks get preloaded by <Link> prefetches on
+   pages that never use them, which Chromium reports as a console warning. */
+@import "../prototype/styles/garden.css";
+@import "../architecture/styles/architecture.css";
+
+/*
+ * Brand tokens from the original PowerPoint theme. Headline: Cambria (Office) with Noto Serif as web fallback;
+ * body: Calibri (Office) with Carlito, its metric-compatible open substitute.
+ */
+@theme {
+  --font-serif: Cambria, var(--font-noto-serif), Georgia, serif;
+  --font-sans: Calibri, var(--font-carlito), "Segoe UI", system-ui, sans-serif;
+  --color-pw-900: #1b4332;
+  --color-pw-700: #2d6a4f;
+  --color-pw-400: #52b788;
+  --color-pw-200: #b7e4c7;
+  --color-pw-50: #eef8f1;
+  --color-pw-ink: #1f2d26;
+  --color-pw-muted: #56635c;
+  --color-pw-red: #d9482b;
+  --color-pw-amber: #f2a93b;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  margin: 0;
+  background: #e9ece7;
+  color: var(--color-pw-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Slide units. The deck frame is a size container; 1 --pt equals one PowerPoint point on a 960 × 540 pt slide,
+ * so layouts can be transcribed from the PPTX coordinates and scale with the frame (no CSS transform:
+ * transforms would break pointer mapping of the embedded WebGL canvas).
+ */
+.deck-frame {
+  container-type: inline-size;
+  container-name: deck;
+}
+.deck-frame * {
+  --pt: calc(100cqw / 960);
+}
+
+@utility u-fs-* {
+  font-size: calc(var(--pt) * --value(number));
+}
+@utility u-p-* {
+  padding: calc(var(--pt) * --value(number));
+}
+@utility u-px-* {
+  padding-inline: calc(var(--pt) * --value(number));
+}
+@utility u-py-* {
+  padding-block: calc(var(--pt) * --value(number));
+}
+@utility u-gap-* {
+  gap: calc(var(--pt) * --value(number));
+}
+@utility u-mt-* {
+  margin-top: calc(var(--pt) * --value(number));
+}
+@utility u-mb-* {
+  margin-bottom: calc(var(--pt) * --value(number));
+}
+@utility u-w-* {
+  width: calc(var(--pt) * --value(number));
+}
+@utility u-h-* {
+  height: calc(var(--pt) * --value(number));
+}
+@utility u-r-* {
+  border-radius: calc(var(--pt) * --value(number));
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.slide-enter {
+  animation: slide-in 320ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .slide-enter {
+    animation: none;
+  }
+}

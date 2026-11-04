@@ -1,0 +1,49 @@
+{
+  "name": "plantwiz-smart-garden",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PlantWiz smart-garden 3D prototype and web presentation (migrated from PowerPoint).",
+  "scripts": {
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:visual": "playwright test tests/visual",
+    "test:visual:update": "playwright test tests/visual --update-snapshots=all",
+    "inspect-assets": "tsx scripts/inspect-assets.ts",
+    "validate": "tsx scripts/validate-project.ts",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run validate && npm run build"
+  },
+  "dependencies": {
+    "@react-three/drei": "10.7.9",
+    "@react-three/fiber": "9.5.0",
+    "next": "16.3.4",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "three": "0.182.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.3.1",
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/postcss": "4.2.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "22.19.1",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@types/three": "0.182.0",
+    "@vitejs/plugin-react": "5.1.1",
+    "eslint": "9.39.1",
+    "eslint-config-next": "16.3.4",
+    "jsdom": "27.2.0",
+    "tailwindcss": "4.2.1",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "vitest": "4.0.15"
+  }
+}
