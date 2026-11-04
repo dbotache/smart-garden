@@ -29,13 +29,15 @@ export type GardenCanvasProps = {
   ariaLabel: string;
   /** Pixels of the canvas covered by overlays (side panel / bottom sheet). */
   inset: ViewInset;
+  /** Keep the last frame in the drawing buffer so it can be copied (PDF export). */
+  printable?: boolean;
 };
 
 /**
  * The WebGL scene. The same scene graph is used in every stage: stages only change layer targets.
  * Loaded client-side only (see GardenScene.tsx) — three.js must not run during SSR.
  */
-export default function GardenCanvas({ scene, active, cameraApiRef, onSettledChange, intro, ariaLabel, inset }: GardenCanvasProps) {
+export default function GardenCanvas({ scene, active, cameraApiRef, onSettledChange, intro, ariaLabel, inset, printable = false }: GardenCanvasProps) {
   const layers = useRef<LayerProgress>(intro ? { ...EMPTY_LAYERS } : layerTargets(scene.stage));
   const busy = useRef({ camera: false });
 
@@ -46,7 +48,7 @@ export default function GardenCanvas({ scene, active, cameraApiRef, onSettledCha
       flat
       dpr={[1, 2]}
       camera={{ position: CAMERA_HOME.position, fov: CAMERA_HOME.fov, near: 0.5, far: 220 }}
-      gl={{ antialias: true, powerPreference: "high-performance" }}
+      gl={{ antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: printable }}
       aria-label={ariaLabel}
       role="img"
       data-testid="garden-canvas"

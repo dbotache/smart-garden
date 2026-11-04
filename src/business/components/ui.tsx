@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 
 export const pt = (n: number) => `calc(var(--pt) * ${n})`;
 
@@ -11,7 +11,13 @@ function subscribeMotion(cb: () => void) {
   return () => mq.removeEventListener?.("change", cb);
 }
 const reducedMotionNow = () => typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-export const usePrefersReducedMotion = () => useSyncExternalStore(subscribeMotion, reducedMotionNow, () => false);
+/** true in static renderings (PDF export): numbers and bars render at their final values, no tweens. */
+export const StaticMotionContext = createContext(false);
+export const usePrefersReducedMotion = () => {
+  const forced = useContext(StaticMotionContext);
+  const reduced = useSyncExternalStore(subscribeMotion, reducedMotionNow, () => false);
+  return forced || reduced;
+};
 
 /** Tween a number towards `target` (from 0 on first render). Returns the target directly with reduced motion. */
 export function useCountUp(target: number, duration = 900) {
@@ -49,7 +55,8 @@ export function AnimatedNumber({ value, format, className = "", testId }: { valu
 
 /** true one frame after mount: lets CSS transitions grow bars from zero on slide entry */
 export function useEntered() {
-  const [entered, setEntered] = useState(false);
+  const isStatic = useContext(StaticMotionContext);
+  const [entered, setEntered] = useState(isStatic);
   useEffect(() => {
     const id = requestAnimationFrame(() => setEntered(true));
     return () => cancelAnimationFrame(id);

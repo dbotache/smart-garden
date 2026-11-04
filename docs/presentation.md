@@ -11,7 +11,27 @@ Route: `/presentation`. Deep links: `/presentation#/7`.
 | Home / End | first / last slide |
 | F, or the ⛶ button | full screen (Esc leaves) |
 | N, or "Notizen" | speaker notes from the PPTX |
+| "PDF" button | opens `/presentation/print?download` in a new tab, builds the PDF and downloads `PlantWiz-Praesentation.pdf` |
 | Progress bar | jump to any slide (garden slides shown in light green) |
+
+## PDF export
+
+`/presentation/print` (`components/PrintDeck.tsx`) renders all slides one below the other at 1280 × 720 px. It waits for fonts, images (forced to eager) and all four 3D gardens to settle. Then:
+
+- **"PDF herunterladen"** (default; the deck's PDF button triggers it via `?download`): each page is rendered to a 2560 × 1440 JPEG with `modern-screenshot` and placed on a 960 × 540 pt page with `jsPDF` (same size as the PPTX). The file is built in the browser, so Firefox, Chrome and Safari produce the same PDF. Text is part of the image (not searchable); about 7 MB, 7–15 s.
+- **"Drucken …"**: the browser's print dialog with `@page { size: 1280px 720px }`. Text stays vector text, but only Chromium browsers keep the 16:9 page size reliably; Firefox falls back to its paper setting (A4/Letter portrait cuts the slides off).
+
+Content rules for both:
+
+- Interactive slides are exported in their opening state (architecture: level 3; finance: "Beispiel" preset, tab "Monatsergebnis"). Count-ups and growing bars render their final values (`StaticMotionContext`).
+- The 3D gardens render with `preserveDrawingBuffer`, so the canvas can be copied; for printing each canvas is replaced by a PNG snapshot.
+- Speaker notes are not included.
+
+Pitfalls found while testing in Firefox (keep these when changing the export):
+
+- `html-to-image` was replaced: in Firefox it rounds every font size down to "integer − 0.1 px" (42.67 → 41.9 px), which changed line breaks, and it cached all `/_next/image?url=…` images under one key (every picture became the title photo).
+- `modern-screenshot` writes only styles that differ from browser defaults, so the page's base reset (margins 0, border-box) is added to the image CSS (`BASE_RESET`); without it headings moved down.
+- Fonts are embedded explicitly from the page's `@font-face` rules (`embedFonts`), so a system font of the same name (Noto Serif is installed on many Linux systems) cannot replace the web font.
 
 Presenter clickers send PageUp/PageDown, which always navigate, even after interacting with the garden. Clicking, dragging and scrolling never change slides.
 

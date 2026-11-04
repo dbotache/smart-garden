@@ -181,4 +181,41 @@ test.describe("presentation", () => {
     await page.keyboard.press("n");
     await expect(page.getByTestId("speaker-notes")).toContainText("KfW Research");
   });
+
+  test("exports all slides as a 16:9 PDF", async ({ page }) => {
+    test.setTimeout(240_000); // 4 software-WebGL gardens + 16 page renders; slow under parallel load
+    const problems = watchConsole(page);
+    await openDeck(page);
+    const pdfLink = page.getByTestId("deck-pdf");
+    await expect(pdfLink).toHaveAttribute("href", "/presentation/print?download");
+    await expect(pdfLink).toHaveAttribute("target", "_blank");
+
+    await page.goto("/presentation/print"); // without ?download: the test clicks the button itself
+    await expect(page.getByTestId("print-deck")).toHaveAttribute("data-ready", "true", { timeout: 60_000 });
+    await expect(page.locator(".print-page")).toHaveCount(ORDER.length);
+    // every garden slide got a snapshot of its own stage (the PDF never shows an empty canvas)
+    await expect(page.locator("img.print-snapshot")).toHaveCount(4);
+    const stages = await page.locator("[data-garden-root]").evaluateAll((els) => els.map((e) => e.getAttribute("data-stage")));
+    expect(stages).toEqual(["planning", "planting", "monitoring", "irrigation"]);
+    // animated figures are printed at their final values
+    const shown = await page.locator(".print-page [data-value]").evaluateAll((els) => els.map((e) => [e.children[0]?.textContent, e.children[1]?.textContent]));
+    expect(shown.length).toBeGreaterThanOrEqual(10);
+    for (const [visible, final] of shown) expect(visible).toBe(final);
+    await expect(page.getByTestId("print-prototypes")).toContainText("457,70 €");
+    await expect(page.getByTestId("print-finance")).toContainText("Break-even");
+
+    // "PDF herunterladen": built in the browser, same file in every browser
+    const [download] = await Promise.all([page.waitForEvent("download", { timeout: 180_000 }), page.getByTestId("print-save").click()]);
+    expect(download.suggestedFilename()).toBe("PlantWiz-Praesentation.pdf");
+    await expect(page.getByTestId("print-deck")).toHaveAttribute("data-export", "done");
+    const file = (await import("node:fs")).readFileSync((await download.path())!).toString("latin1");
+    expect(file.match(/\/Type\s*\/Page[^s]/g)?.length).toBe(ORDER.length);
+    expect(file).toMatch(/\/MediaBox\s*\[0 0 960\.?0* 540\.?0*\]/);
+
+    // "Drucken …" (browser print dialog) uses the same 16:9 page size in Chromium
+    const printed = (await page.pdf({ preferCSSPageSize: true, printBackground: true })).toString("latin1");
+    expect(printed.match(/\/Type\s*\/Page[^s]/g)?.length).toBe(ORDER.length);
+    expect(printed).toMatch(/\/MediaBox\s*\[0 0 960 540\]/);
+    expect(problems).toEqual([]);
+  });
 });

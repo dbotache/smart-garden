@@ -4,6 +4,7 @@ An interactive 3D smart-garden prototype (planning → plant recommendations →
 
 | Route | What |
 |---|---|
+| `/presentation/print` | PDF export: all slides as 16:9 pages. The deck's **PDF** button opens it and downloads `PlantWiz-Praesentation.pdf` |
 | `/presentation` | The deck (16 slides; live garden on slides 7–10, architecture 11, prototype costs 12, interactive financial model 14). `#/7` deep-links a slide |
 | `/architecture` | The interactive system architecture on its own |
 | `/prototype` | The garden on its own. `?stage=monitoring&lang=de&intro=0` |

@@ -38,6 +38,8 @@ export type GardenSceneProps = {
   keyboardStageNavigation?: boolean;
   /** Play the plan → walls build-in on first mount. */
   intro?: boolean;
+  /** Static export: keeps the rendered frame readable for a snapshot (preserveDrawingBuffer). */
+  printable?: boolean;
   className?: string;
 };
 
@@ -124,7 +126,7 @@ function isTypingTarget(el: EventTarget | null) {
 /**
  * The complete interactive garden: 3D canvas + overlays. Works standalone (/prototype) and embedded in slides.
  */
-export function GardenScene({ initialStage, currentStage, onStageChange, presentationMode = false, locale = "en", active = true, keyboardStageNavigation, intro = true, className = "" }: GardenSceneProps) {
+export function GardenScene({ initialStage, currentStage, onStageChange, presentationMode = false, locale = "en", active = true, keyboardStageNavigation, intro = true, printable = false, className = "" }: GardenSceneProps) {
   const garden = useGardenController({ initialStage, currentStage, onStageChange });
   const t: Messages = getMessages(locale);
   const webgl = useWebGL();
@@ -186,7 +188,7 @@ export function GardenScene({ initialStage, currentStage, onStageChange, present
           <Fallback message={t.webglError} />
         ) : webgl ? (
           <CanvasErrorBoundary key={canvasKey} fallback={(retry) => <Fallback message={t.webglError} action={{ label: t.retry, onClick: () => (retry(), setCanvasKey((k) => k + 1)) }} />}>
-            <GardenCanvas scene={scene} active={active} cameraApiRef={cameraApi} onSettledChange={onSettledChange} intro={intro} ariaLabel={t.canvasLabel} inset={inset} />
+            <GardenCanvas scene={scene} active={active} cameraApiRef={cameraApi} onSettledChange={onSettledChange} intro={intro} ariaLabel={t.canvasLabel} inset={inset} printable={printable} />
           </CanvasErrorBoundary>
         ) : null}
         {!ready && webgl !== false && (

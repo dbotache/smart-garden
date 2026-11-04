@@ -43,6 +43,8 @@
 - Clicking **real 3D objects** (zone, tomato, pear tree, probe) through the projection bridge; dragging rotates without selecting.
 - Sensor charts; the watering demo runs to completion with animated moisture values; fixed timer vs adaptive; rain scenario; canvas resizing.
 - Presentation: order and URL; three.js **not** loaded on normal slides; the full presenter journey (reach the garden → rotate → zoom → click → switch stage → Space on a button → sensor plot → irrigation demo → continue with → and the Next button); one persistent `<canvas>` across demo slides; resize and full screen; notes.
+- PDF export: the print view has 16 pages, a snapshot for each of the 4 garden stages, every animated number shows its final value; "PDF herunterladen" downloads `PlantWiz-Praesentation.pdf` with 16 pages of 960 × 540 pt, and the print path (`page.pdf()`) has the same page count and size.
+- Firefox is not covered by Playwright here. The download was checked once in Firefox 159 through WebDriver BiDi (headless): 16 pages of 960 × 540 pt, compared page by page with Firefox's own rendering (1–3 % differing pixels from anti-aliasing/JPEG, no layout shifts).
 
 **Visual:**
 - 4 stages, the sensor detail, the embedded garden after the watering demo, the architecture slide, the prototype-cost and financial-model slides (after their count-up), and the 9 migrated PPTX slides.

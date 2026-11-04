@@ -35,7 +35,7 @@
 | Data | Inline literals | Typed fixtures, pure logic, seeded histories, API contract |
 | Embedding | Global keys and wheel, no container resize | Controlled/uncontrolled component; one persistent instance per deck; key and pointer isolation |
 | Language | English, brand "VERDANT" | German in the deck, EN/DE standalone, brand PlantWiz |
-| Tests | none | 148 unit/component/integration, 14 E2E, 18 visual |
+| Tests | none | 148 unit/component/integration, 15 E2E, 18 visual |
 | Performance | rAF loop always running | On-demand rendering, paused when hidden, instancing, shared materials, lazy three.js chunk |
 
 ## Presentation

@@ -6,3 +6,4 @@ export { TARIFFS, MIXES, KIT, RENTAL, PRESETS, BASE_PARAMS, type FinanceParams, 
 export { materialSum, reserve, planBudget, fleetBudget, byCategory } from "./utils/prototypeCosts";
 export { monthlyModel, mixEconomics, tariffEconomics, kitEconomics, rentalEconomics, breakEven, customerEconomics, registrationsFor } from "./utils/finance";
 export { euro, signedEuro, pct, num } from "./utils/money";
+export { StaticMotionContext } from "./components/ui";

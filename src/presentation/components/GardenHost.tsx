@@ -20,7 +20,7 @@ type HostApi = { register: (slot: Slot) => () => void };
 const GardenHostContext = createContext<HostApi | null>(null);
 export const useGardenHost = () => useContext(GardenHostContext);
 
-export function GardenHost({ frameRef, locale = "de", children }: { frameRef: RefObject<HTMLElement | null>; locale?: Locale; children: ReactNode }) {
+export function GardenHost({ frameRef, locale = "de", printable = false, children }: { frameRef: RefObject<HTMLElement | null>; locale?: Locale; /** PDF export: no build-in, snapshot-able frame */ printable?: boolean; children: ReactNode }) {
   const [slot, setSlot] = useState<Slot | null>(null);
   const [mounted, setMounted] = useState(false);
   const [stage, setStage] = useState<GardenStage>("planning");
@@ -63,7 +63,7 @@ export function GardenHost({ frameRef, locale = "de", children }: { frameRef: Re
           data-testid="deck-garden"
           data-visible={visible}
         >
-          <GardenScene presentationMode currentStage={stage} onStageChange={setStage} locale={locale} active={visible} />
+          <GardenScene presentationMode currentStage={stage} onStageChange={setStage} locale={locale} active={visible} intro={!printable} printable={printable} />
         </div>
       )}
     </GardenHostContext.Provider>

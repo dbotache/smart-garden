@@ -31,6 +31,10 @@ export function SlideNavigation({ slides, index, onGo, fullscreen, onToggleFulls
       <button type="button" className={btn} onClick={onToggleNotes} aria-pressed={notesOpen} title="Sprechernotizen (N)" data-testid="deck-notes">
         Notizen
       </button>
+      <a href="/presentation/print?download" target="_blank" rel="noopener" className={`${btn} grid-flow-col gap-1.5 font-semibold`} title="Alle Folien als PDF herunterladen (öffnet die Exportansicht)" data-testid="deck-pdf">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden><path d="M8 2v8m0 0 3-3m-3 3L5 7M3 12v2h10v-2" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        PDF
+      </a>
       <button type="button" className={btn} onClick={onToggleFullscreen} aria-pressed={fullscreen} title="Vollbild (F)" aria-label={fullscreen ? "Vollbild beenden" : "Vollbild"} data-testid="deck-fullscreen">
         <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
           {fullscreen ? <path d="M6 2v4H2M10 2v4h4M6 14v-4H2M10 14v-4h4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /> : <path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />}
