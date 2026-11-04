@@ -32,16 +32,16 @@ function walk(dir: string): string[] {
 const allowedDeep = ["@/prototype/components/GardenCanvas"]; // lazy prefetch only
 for (const f of walk(path.join(root, "src/presentation"))) {
   const src = fs.readFileSync(f, "utf8");
-  for (const m of src.matchAll(/["'](@\/(prototype|architecture)\/[^"']+)["']/g)) if (!allowedDeep.includes(m[1]!)) errors.push(`${path.relative(root, f)} imports ${m[1]} (use "@/${m[2]}")`);
+  for (const m of src.matchAll(/["'](@\/(prototype|architecture|business)\/[^"']+)["']/g)) if (!allowedDeep.includes(m[1]!)) errors.push(`${path.relative(root, f)} imports ${m[1]} (use "@/${m[2]}")`);
 }
-ok("presentation uses only the public APIs of the prototype and architecture modules");
+ok("presentation uses only the public APIs of the prototype, architecture and business modules");
 
-for (const f of [...walk(path.join(root, "src/prototype")), ...walk(path.join(root, "src/architecture"))].filter((x) => !x.includes(`${path.sep}tests${path.sep}`))) {
+for (const f of [...walk(path.join(root, "src/prototype")), ...walk(path.join(root, "src/architecture")), ...walk(path.join(root, "src/business"))].filter((x) => !x.includes(`${path.sep}tests${path.sep}`))) {
   if (/Math\.random\(/.test(fs.readFileSync(f, "utf8"))) errors.push(`${path.relative(root, f)} uses Math.random`);
 }
-ok("no Math.random in the prototype or architecture modules");
+ok("no Math.random in the prototype, architecture or business modules");
 
-for (const p of ["original_prototype/index.html", "original_prototype/gardentwin/GardenTwinArchitecture.jsx", "original_prototype/GardenTwin_React_Architektur.zip", "original_presentation.pptx", "reference_images", "public/original/index.html"]) {
+for (const p of ["original_prototype/index.html", "original_prototype/gardentwin/GardenTwinArchitecture.jsx", "original_prototype/GardenTwin_React_Architektur.zip", "original_presentation.pptx", "source_documents/GardenTwin_Prototyp_Level_Kostenvergleich.md", "source_documents/GardenTwin_Geschaeftsmodell_Finanzkalkulation.md", "reference_images", "public/original/index.html"]) {
   if (!fs.existsSync(path.join(root, p))) errors.push(`missing original input: ${p}`);
 }
 ok("original inputs preserved");

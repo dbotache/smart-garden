@@ -25,8 +25,13 @@ src/
 │   ├── components/           ArchitectureDiagram
 │   ├── styles/               architecture.css (imported by globals.css)
 │   └── tests/
+├── business/                 ← prototype costs (slide 12) + financial model (slide 14); public API = index.ts
+│   ├── data/                 parts lists, tariffs, kit, presets (inputs only, from source_documents/)
+│   ├── utils/                pure: prototypeCosts.ts, finance.ts, money.ts (German formatting)
+│   ├── components/           PrototypeCosts, FinanceModel, FinanceCharts (SVG), ui (count-up, slider, tiles)
+│   └── tests/
 ├── presentation/
-│   ├── slides/               Slide01.tsx … Slide14.tsx + index.ts (the registry, sole source of order)
+│   ├── slides/               Slide01.tsx … Slide16.tsx + index.ts (the registry, sole source of order)
 │   ├── components/           SlideDeck, SlideLayout, SlidePrimitives, SlideNavigation, SlideProgress,
 │   │                         GardenHost, PrototypeEmbed, SlideMeta
 │   ├── hooks/                useDeckLocation (URL hash), useFullscreen
@@ -53,6 +58,8 @@ src/
 | **three.js loads lazily** | `GardenCanvas` is a `next/dynamic` (`ssr:false`) chunk. Slides 1–6 never load three.js (an E2E test asserts `window.__THREE__` is undefined). The deck prefetches the chunk one slide early. |
 | **Dependencies kept minimal** | Charts are about 150 lines of SVG (`TimeSeriesChart`), so no Recharts. Animations are R3F `useFrame` plus CSS, so no Framer Motion. State is React state plus refs, so no Zustand. Each would have added weight without adding capability here. |
 | **Module stylesheets are imported by `globals.css`, not by components** | A component-level CSS import becomes a separate chunk. `<Link>` prefetches of `/presentation` then preload that chunk on pages that never use it, and Chromium logs a warning (the E2E tests require a clean console). The two sheets are 7 kB together. |
+| **Business figures are computed, never copied** | The source documents contain arithmetic errors (`business.md`). Storing only inputs and deriving every figure in pure functions makes errors visible and keeps all slides consistent. |
+| **Relative deck navigation reads the URL hash** | `step(±1)` reads `location.hash` at key-press time. With the rendered index, a key pressed before the new slide's effect re-registered the handler went to the slide already shown. |
 | **German in the deck, English standalone** | The pitch is German. All prototype copy lives in `data/i18n.ts` (`en`, `de`), and the canonical data stays English. |
 
 ## Data flow (garden)

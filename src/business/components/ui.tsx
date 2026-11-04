@@ -1,38 +1,39 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 
 export const pt = (n: number) => `calc(var(--pt) * ${n})`;
 
-function prefersReducedMotion() {
-  return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function subscribeMotion(cb: () => void) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") return () => {};
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener?.("change", cb);
+  return () => mq.removeEventListener?.("change", cb);
 }
+const reducedMotionNow = () => typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+export const usePrefersReducedMotion = () => useSyncExternalStore(subscribeMotion, reducedMotionNow, () => false);
 
-/** Tween a number towards `target` (from 0 on first render). Instant with reduced motion. */
+/** Tween a number towards `target` (from 0 on first render). Returns the target directly with reduced motion. */
 export function useCountUp(target: number, duration = 900) {
+  const reduced = usePrefersReducedMotion();
   const [value, setValue] = useState(0);
-  const from = useRef(0);
   const current = useRef(0);
   useEffect(() => {
-    if (prefersReducedMotion() || typeof requestAnimationFrame !== "function") {
-      current.current = target;
-      setValue(target);
-      return;
-    }
-    from.current = current.current;
+    if (reduced || typeof requestAnimationFrame !== "function") return;
+    const from = current.current;
     const start = performance.now();
-    let raf = 0;
+    const handle = { id: 0 };
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - t, 3);
-      current.current = from.current + (target - from.current) * eased;
+      current.current = from + (target - from) * eased;
       setValue(current.current);
-      if (t < 1) raf = requestAnimationFrame(tick);
+      if (t < 1) handle.id = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [target, duration]);
-  return value;
+    handle.id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(handle.id);
+  }, [target, duration, reduced]);
+  return reduced ? target : value;
 }
 
 /** A number that counts up. Screen readers and tests get the final value (data-value), not the tween. */
@@ -50,10 +51,6 @@ export function AnimatedNumber({ value, format, className = "", testId }: { valu
 export function useEntered() {
   const [entered, setEntered] = useState(false);
   useEffect(() => {
-    if (typeof requestAnimationFrame !== "function") {
-      setEntered(true);
-      return;
-    }
     const id = requestAnimationFrame(() => setEntered(true));
     return () => cancelAnimationFrame(id);
   }, []);
@@ -105,10 +102,10 @@ export function Slider({ label, value, min, max, step, onChange, format, marks, 
 export function Tile({ label, children, sub, tone = "plain", testId }: { label: string; children: ReactNode; sub?: ReactNode; tone?: "plain" | "good" | "bad"; testId?: string }) {
   const bg = tone === "good" ? "bg-[#e3f2e8]" : tone === "bad" ? "bg-[#fbe9e4]" : "bg-pw-50";
   return (
-    <div className={`${bg} u-r-8 u-px-10 u-py-6 transition-colors`} data-testid={testId} data-tone={tone}>
+    <div className={`${bg} overflow-hidden u-r-8 u-px-10 u-py-6 transition-colors`} data-testid={testId} data-tone={tone}>
       <p className="u-fs-9 font-bold uppercase tracking-[0.06em] text-pw-muted">{label}</p>
       <div className="font-serif u-fs-20 font-bold leading-tight text-pw-900">{children}</div>
-      {sub && <p className="u-fs-10 leading-tight text-pw-muted">{sub}</p>}
+      {sub && <p className="truncate u-fs-10 leading-tight text-pw-muted">{sub}</p>}
     </div>
   );
 }

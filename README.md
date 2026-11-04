@@ -4,7 +4,7 @@ An interactive 3D smart-garden prototype (planning → plant recommendations →
 
 | Route | What |
 |---|---|
-| `/presentation` | The deck (14 slides; live garden on slides 7–10, system architecture on slide 11). `#/7` deep-links a slide |
+| `/presentation` | The deck (16 slides; live garden on slides 7–10, architecture 11, prototype costs 12, interactive financial model 14). `#/7` deep-links a slide |
 | `/architecture` | The interactive system architecture on its own |
 | `/prototype` | The garden on its own. `?stage=monitoring&lang=de&intro=0` |
 | `/original/index.html` | The untouched original prototype, for comparison |
@@ -45,12 +45,13 @@ In the garden: drag to orbit, scroll to zoom, click plants, beds, sensors or chi
 src/app/            routes
 src/prototype/      the garden module (public API: src/prototype/index.ts)
 src/architecture/   the system-architecture diagram (public API: src/architecture/index.ts)
+src/business/       prototype costs + financial model (public API: src/business/index.ts)
 src/presentation/   deck: slides/SlideNN.tsx + slides/index.ts registry, components, hooks
 src/shared/         brand palette
 tests/              e2e/, visual/ (+ baselines), integration/
 scripts/            audit-original.mjs, shoot.mjs, inspect-assets.ts, validate-project.ts
 docs/               architecture, design system, prototype, presentation, testing, audit, migration report
-original_prototype/ (incl. gardentwin/), original_presentation.pptx, reference_images/   untouched inputs
+original_prototype/ (incl. gardentwin/), original_presentation.pptx, reference_images/, source_documents/   untouched inputs
 ```
 
 ## How do I …
@@ -65,6 +66,7 @@ original_prototype/ (incl. gardentwin/), original_presentation.pptx, reference_i
 | edit a slide | `src/presentation/slides/SlideNN.tsx`; see `docs/presentation.md` |
 | add or reorder slides | `src/presentation/slides/index.ts` |
 | embed the garden in a slide | `<PrototypeEmbed stage="planting" />`; see `docs/presentation.md` |
+| change prototype parts or business assumptions | `src/business/data/prototypes.ts`, `src/business/data/businessModel.ts`; see `docs/business.md` |
 | edit the architecture diagram | `src/architecture/data/architecture.ts` (modules, flows, levels); see `docs/architecture-diagram.md` |
 | connect the recommendation API | `createHttpRecommendationProvider()` in `src/prototype/data/recommendations.ts`; contract in `docs/prototype.md` |
 
@@ -74,6 +76,7 @@ original_prototype/ (incl. gardentwin/), original_presentation.pptx, reference_i
 - [design-system.md](docs/design-system.md): how the references and the PPTX map to the scene and UI
 - [prototype.md](docs/prototype.md): stages, hardware model, decision logic, extension guide
 - [architecture-diagram.md](docs/architecture-diagram.md): the migrated system-architecture visualisation (slide 11)
+- [business.md](docs/business.md): prototype costs and financial model (slides 12–14), **corrections to the source documents**, consistency changes
 - [presentation.md](docs/presentation.md): controls, **PPTX migration map**, editing slides
 - [testing.md](docs/testing.md): the test suite and determinism
 - [audit-report.md](docs/audit-report.md): the original prototype's defects, causes, fixes and verification

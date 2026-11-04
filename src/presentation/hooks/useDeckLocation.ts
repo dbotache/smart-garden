@@ -22,5 +22,10 @@ export function useDeckLocation(total: number) {
     const next = clampSlide(i, total);
     window.location.replace(`#/${next + 1}`);
   }, [total]);
-  return { index, go };
+  /**
+   * Relative navigation from the slide in the URL *now*, not from the last rendered index: location.replace
+   * updates the hash synchronously, so two quick key presses move two slides even before React re-renders.
+   */
+  const step = useCallback((delta: number) => go(parseSlideHash(window.location.hash, total) + delta), [go, total]);
+  return { index, go, step };
 }

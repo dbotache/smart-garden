@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { clickInScene, dragCanvas, stageButton, waitForGarden, watchConsole } from "./helpers";
 
-const ORDER = ["title", "team", "problem", "vision", "market", "tech", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation", "architecture", "business", "next-steps", "call"];
+const ORDER = ["title", "team", "problem", "vision", "market", "tech", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation", "architecture", "prototypes", "business", "finance", "next-steps", "call"];
 /** open the deck and wait until hydration attached the keyboard handler (keys pressed earlier are lost) */
 async function openDeck(page: import("@playwright/test").Page, slide?: number) {
   await page.goto(slide ? `/presentation#/${slide}` : "/presentation");
@@ -26,7 +26,7 @@ test.describe("presentation", () => {
     await page.keyboard.press("Home");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "title");
     await page.getByTestId("deck-next").click();
-    await expect(page.getByTestId("deck-counter")).toHaveText("2 / 14");
+    await expect(page.getByTestId("deck-counter")).toHaveText("2 / 16");
     expect(problems).toEqual([]);
   });
 
@@ -138,7 +138,41 @@ test.describe("presentation", () => {
       expect(b.y + b.height).toBeLessThanOrEqual(frame.y + frame.height);
     }
     await page.keyboard.press("ArrowRight");
-    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "business");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "prototypes");
+    expect(problems).toEqual([]);
+  });
+
+  test("prototype costs and financial model are interactive without moving the deck", async ({ page }) => {
+    const problems = watchConsole(page);
+    await openDeck(page, 12);
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "prototypes");
+    await page.getByTestId("prototype-3").click();
+    await expect(page.getByTestId("breakdown-budget")).toHaveText("457,70 €");
+    await page.getByTestId("fleet-size").getByText("10×").click();
+    await expect(page.getByTestId("fleet-3")).toHaveAttribute("data-value", "4577");
+    await page.getByTestId("show-bom").click();
+    await expect(page.getByTestId("bom")).toContainText("398,00 €");
+    await page.keyboard.press("Space"); // focused button
+    expect(await slideId(page)).toBe("prototypes");
+
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "finance");
+    await page.getByTestId("preset-j3-ambitioniert").click();
+    await expect(page.getByTestId("kpi-paying")).toHaveAttribute("data-value", "10000");
+    await expect(page.getByTestId("kpi-result-tile")).toHaveAttribute("data-tone", "good");
+    for (const t of ["tarife", "kunde", "hardware", "ergebnis"]) {
+      await page.getByTestId(`tab-${t}`).click();
+      await expect(page.getByTestId(`panel-${t}`)).toBeVisible();
+    }
+    // arrows move a focused slider, not the deck; a presenter clicker (PageDown) still advances
+    const churn = page.getByTestId("slider-churn");
+    await churn.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(churn).toHaveValue("5.5");
+    expect(await slideId(page)).toBe("finance");
+    await page.keyboard.press("PageDown");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "next-steps");
     expect(problems).toEqual([]);
   });
 

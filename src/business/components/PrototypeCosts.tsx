@@ -12,7 +12,7 @@ const fmt0 = (v: number) => euro(v, 0);
 /** Nice axis maximum (1, 2, 2.5, 5 × 10^n) above v */
 function niceMax(v: number) {
   const p = Math.pow(10, Math.floor(Math.log10(v)));
-  for (const m of [1, 2, 2.5, 5, 10]) if (m * p >= v) return m * p;
+  for (const m of [1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) if (m * p >= v) return m * p;
   return 10 * p;
 }
 
@@ -32,7 +32,7 @@ export function PrototypeCosts({ initial = "p2" }: { initial?: Prototype["id"] }
   return (
     <div className="relative h-full w-full" data-testid="prototype-costs" data-selected={selectedId} data-units={units}>
       {/* three prototypes */}
-      <div className="grid grid-cols-3 u-gap-9" style={{ height: pt(170) }}>
+      <div className="grid grid-cols-3 u-gap-9" style={{ height: pt(150) }}>
         {PROTOTYPES.map((p) => {
           const active = p.id === selectedId;
           return (
@@ -53,27 +53,28 @@ export function PrototypeCosts({ initial = "p2" }: { initial?: Prototype["id"] }
                   {p.recommendation}
                 </span>
               </span>
-              <span className={`font-serif u-fs-20 font-bold leading-tight ${active ? "text-white" : "text-pw-900"}`}>{p.name}</span>
-              <span className={`u-fs-12 leading-snug ${active ? "text-pw-200" : "text-pw-muted"}`}>{p.goal}</span>
-              <span className="u-mt-6 grid grid-cols-2 gap-x-[calc(var(--pt)*8)] gap-y-[calc(var(--pt)*2)] u-fs-11 leading-tight">
+              <span className="flex items-start justify-between u-gap-8">
+                <span className="min-w-0">
+                  <span className={`block whitespace-nowrap font-serif u-fs-17 font-bold leading-tight ${active ? "text-white" : "text-pw-900"}`}>{p.name}</span>
+                  <span className={`block u-fs-11 leading-snug ${active ? "text-pw-200" : "text-pw-muted"}`}>{p.goal}</span>
+                </span>
+                <span className="shrink-0 text-right">
+                  <AnimatedNumber value={planBudget(p)} format={fmt} testId={`budget-${p.number}`} className={`block font-serif u-fs-20 font-bold leading-none ${active ? "text-white" : "text-pw-700"}`} />
+                  <span className={`block u-mt-2 u-fs-9 ${active ? "text-pw-200" : "text-pw-muted"}`}>Planbudget · Spanne {p.range[0]}–{p.range[1]} €</span>
+                </span>
+              </span>
+              <span className="mt-auto grid grid-cols-3 gap-x-[calc(var(--pt)*8)] gap-y-[calc(var(--pt)*2)] u-fs-11 leading-tight">
                 {[
                   ["Fläche", p.area],
                   ["Verbindung", p.connection],
                   ["Entwicklung", p.development],
                   ["Strom", p.power],
                 ].map(([k, v]) => (
-                  <span key={k} className="min-w-0">
+                  <span key={k} className={`min-w-0 ${k === "Strom" ? "col-span-3" : ""}`}>
                     <span className={`block u-fs-9 font-bold uppercase tracking-[0.05em] ${active ? "text-pw-200" : "text-pw-muted"}`}>{k}</span>
                     <span className="block truncate" title={v}>{v}</span>
                   </span>
                 ))}
-              </span>
-              <span className="mt-auto flex items-end justify-between">
-                <span>
-                  <span className={`block u-fs-9 font-bold uppercase tracking-[0.05em] ${active ? "text-pw-200" : "text-pw-muted"}`}>Planbudget</span>
-                  <AnimatedNumber value={planBudget(p)} format={fmt} testId={`budget-${p.number}`} className={`font-serif u-fs-24 font-bold leading-none ${active ? "text-white" : "text-pw-700"}`} />
-                </span>
-                <span className={`u-fs-10 ${active ? "text-pw-200" : "text-pw-muted"}`}>Spanne {p.range[0]}–{p.range[1]} €</span>
               </span>
             </button>
           );
@@ -81,14 +82,14 @@ export function PrototypeCosts({ initial = "p2" }: { initial?: Prototype["id"] }
       </div>
 
       {/* comparison on one scale */}
-      <div className="absolute left-0 flex flex-col u-r-10 bg-pw-50 u-px-14 u-py-8" style={{ top: pt(182), width: pt(530), height: pt(206) }}>
+      <div className="absolute left-0 flex flex-col u-r-10 bg-pw-50 u-px-14 u-py-8" style={{ top: pt(160), width: pt(530), height: pt(228) }}>
         <div className="flex items-end justify-between">
           <h3 className="u-fs-14 font-bold text-pw-900">Materialbudget im Vergleich</h3>
           <div style={{ width: pt(190) }}>
             <Segmented label="Anzahl Pilotgeräte" options={FLEET_SIZES} value={units} onChange={setUnits} format={(v) => `${v}×`} testId="fleet-size" />
           </div>
         </div>
-        <div className="u-mt-6 flex flex-col u-gap-6" role="img" aria-label={PROTOTYPES.map((p) => `Prototyp ${p.number}: ${fmt(fleetBudget(p, units))}`).join(", ")}>
+        <div className="u-mt-10 flex flex-col u-gap-8" role="img" aria-label={PROTOTYPES.map((p) => `Prototyp ${p.number}: ${fmt(fleetBudget(p, units))}`).join(", ")}>
           {PROTOTYPES.map((p) => {
             const mat = materialSum(p) * units;
             const res = reserve(p) * units;
@@ -116,7 +117,7 @@ export function PrototypeCosts({ initial = "p2" }: { initial?: Prototype["id"] }
             <span style={{ width: pt(64) }} />
             <span className="relative flex-1 u-fs-8 text-pw-muted" style={{ height: pt(10) }}>
               {[0, 0.25, 0.5, 0.75, 1].map((t) => (
-                <span key={t} className="absolute -translate-x-1/2 tabular-nums" style={{ left: `${t * 100}%` }}>
+                <span key={t} className="absolute -translate-x-1/2 whitespace-nowrap tabular-nums" style={{ left: `${t * 100}%` }}>
                   {num(axisMax * t)} €
                 </span>
               ))}
@@ -133,7 +134,7 @@ export function PrototypeCosts({ initial = "p2" }: { initial?: Prototype["id"] }
       </div>
 
       {/* breakdown of the selected prototype */}
-      <div className="absolute right-0 flex flex-col u-r-10 bg-pw-50 u-px-14 u-py-8" style={{ top: pt(182), width: pt(334), height: pt(206) }} data-testid="prototype-breakdown">
+      <div className="absolute right-0 flex flex-col u-r-10 bg-pw-50 u-px-14 u-py-8" style={{ top: pt(160), width: pt(334), height: pt(228) }} data-testid="prototype-breakdown">
         <div className="flex items-baseline justify-between">
           <h3 className="u-fs-14 font-bold text-pw-900">Prototyp {selected.number}: wofür das Geld ist</h3>
           <button type="button" onClick={() => setShowBom(true)} className="u-fs-10 font-bold text-pw-700 underline-offset-2 hover:underline" data-testid="show-bom">
@@ -160,17 +161,17 @@ export function PrototypeCosts({ initial = "p2" }: { initial?: Prototype["id"] }
       </div>
 
       {showBom && (
-        <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col u-r-10 bg-white u-px-14 u-py-8 shadow-[0_8px_30px_rgba(27,67,50,0.22)] ring-1 ring-pw-200" style={{ top: pt(182) }} role="dialog" aria-label={`Stückliste Prototyp ${selected.number}`} data-testid="bom">
+        <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col u-r-10 bg-white u-px-14 u-py-8 shadow-[0_8px_30px_rgba(27,67,50,0.22)] ring-1 ring-pw-200" style={{ top: pt(160) }} role="dialog" aria-label={`Stückliste Prototyp ${selected.number}`} data-testid="bom">
           <div className="flex items-baseline justify-between">
             <h3 className="u-fs-14 font-bold text-pw-900">Stückliste Prototyp {selected.number} · {selected.name}</h3>
             <button type="button" onClick={() => setShowBom(false)} className="u-fs-11 font-bold text-pw-700 hover:underline" data-testid="close-bom">Schließen ✕</button>
           </div>
           <div className="u-mt-4 columns-2 gap-x-[calc(var(--pt)*20)] u-fs-10 leading-snug">
             {selected.bom.map((l) => (
-              <div key={l.part} className="flex break-inside-avoid justify-between u-gap-6 border-b border-pw-50 py-[calc(var(--pt)*1.5)]">
+              <div key={l.part} className="grid break-inside-avoid items-baseline u-gap-6 border-b border-pw-50 py-[calc(var(--pt)*1.5)]" style={{ gridTemplateColumns: `1fr ${pt(60)} ${pt(46)}` }}>
                 <span className="min-w-0 truncate" title={l.part}>{l.part}</span>
-                <span className="shrink-0 tabular-nums text-pw-muted">{l.qtyLabel ?? `${l.qty} ×`} {l.qty > 1 ? euro(l.unit) : ""}</span>
-                <span className="shrink-0 tabular-nums font-bold" style={{ width: pt(46), textAlign: "right" }}>{euro(lineTotal(l))}</span>
+                <span className="tabular-nums text-pw-muted">{l.qtyLabel ?? `${l.qty} ×`}{l.qty > 1 ? ` ${euro(l.unit)}` : ""}</span>
+                <span className="text-right tabular-nums font-bold">{euro(lineTotal(l))}</span>
               </div>
             ))}
           </div>

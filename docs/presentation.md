@@ -17,7 +17,7 @@ Presenter clickers send PageUp/PageDown, which always navigate, even after inter
 
 ## Migration map (PPTX → web)
 
-Source: `original_presentation.pptx`, 9 slides, 16:9 (12 192 000 × 6 858 000 EMU = 960 × 540 pt). All text, figures and sources were copied **verbatim**. Positions, sizes and colours were transcribed from the slide XML (`--pt` units). Speaker notes were copied verbatim into `slides/index.ts`.
+Source: `original_presentation.pptx`, 9 slides, 16:9 (12 192 000 × 6 858 000 EMU = 960 × 540 pt). All text, figures and sources were copied **verbatim**, except slide 13 (PPTX 7), which was updated for consistency with the November 2026 business-model document (`business.md`). Positions, sizes and colours were transcribed from the slide XML (`--pt` units). Speaker notes were copied verbatim into `slides/index.ts`.
 
 | Web # | File | PPTX # | Title | Elements migrated | Notes |
 |---|---|---|---|---|---|
@@ -32,11 +32,13 @@ Source: `original_presentation.pptx`, 9 slides, 16:9 (12 192 000 × 6 858 000 EM
 | 9 | `Slide09.tsx` | — *new* | Live-Demo 3: Sensoren | live garden, stage "monitoring" | layer 2, labelled *geplant* |
 | 10 | `Slide10.tsx` | — *new* | Live-Demo 4: Bewässerung | live garden, stage "irrigation" | layer 3, labelled *geplant* |
 | 11 | `Slide11.tsx` | — *new* | Systemarchitektur | interactive architecture diagram (`@/architecture`), migrated from `original_prototype/gardentwin` | follows the demo; marked *Konzept* |
-| 12 | `Slide12.tsx` | 7 | Geschäftsmodell | 4 tiers (Basic highlighted dark), footnote | ✓ notes |
-| 13 | `Slide13.tsx` | 8 | Nächste Schritte | 4 work streams with icons, 3-step timeline (home-plate arrows via `clip-path`) | ✓ notes |
-| 14 | `Slide14.tsx` | 9 | Call + Outlook | dark slide, 3 ask cards, 4-step outlook chevrons, contact line | ✓ notes |
+| 12 | `Slide12.tsx` | — *new* | Prototypen + Kosten | 3 prototypes, animated budgets, fleet scaling, parts lists (`@/business`) | from `source_documents/`; see `business.md` |
+| 13 | `Slide13.tsx` | 7 | Geschäftsmodell | 4 tiers (Basic highlighted dark), footnote | **updated** to the business-model document (prices, kit purchase, Free limits); notes marked `[Aktualisiert]` |
+| 14 | `Slide14.tsx` | — *new* | Finanzmodell | interactive financial model: presets, sliders, KPIs, 4 views (`@/business`) | from `source_documents/`; see `business.md` |
+| 15 | `Slide15.tsx` | 8 | Nächste Schritte | 4 work streams with icons, 3-step timeline (home-plate arrows via `clip-path`) | ✓ notes |
+| 16 | `Slide16.tsx` | 9 | Call + Outlook | dark slide, 3 ask cards, 4-step outlook chevrons, contact line | ✓ notes |
 
-**Why the demo sits after slide 6:** slide 6 introduces the three layers (Digitaler Zwilling → IoT-Sensoren → Teilautomatisierung). The four demo slides walk through exactly that progression on the 3D twin before the business model. The demo eyebrows mark layers 2 and 3 as *geplant*, so nothing is presented as already running. The architecture slide (11) comes right after the demo: it shows the infrastructure behind the same three levels. Page numbers of PPTX slides 7–9 are therefore shifted by 5 (web 12–14).
+**Why the demo sits after slide 6:** slide 6 introduces the three layers (Digitaler Zwilling → IoT-Sensoren → Teilautomatisierung). The four demo slides walk through exactly that progression on the 3D twin before the business model. The demo eyebrows mark layers 2 and 3 as *geplant*, so nothing is presented as already running. The architecture slide (11) comes right after the demo: it shows the infrastructure behind the same three levels. Then come the prototype costs (12), the tier slide (13, PPTX 7) and the interactive financial model (14). The tier slide stays before the model so investors see the offer before the numbers. PPTX slides 7, 8, 9 are web slides 13, 15, 16.
 
 **Assets:** every picture was taken from `ppt/media` and renamed (`public/assets/images`, `public/assets/icons`; the icons are the original white glyphs on brand-green badges). No diagram had to be rasterised: all shapes (cards, pills, chevrons, home-plates, circles) are HTML/CSS.
 

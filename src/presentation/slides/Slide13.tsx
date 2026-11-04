@@ -1,41 +1,32 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { At, Bullets, Card, IconBadge, type IconName } from "../components/SlidePrimitives";
+import { At, Bullets, Card } from "../components/SlidePrimitives";
 
-const TRACKS: { icon: IconName; title: string; items: string[]; x: number; small?: boolean }[] = [
-  { icon: "leaf", title: "Prototyp", items: ["Pilotgarten mit Sensoren in Nordhessen", "Private Beta mit 20 bis 50 Nutzenden"], x: 0 },
-  { icon: "microchip", title: "Hardware", items: ["Sensor-Set für Boden, Luft, Temperatur und Licht festlegen", "Bewässerung für ein Beet testen"], x: 223 },
-  { icon: "code", title: "Software", items: ["Sensordaten in die Empfehlungen einbinden", "Prognosen zum Pflegezustand"], x: 445 },
-  { icon: "server", title: "Infrastruktur + Services", items: ["Bezahlung mit Stripe live schalten", "Monitoring und Backups prüfen"], x: 667, small: true },
-];
-const MILESTONES = [
-  { when: "Jetzt", what: "Private Beta starten", x: 0, accent: false },
-  { when: "Winter 2026/27", what: "Sensor-Prototyp bauen", x: 297, accent: false },
-  { when: "Januar 2027", what: "Kampagne zur Anbauplanung", x: 594, accent: true },
+// Updated for consistency with the business-model document (Nov 2026); PPTX wording where still valid.
+const TIERS = [
+  { level: "LEVEL 1", name: "Free", price: "0 €", sub: "digital, eingeschränkte Funktionen", items: ["Garten auslegen und planen", "1 Garten mit bis zu 3 Zonen"], x: 0, dark: false },
+  { level: "LEVEL 2", name: "Basic", price: "4,99 €", sub: "pro Monat, Preisvorschlag", items: ["Wetterbasierte Pflegeempfehlungen", "Basis ist der digitale Zwilling"], x: 223, dark: true },
+  { level: "LEVEL 3", name: "Erweitert", price: "9,99 €", sub: "pro Monat + Sensor-Kit (Kauf)", items: ["Sensoren, Historie und Benachrichtigungen", "Nur von uns freigegebene Modelle"], x: 445, dark: false },
+  { level: "LEVEL 4", name: "Expert", price: "14,99 €", sub: "pro Monat, eigene Hardware", items: ["Eigene Sensoren einbinden", "Offene Schnittstellen, Datenexport"], x: 667, dark: false },
 ];
 
-/** PPTX 8 — Next steps: four work streams and a three-step timeline (home-plate arrows). */
+/** PPTX 7 — Business model: four tiers (Basic highlighted). Prices and hardware model updated to the business-model document; see docs/business.md. */
 export default function Slide13() {
   return (
-    <SlideLayout eyebrow="HOW · NÄCHSTE SCHRITTE" title="Bis zur Anbausaison 2027 soll der Prototyp im Beet stehen">
-      {TRACKS.map((t) => (
-        <At key={t.title} x={t.x} y={0} w={206} h={205}>
-          <Card className="h-full u-px-15 u-py-13">
-            <div className="flex items-center u-gap-7" style={{ minHeight: "calc(var(--pt)*36)" }}>
-              <IconBadge icon={t.icon} size={36} />
-              <h3 className={`${t.small ? "u-fs-14" : "u-fs-17"} font-bold leading-tight text-pw-900`}>{t.title}</h3>
-            </div>
-            <Bullets items={t.items} className="u-mt-12 u-fs-14 leading-snug text-pw-ink" />
+    <SlideLayout eyebrow="HOW · GESCHÄFTSMODELL" title="Kostenlos einsteigen, mit Assistenz und Sensoren wachsen">
+      {TIERS.map((t) => (
+        <At key={t.level} x={t.x} y={0} w={206} h={284}>
+          <Card dark={t.dark} className="h-full u-px-16 u-py-12">
+            <p className={`u-fs-12 font-bold tracking-[0.08em] ${t.dark ? "text-pw-200" : "text-pw-muted"}`}>{t.level}</p>
+            <p className={`font-serif u-fs-24 font-bold ${t.dark ? "text-white" : "text-pw-900"}`}>{t.name}</p>
+            <p className={`u-mt-6 u-fs-22 font-bold ${t.dark ? "text-pw-200" : "text-pw-700"}`}>{t.price}</p>
+            <p className={`u-fs-12 ${t.dark ? "text-pw-200" : "text-pw-muted"}`}>{t.sub}</p>
+            <Bullets items={t.items} className={`u-mt-14 u-fs-14 leading-snug ${t.dark ? "text-white" : "text-pw-ink"}`} />
           </Card>
         </At>
       ))}
-      {MILESTONES.map((m) => (
-        <At key={m.when} x={m.x} y={223} w={279} h={86}>
-          <div className={`flex h-full flex-col justify-center ${m.accent ? "bg-pw-700" : "bg-pw-900"}`} style={{ clipPath: "polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%)", paddingLeft: "calc(var(--pt)*18)" }}>
-            <p className="u-fs-15 font-bold text-pw-200">{m.when}</p>
-            <p className="u-fs-15 text-white">{m.what}</p>
-          </div>
-        </At>
-      ))}
+      <At x={0} y={297} w={873} h={43}>
+        <p className="u-fs-13 leading-snug text-pw-muted">Preise brutto pro Monat bei Jahreszahlung (Planungsannahme). Sensor-Kit 149–199 € als Kauf, Miete erst nach Pilotdaten. Die App kennt heute die Stufen Free und Pro. Zusätzlich möglich: Affiliate-Links zu Saatgut und Werkzeug.</p>
+      </At>
     </SlideLayout>
   );
 }

@@ -6,6 +6,7 @@
  * - Space: next (Shift+Space: previous) — except when an interactive element has focus,
  *   where Space must activate that element (buttons, links, controls inside the garden).
  * - F: toggle full screen, N: toggle speaker notes, Escape: leave full screen / close notes.
+ * - Range sliders keep ←/→/Home/End, but PageUp/PageDown still navigate (a presenter clicker must always work).
  * - Ignored while typing, with modifier keys, or when a widget already handled the key (defaultPrevented),
  *   e.g. a chart that uses ←/→ to move its crosshair.
  */
@@ -30,7 +31,10 @@ function closest(target: EventTarget | null | undefined, selector: string): Elem
 
 export function deckKeyAction(e: KeyLike): DeckAction | null {
   if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return null;
-  if (closest(e.target, TYPING)) return null;
+  if (closest(e.target, TYPING)) {
+    const isRange = closest(e.target, "input[type='range']") !== null;
+    if (!(isRange && (e.key === "PageDown" || e.key === "PageUp"))) return null;
+  }
   switch (e.key) {
     case "ArrowRight":
     case "PageDown":

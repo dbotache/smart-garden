@@ -38,6 +38,17 @@ describe("deck keyboard rules", () => {
     expect(deckKeyAction({ key: "ArrowRight", defaultPrevented: true })).toBeNull();
   });
 
+  it("leaves arrows to a focused slider but lets presenter clickers (PageUp/PageDown) navigate", () => {
+    const range = el("<input type='range' />");
+    expect(deckKeyAction({ key: "ArrowRight", target: range })).toBeNull();
+    expect(deckKeyAction({ key: "ArrowLeft", target: range })).toBeNull();
+    expect(deckKeyAction({ key: "Home", target: range })).toBeNull();
+    expect(deckKeyAction({ key: " ", target: range })).toBeNull();
+    expect(deckKeyAction({ key: "PageDown", target: range })).toBe("next");
+    expect(deckKeyAction({ key: "PageUp", target: range })).toBe("prev");
+    expect(deckKeyAction({ key: "PageDown", target: el("<input type='text' />") })).toBeNull();
+  });
+
   it("parses and clamps slide hashes", () => {
     expect(parseSlideHash("#/7", 13)).toBe(6);
     expect(parseSlideHash("#3", 13)).toBe(2);

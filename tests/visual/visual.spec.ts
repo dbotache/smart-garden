@@ -35,7 +35,7 @@ test("presentation: embedded garden (irrigation slide, after the demo)", async (
   await expect(page).toHaveScreenshot("presentation-garden-irrigation.png");
 });
 
-for (const n of [1, 2, 3, 4, 5, 6, 12, 13, 14]) {
+for (const n of [1, 2, 3, 4, 5, 6, 13, 15, 16]) {
   test(`presentation: migrated slide ${n}`, async ({ page }) => {
     await page.goto(`/presentation#/${n}`);
     await page.waitForLoadState("networkidle");
@@ -55,3 +55,14 @@ test("presentation: architecture slide (Garden Digital Twin selected)", async ({
   await page.waitForTimeout(400);
   await expect(page.getByTestId("deck")).toHaveScreenshot("slide-11-architecture.png");
 });
+
+for (const [n, id] of [[12, "prototypes"], [14, "finance"]] as const) {
+  test(`presentation: slide ${n} (${id}) after its count-up`, async ({ page }) => {
+    await page.goto(`/presentation#/${n}`);
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-keys", "ready");
+    await page.waitForLoadState("networkidle");
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(1500); // number count-up (900 ms) and bar growth
+    await expect(page.getByTestId("deck")).toHaveScreenshot(`slide-${n}-${id}.png`);
+  });
+}

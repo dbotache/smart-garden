@@ -57,6 +57,16 @@ describe("slide deck with embedded garden", () => {
     expect(current()).toBe("title");
   });
 
+  it("two quick key presses move two slides, even before the deck re-renders", async () => {
+    render(<SlideDeck slides={SLIDES} />);
+    act(() => {
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }));
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown", bubbles: true, cancelable: true }));
+    });
+    await flush();
+    expect(current()).toBe("problem");
+  });
+
   it("mounts ONE garden for all demo slides and drives its stage from the slide", async () => {
     window.location.hash = "#/6";
     await flush();

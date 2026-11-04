@@ -31,7 +31,12 @@ describe("slide registry", () => {
   it("places the architecture slide right after the last garden demo", () => {
     const i = SLIDES.findIndex((s) => s.id === "architecture");
     expect(SLIDES[i - 1]!.id).toBe("demo-irrigation");
-    expect(SLIDES[i + 1]!.source).toEqual({ type: "pptx", slide: 7 });
+    expect(SLIDES[i + 1]!.id).toBe("prototypes");
+  });
+
+  it("follows the prototype costs with the tier slide and then the interactive financial model", () => {
+    const ids = SLIDES.map((s) => s.id);
+    expect(ids.slice(ids.indexOf("architecture"))).toEqual(["architecture", "prototypes", "business", "finance", "next-steps", "call"]);
   });
 
   it("has one SlideNN.tsx file per registered slide", () => {

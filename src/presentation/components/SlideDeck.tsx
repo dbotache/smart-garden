@@ -15,7 +15,7 @@ import { GardenHost } from "./GardenHost";
  * pointer or wheel input, so dragging/zooming/clicking the garden can't change slides.
  */
 export function SlideDeck({ slides }: { slides: SlideDefinition[] }) {
-  const { index, go } = useDeckLocation(slides.length);
+  const { index, go, step } = useDeckLocation(slides.length);
   const rootRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const fullscreen = useFullscreen(rootRef);
@@ -28,10 +28,10 @@ export function SlideDeck({ slides }: { slides: SlideDefinition[] }) {
       if (!action) return;
       switch (action) {
         case "next":
-          go(index + 1);
+          step(1);
           break;
         case "prev":
-          go(index - 1);
+          step(-1);
           break;
         case "first":
           go(0);
@@ -56,7 +56,7 @@ export function SlideDeck({ slides }: { slides: SlideDefinition[] }) {
     window.addEventListener("keydown", onKey);
     rootRef.current?.setAttribute("data-keys", "ready"); // tests wait for this before pressing keys
     return () => window.removeEventListener("keydown", onKey);
-  }, [index, go, slides.length, fullscreen, notesOpen]);
+  }, [go, step, slides.length, fullscreen, notesOpen]);
 
   // Warm the 3D bundle one slide before the first garden slide.
   useEffect(() => {
