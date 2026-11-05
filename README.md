@@ -5,7 +5,7 @@ An interactive 3D smart-garden prototype (planning → plant recommendations →
 | Route | What |
 |---|---|
 | `/presentation/print` | PDF export: all slides as 16:9 pages. The deck's **PDF** button opens it and downloads `PlantWiz-Praesentation.pdf` |
-| `/presentation` | The deck (16 slides; live garden on slides 7–10, architecture 11, prototype costs 12, interactive financial model 14). `#/7` deep-links a slide |
+| `/presentation` | The deck (21 slides; live garden on slides 7–10, architecture 11, prototype costs 12, financial plan 14, operating costs 15–18, interactive financial model 19). `#/7` deep-links a slide |
 | `/architecture` | The interactive system architecture on its own |
 | `/prototype` | The garden on its own. `?stage=monitoring&lang=de&intro=0` |
 | `/original/index.html` | The untouched original prototype, for comparison |
@@ -78,6 +78,7 @@ original_prototype/ (incl. gardentwin/), original_presentation.pptx, reference_i
 - [prototype.md](docs/prototype.md): stages, hardware model, decision logic, extension guide
 - [architecture-diagram.md](docs/architecture-diagram.md): the migrated system-architecture visualisation (slide 11)
 - [business.md](docs/business.md): prototype costs and financial model (slides 12–14), **corrections to the source documents**, consistency changes
+- [operating-costs.md](docs/operating-costs.md): researched running costs (phase 1 digital, sensor variants, savings) with sources
 - [presentation.md](docs/presentation.md): controls, **PPTX migration map**, editing slides
 - [testing.md](docs/testing.md): the test suite and determinism
 - [audit-report.md](docs/audit-report.md): the original prototype's defects, causes, fixes and verification

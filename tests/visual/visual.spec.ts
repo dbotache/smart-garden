@@ -26,16 +26,17 @@ test("prototype: tomato sensor detail", async ({ page }) => {
 });
 
 test("presentation: embedded garden (irrigation slide, after the demo)", async ({ page }) => {
+  test.setTimeout(240_000); // waits for the garden twice (before and after the watering demo)
   await page.goto("/presentation#/10");
   await waitForGarden(page);
   await page.getByTestId("run-irrigation").click();
-  await expect(page.getByTestId("irrigation-panel")).toHaveAttribute("data-demo-status", "done", { timeout: 15_000 });
+  await expect(page.getByTestId("irrigation-panel")).toHaveAttribute("data-demo-status", "done", { timeout: 60_000 });
   await waitForGarden(page);
   await settleChips(page);
   await expect(page).toHaveScreenshot("presentation-garden-irrigation.png");
 });
 
-for (const n of [1, 2, 3, 4, 5, 6, 13, 15, 16]) {
+for (const n of [1, 2, 3, 4, 5, 6, 13, 20, 21]) {
   test(`presentation: migrated slide ${n}`, async ({ page }) => {
     await page.goto(`/presentation#/${n}`);
     await page.waitForLoadState("networkidle");
@@ -56,7 +57,7 @@ test("presentation: architecture slide (Garden Digital Twin selected)", async ({
   await expect(page.getByTestId("deck")).toHaveScreenshot("slide-11-architecture.png");
 });
 
-for (const [n, id] of [[12, "prototypes"], [14, "finance"]] as const) {
+for (const [n, id] of [[12, "prototypes"], [14, "finance-summary"], [15, "phase1-costs"], [16, "compat-costs"], [17, "hardware-costs"], [18, "savings"], [19, "finance"]] as const) {
   test(`presentation: slide ${n} (${id}) after its count-up`, async ({ page }) => {
     await page.goto(`/presentation#/${n}`);
     await expect(page.getByTestId("deck")).toHaveAttribute("data-keys", "ready");

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { PrototypeCosts } from "../components/PrototypeCosts";
 import { FinanceModel } from "../components/FinanceModel";
+import { FinanceSummary, summaryFigures } from "../components/FinanceSummary";
 
 const value = (testId: string) => Number(screen.getByTestId(testId).getAttribute("data-value"));
 
@@ -100,5 +101,28 @@ describe("FinanceModel", () => {
     fireEvent.click(screen.getByTestId("toggle-acquisition"));
     expect(bars()).toBe(8);
     expect(screen.getByTestId("waterfall").getAttribute("aria-label")).toContain("−7.284 €");
+  });
+});
+
+describe("FinanceSummary", () => {
+  it("shows the three year-3 states of the business plan with recalculated results", () => {
+    render(<FinanceSummary />);
+    const expected = { vorsichtig: [500, -3953], realistisch: [2500, -1765], ambitioniert: [10000, 15941] } as const;
+    for (const [id, [paying, result]] of Object.entries(expected)) {
+      const card = screen.getByTestId(`summary-${id}`);
+      expect(card).toHaveAttribute("data-result", String(result));
+      expect(card.getAttribute("aria-label")).toContain(`${paying.toLocaleString("de-DE")} zahlende Kunden`);
+    }
+  });
+
+  it("derives break-even and unit economics from the plan inputs", () => {
+    const { scenarios, unit, customer, kit } = summaryFigures();
+    expect(scenarios.map((s) => s.breakEven.paying)).toEqual([1466, 2932, 6107]);
+    expect(scenarios.map((s) => Math.round(s.progress * 100))).toEqual([34, 85, 164]);
+    expect(unit.arpu).toBeCloseTo(6.29, 2);
+    expect(unit.db).toBeCloseTo(4.99, 2);
+    expect(Math.round(customer.paybackMonths)).toBe(5);
+    expect(Math.round(customer.ltv)).toBe(100);
+    expect(Math.round(kit.db)).toBe(30);
   });
 });

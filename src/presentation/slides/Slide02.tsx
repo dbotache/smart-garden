@@ -3,7 +3,7 @@ import { SlideLayout } from "../components/SlideLayout";
 import { At, Card, IconBadge, pt } from "../components/SlidePrimitives";
 
 const TEAM = [
-  { name: "Diego Botache", role: "IoT und KI", img: "/assets/images/team-diego-botache.jpg", y: 0 },
+  { name: "Diego Botache", role: "Elektrotechnik und Computer Science", img: "/assets/images/team-diego-botache.jpg", y: 0 },
   { name: "Robin Steltmann", role: "Full-Stack-Entwicklung und KI", img: "/assets/images/team-robin-steltmann.jpg", y: 158 },
 ];
 

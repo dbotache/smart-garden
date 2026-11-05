@@ -10,8 +10,9 @@ export function watchConsole(page: Page) {
   return problems;
 }
 
+/** software WebGL is slow under parallel load: allow 2 minutes for the scene to settle */
 export async function waitForGarden(page: Page) {
-  await page.locator('[data-garden-root][data-settled="true"]').first().waitFor({ timeout: 60_000 });
+  await page.locator('[data-garden-root][data-settled="true"]').first().waitFor({ timeout: 120_000 });
 }
 
 type Sel = { type: "plant" | "sensor" | "zone"; id: string };

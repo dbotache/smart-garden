@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Home() {
   const cards = [
-    { href: "/presentation", title: "Präsentation", text: "Der migrierte Pitch (16 Folien) mit eingebetteter Live-Demo des 3D-Gartens." },
+    { href: "/presentation", title: "Präsentation", text: "Der migrierte Pitch (21 Folien) mit eingebetteter Live-Demo des 3D-Gartens." },
     { href: "/prototype", title: "3D-Prototyp", text: "Der interaktive Garten allein: Planung, Empfehlungen, Sensoren, Bewässerung." },
     { href: "/architecture", title: "Systemarchitektur", text: "Interaktive Infrastruktur in drei Ausbaustufen: Digital, Sensorik, Automatisierung." },
     { href: "/original/index.html", title: "Original-Prototyp", text: "Unveränderte Ausgangsversion zum Vergleich (2D-Canvas)." },

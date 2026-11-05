@@ -34,9 +34,9 @@ describe("slide registry", () => {
     expect(SLIDES[i + 1]!.id).toBe("prototypes");
   });
 
-  it("follows the prototype costs with the tier slide and then the interactive financial model", () => {
+  it("follows the prototype costs with the tier slide, the investor summary and then the interactive financial model", () => {
     const ids = SLIDES.map((s) => s.id);
-    expect(ids.slice(ids.indexOf("architecture"))).toEqual(["architecture", "prototypes", "business", "finance", "next-steps", "call"]);
+    expect(ids.slice(ids.indexOf("architecture"))).toEqual(["architecture", "prototypes", "business", "finance-summary", "phase1-costs", "compat-costs", "hardware-costs", "savings", "finance", "next-steps", "call"]);
   });
 
   it("has one SlideNN.tsx file per registered slide", () => {

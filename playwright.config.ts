@@ -12,7 +12,8 @@ export default defineConfig({
   timeout: 90_000,
   expect: { timeout: 30_000, toHaveScreenshot: { maxDiffPixels: 300, animations: "disabled", caret: "hide" } },
   fullyParallel: true,
-  workers: process.env.CI ? 2 : 3,
+  // 2 workers: every worker renders WebGL in software (SwiftShader); with 3 the 3D tests starved under load
+  workers: 2,
   retries: process.env.CI ? 1 : 0,
   reporter: [["list"], ["html", { open: "never" }]],
   snapshotPathTemplate: "{testDir}/visual/__screenshots__/{arg}{ext}",

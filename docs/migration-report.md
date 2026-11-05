@@ -35,12 +35,12 @@
 | Data | Inline literals | Typed fixtures, pure logic, seeded histories, API contract |
 | Embedding | Global keys and wheel, no container resize | Controlled/uncontrolled component; one persistent instance per deck; key and pointer isolation |
 | Language | English, brand "VERDANT" | German in the deck, EN/DE standalone, brand PlantWiz |
-| Tests | none | 148 unit/component/integration, 15 E2E, 18 visual |
+| Tests | none | 159 unit/component/integration, 15 E2E, 23 visual |
 | Performance | rAF loop always running | On-demand rendering, paused when hidden, instancing, shared materials, lazy three.js chunk |
 
 ## Presentation
 
-The 9 PPTX slides became 9 TSX slides with unchanged text, figures, sources and notes, plus 4 new live-demo slides inserted after the "three layers" slide, the system-architecture slide after the demo, the prototype-cost slide and the interactive financial model (16 slides). PPTX slide 7 (business model) was updated for consistency with the November 2026 business-model document. The details and known differences are in `presentation.md`.
+The 9 PPTX slides became 9 TSX slides with unchanged text, figures, sources and notes, plus 4 new live-demo slides inserted after the "three layers" slide, the system-architecture slide after the demo, the prototype-cost slide, the financial plan for investors, four operating-cost slides and the interactive financial model (21 slides). PPTX slide 7 (business model) was updated for consistency with the November 2026 business-model document. The details and known differences are in `presentation.md`.
 
 ## Open points / limitations
 

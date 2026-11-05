@@ -31,7 +31,7 @@ src/
 │   ├── components/           PrototypeCosts, FinanceModel, FinanceCharts (SVG), ui (count-up, slider, tiles)
 │   └── tests/
 ├── presentation/
-│   ├── slides/               Slide01.tsx … Slide16.tsx + index.ts (the registry, sole source of order)
+│   ├── slides/               Slide01.tsx … Slide21.tsx + index.ts (the registry, sole source of order)
 │   ├── components/           SlideDeck, SlideLayout, SlidePrimitives, SlideNavigation, SlideProgress,
 │   │                         GardenHost, PrototypeEmbed, SlideMeta
 │   ├── hooks/                useDeckLocation (URL hash), useFullscreen

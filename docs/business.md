@@ -1,4 +1,4 @@
-# Prototype costs and financial model (slides 12–14)
+# Prototype costs, financial plan and financial model (slides 12–19)
 
 Sources (saved unchanged): `source_documents/GardenTwin_Prototyp_Level_Kostenvergleich.md` and `source_documents/GardenTwin_Geschaeftsmodell_Finanzkalkulation.md` (both dated November 2026).
 
@@ -6,7 +6,9 @@ Sources (saved unchanged): `source_documents/GardenTwin_Prototyp_Level_Kostenver
 |---|---|---|
 | 12 · Prototypen + Kosten (new) | 3 prototypes, plan budgets, comparison on one scale (1/5/10/25 units), cost breakdown, full parts list | `PrototypeCosts` |
 | 13 · Geschäftsmodell (PPTX 7, updated) | Free + 3 subscriptions | static slide |
-| 14 · Finanzmodell (new) | Interactive model: presets, assumptions, KPIs, monthly result, tariffs, customer economics, hardware kit | `FinanceModel` |
+| 14 · Finanzplan (new) | Investor summary: the three year-3 states side by side (paying customers, net MRR, costs, monthly result on one scale, progress to break-even), one paying customer (6,29 € → 4,99 € DB, CAC payback, LTV, kit DB), what the pilot measures | `FinanceSummary` |
+| 15–18 · Betriebskosten (new) | Phase 1 digital, compatibility stage, own sensor hardware, savings levers – researched prices | see `operating-costs.md` |
+| 19 · Finanzmodell (new) | Interactive model: presets, assumptions, KPIs, monthly result, tariffs, customer economics, hardware kit | `FinanceModel` |
 
 All numbers are computed in `src/business/utils/` from the documents' **inputs** (parts lists, prices, costs, rates). No derived total is copied, and unit tests pin every displayed figure.
 
@@ -45,6 +47,18 @@ Kept: Basic 4,99 € "Preisvorschlag", "Nur von uns freigegebene Modelle", "Die 
 **Brand.** Both documents say "GardenTwin"; the deck says PlantWiz. The new slides avoid the brand name ("Sensor-Kit" instead of "GardenTwin-Kit").
 
 **Live demo vs prototypes.** The 3D demo (slides 7–10) shows a fully built garden with 6 beds, valves and probes. The prototypes start smaller (1–2 valves). The demo slides are labelled as demo data and *geplant*, so this is not a contradiction, but say so if asked.
+
+## Financial plan for investors (slide 14)
+
+A static slide for the pitch; the cost slides (15–18) and the interactive model (19) follow.
+
+- **Scenarios** = the business plan's three states at the end of year 3 (section 11): 5.000 / 25.000 / 100.000 active users, 10 % paying, mix 60/30/10, 0,10 € per free user, fixed costs 6 / 12 / 25 k€. The slide calls the base case **"Realistisch"** (badge "Basisszenario"), as the plan's "Basis".
+- **Costs** per card = fixed costs + free-user costs + variable costs of paying customers (7.100 / 17.500 / 47.000 €). MRR − costs = monthly result (−3.953 / −1.765 / +15.941 €).
+- **Break-even per scenario** (new, computed with the plan's formula at each scenario's fixed costs and 9 free users per paying customer): 1.466 / 2.932 / 6.107 paying customers, i.e. 34 % / 85 % / 164 % reached.
+- **Result bars** share one scale (−5 k€ to +20 k€) across the three cards.
+- **One paying customer** uses the base parameters: 25 € CAC → payback 5 months; 5 % churn → 20 months lifetime, LTV 100 € = 4× CAC; kit at 149 € → +30 € DB.
+- **Pilot metrics** are the ranges of section 13 (conversion 2–10 %, churn 2–8 %, CAC 15–50 €).
+- Deliberately **not shown**: annual revenue, ARR, cash flow or a 3-year curve. The document says these must not be derived from the year-3 states (section 11). A real 36-month plan needs the cohort model of section 12.
 
 ## Financial model: what the controls do
 

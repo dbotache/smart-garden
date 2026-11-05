@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { clickInScene, dragCanvas, stageButton, waitForGarden, watchConsole } from "./helpers";
 
-const ORDER = ["title", "team", "problem", "vision", "market", "tech", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation", "architecture", "prototypes", "business", "finance", "next-steps", "call"];
+const ORDER = ["title", "team", "problem", "vision", "market", "tech", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation", "architecture", "prototypes", "business", "finance-summary", "phase1-costs", "compat-costs", "hardware-costs", "savings", "finance", "next-steps", "call"];
 /** open the deck and wait until hydration attached the keyboard handler (keys pressed earlier are lost) */
 async function openDeck(page: import("@playwright/test").Page, slide?: number) {
   await page.goto(slide ? `/presentation#/${slide}` : "/presentation");
@@ -26,7 +26,7 @@ test.describe("presentation", () => {
     await page.keyboard.press("Home");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "title");
     await page.getByTestId("deck-next").click();
-    await expect(page.getByTestId("deck-counter")).toHaveText("2 / 16");
+    await expect(page.getByTestId("deck-counter")).toHaveText("2 / 21");
     expect(problems).toEqual([]);
   });
 
@@ -157,6 +157,26 @@ test.describe("presentation", () => {
 
     await page.keyboard.press("ArrowRight");
     await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "finance-summary");
+    // investor summary: the three year-3 states of the business plan, recalculated
+    for (const [id, result] of [["vorsichtig", "-3953"], ["realistisch", "-1765"], ["ambitioniert", "15941"]] as const) {
+      await expect(page.getByTestId(`summary-${id}`)).toHaveAttribute("data-result", result);
+    }
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "phase1-costs");
+    // phase 1: switching users and paid share recomputes the running costs
+    await expect(page.getByTestId("phase1-costs")).toHaveAttribute("data-result", "1110");
+    await page.getByTestId("phase1-users").getByText("50.000").click();
+    await page.getByTestId("phase1-share").getByText("10 %").click();
+    await expect(page.getByTestId("phase1-costs")).toHaveAttribute("data-result", "16098");
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("compat-costs")).toHaveAttribute("data-avoided-low", "3463");
+    await expect(page.getByTestId("compat-ha")).toHaveAttribute("data-status", "ready");
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("hardware-costs")).toHaveAttribute("data-oneoff-low", "3463");
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("savings-levers")).toHaveAttribute("data-tech-saving", "472");
+    await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "finance");
     await page.getByTestId("preset-j3-ambitioniert").click();
     await expect(page.getByTestId("kpi-paying")).toHaveAttribute("data-value", "10000");
@@ -173,6 +193,8 @@ test.describe("presentation", () => {
     expect(await slideId(page)).toBe("finance");
     await page.keyboard.press("PageDown");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "next-steps");
+    await expect(page.getByTestId("phase-costs")).toHaveAttribute("data-total-low", "11637");
+    await expect(page.getByTestId("phase-cost-phase1")).toHaveAttribute("data-marketing-low", "7000");
     expect(problems).toEqual([]);
   });
 
@@ -183,7 +205,7 @@ test.describe("presentation", () => {
   });
 
   test("exports all slides as a 16:9 PDF", async ({ page }) => {
-    test.setTimeout(240_000); // 4 software-WebGL gardens + 16 page renders; slow under parallel load
+    test.setTimeout(240_000); // 4 software-WebGL gardens + 21 page renders; slow under parallel load
     const problems = watchConsole(page);
     await openDeck(page);
     const pdfLink = page.getByTestId("deck-pdf");

@@ -37,7 +37,7 @@ Presenter clickers send PageUp/PageDown, which always navigate, even after inter
 
 ## Migration map (PPTX → web)
 
-Source: `original_presentation.pptx`, 9 slides, 16:9 (12 192 000 × 6 858 000 EMU = 960 × 540 pt). All text, figures and sources were copied **verbatim**, except slide 13 (PPTX 7), which was updated for consistency with the November 2026 business-model document (`business.md`). Positions, sizes and colours were transcribed from the slide XML (`--pt` units). Speaker notes were copied verbatim into `slides/index.ts`.
+Source: `original_presentation.pptx`, 9 slides, 16:9 (12 192 000 × 6 858 000 EMU = 960 × 540 pt). All text, figures and sources were copied **verbatim**, except slide 13 (PPTX 7), which was updated for consistency with the November 2026 business-model document (`business.md`), and slide 20 (PPTX 8), whose original text is unchanged but compacted to add the costs per phase (`operating-costs.md`). Positions, sizes and colours were transcribed from the slide XML (`--pt` units). Speaker notes were copied verbatim into `slides/index.ts`.
 
 | Web # | File | PPTX # | Title | Elements migrated | Notes |
 |---|---|---|---|---|---|
@@ -54,11 +54,16 @@ Source: `original_presentation.pptx`, 9 slides, 16:9 (12 192 000 × 6 858 000 EM
 | 11 | `Slide11.tsx` | — *new* | Systemarchitektur | interactive architecture diagram (`@/architecture`), migrated from `original_prototype/gardentwin` | follows the demo; marked *Konzept* |
 | 12 | `Slide12.tsx` | — *new* | Prototypen + Kosten | 3 prototypes, animated budgets, fleet scaling, parts lists (`@/business`) | from `source_documents/`; see `business.md` |
 | 13 | `Slide13.tsx` | 7 | Geschäftsmodell | 4 tiers (Basic highlighted dark), footnote | **updated** to the business-model document (prices, kit purchase, Free limits); notes marked `[Aktualisiert]` |
-| 14 | `Slide14.tsx` | — *new* | Finanzmodell | interactive financial model: presets, sliders, KPIs, 4 views (`@/business`) | from `source_documents/`; see `business.md` |
-| 15 | `Slide15.tsx` | 8 | Nächste Schritte | 4 work streams with icons, 3-step timeline (home-plate arrows via `clip-path`) | ✓ notes |
-| 16 | `Slide16.tsx` | 9 | Call + Outlook | dark slide, 3 ask cards, 4-step outlook chevrons, contact line | ✓ notes |
+| 14 | `Slide14.tsx` | — *new* | Finanzplan | investor summary: 3 year-3 scenarios (vorsichtig / realistisch / ambitioniert), one paying customer, pilot metrics (`@/business`) | from `source_documents/`; see `business.md` |
+| 15 | `Slide15.tsx` | — *new* | Phase 1: Kosten digital | running costs of the digital-only phase, switch users (2/10/50 k) and paid share (5/10 %), every cost line | researched prices; see `operating-costs.md` |
+| 16 | `Slide16.tsx` | — *new* | Vorstufe: kompatibel | connect third-party sensors (Home Assistant, Netatmo first; Ecowitt, Gardena after checking terms; Tuya later), avoided own-hardware costs, Expert tariff | variant of slide 17; see `operating-costs.md` |
+| 17 | `Slide17.tsx` | — *new* | Phase 2+3: Kosten Sensorik | pilot + certification, contribution per kit, running cost per device, LTE volume check | see `operating-costs.md` |
+| 18 | `Slide18.tsx` | — *new* | Kosten senken | staff via grants (EXIST, Hessen Ideen), technical levers in €/month, hardware levers | see `operating-costs.md` |
+| 19 | `Slide19.tsx` | — *new* | Finanzmodell | interactive financial model: presets, sliders, KPIs, 4 views (`@/business`) | deep dive for questions; see `business.md` |
+| 20 | `Slide20.tsx` | 8 | Nächste Schritte | 4 work streams with icons, 3-step timeline (home-plate arrows via `clip-path`), compacted; **added** costs per phase incl. advertising, no staff (`PhaseCostTable`) | PPTX text unchanged; notes marked `[Ergänzt]`; see `operating-costs.md` |
+| 21 | `Slide21.tsx` | 9 | Call + Outlook | dark slide, 3 ask cards, 4-step outlook chevrons, contact line | ✓ notes |
 
-**Why the demo sits after slide 6:** slide 6 introduces the three layers (Digitaler Zwilling → IoT-Sensoren → Teilautomatisierung). The four demo slides walk through exactly that progression on the 3D twin before the business model. The demo eyebrows mark layers 2 and 3 as *geplant*, so nothing is presented as already running. The architecture slide (11) comes right after the demo: it shows the infrastructure behind the same three levels. Then come the prototype costs (12), the tier slide (13, PPTX 7) and the interactive financial model (14). The tier slide stays before the model so investors see the offer before the numbers. PPTX slides 7, 8, 9 are web slides 13, 15, 16.
+**Why the demo sits after slide 6:** slide 6 introduces the three layers (Digitaler Zwilling → IoT-Sensoren → Teilautomatisierung). The four demo slides walk through exactly that progression on the 3D twin before the business model. The demo eyebrows mark layers 2 and 3 as *geplant*, so nothing is presented as already running. The architecture slide (11) comes right after the demo: it shows the infrastructure behind the same three levels. Then come the prototype costs (12), the tier slide (13, PPTX 7), the static financial plan for investors (14), the cost slides (15 phase 1 digital, 16 compatibility stage with third-party sensors, 17 own sensor hardware, 18 savings) and the interactive financial model (19) as a deep dive for questions; skip 19 when time is short. The tier slide stays before the numbers so investors see the offer first. PPTX slides 7, 8, 9 are web slides 13, 20, 21.
 
 **Assets:** every picture was taken from `ppt/media` and renamed (`public/assets/images`, `public/assets/icons`; the icons are the original white glyphs on brand-green badges). No diagram had to be rasterised: all shapes (cards, pills, chevrons, home-plates, circles) are HTML/CSS.
 
