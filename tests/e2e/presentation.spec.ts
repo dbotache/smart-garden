@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { clickInScene, dragCanvas, stageButton, waitForGarden, watchConsole } from "./helpers";
 
-const ORDER = ["title", "team", "problem", "vision", "market", "tech", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation", "architecture", "prototypes", "business", "finance", "next-steps", "call"];
+const ORDER = ["title", "team", "pitch-video", "problem", "vision", "product-videos", "market", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation", "business", "roadmap", "next-steps", "call", "tech", "architecture", "prototypes", "finance"];
 /** open the deck and wait until hydration attached the keyboard handler (keys pressed earlier are lost) */
 async function openDeck(page: import("@playwright/test").Page, slide?: number) {
   await page.goto(slide ? `/presentation#/${slide}` : "/presentation");
@@ -22,17 +22,17 @@ test.describe("presentation", () => {
       await expect(page).toHaveURL(new RegExp(`#/${i + 1}$`));
     }
     await page.keyboard.press("ArrowRight"); // stays on the last slide
-    expect(await slideId(page)).toBe("call");
+    expect(await slideId(page)).toBe("finance");
     await page.keyboard.press("Home");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "title");
     await page.getByTestId("deck-next").click();
-    await expect(page.getByTestId("deck-counter")).toHaveText("2 / 16");
+    await expect(page.getByTestId("deck-counter")).toHaveText("2 / 19");
     expect(problems).toEqual([]);
   });
 
   test("the full presenter journey: reach the garden, use it, continue", async ({ page }) => {
     const problems = watchConsole(page);
-    await openDeck(page, 6);
+    await openDeck(page, 7);
     await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "demo-planning");
     await waitForGarden(page);
@@ -82,7 +82,7 @@ test.describe("presentation", () => {
   });
 
   test("one persistent WebGL garden across demo slides; paused when hidden", async ({ page }) => {
-    await openDeck(page, 7);
+    await openDeck(page, 8);
     await waitForGarden(page);
     await page.evaluate(() => {
       (window as { __gardenCanvasNode?: Element }).__gardenCanvasNode = document.querySelector('[data-testid="garden-canvas"] canvas')!;
@@ -99,7 +99,7 @@ test.describe("presentation", () => {
   });
 
   test("garden resizes with the slide frame and in full screen", async ({ page }) => {
-    await openDeck(page, 8);
+    await openDeck(page, 9);
     await waitForGarden(page);
     const sizeOf = () => page.locator('[data-testid="garden-canvas"] canvas').evaluate((c: HTMLCanvasElement) => ({ css: Math.round(c.getBoundingClientRect().width), backing: Math.round(c.width / devicePixelRatio) }));
     const a = await sizeOf();
@@ -116,12 +116,11 @@ test.describe("presentation", () => {
     await expect.poll(() => page.evaluate(() => !!document.fullscreenElement)).toBe(false);
   });
 
-  test("architecture slide follows the garden demo and is interactive without moving the deck", async ({ page }) => {
+  test("architecture in the appendix is interactive without moving the deck", async ({ page }) => {
     const problems = watchConsole(page);
-    await openDeck(page, 10);
+    await openDeck(page, 16);
     await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "architecture");
-    await expect(page.getByTestId("deck-garden")).toHaveAttribute("data-visible", "false");
     const arch = page.getByTestId("architecture");
     await page.locator('[data-node="mqtt"]').click();
     await expect(page.getByTestId("arch-detail")).toHaveAttribute("data-node", "mqtt");
@@ -137,14 +136,14 @@ test.describe("presentation", () => {
       expect(b.x + b.width).toBeLessThanOrEqual(frame.x + frame.width);
       expect(b.y + b.height).toBeLessThanOrEqual(frame.y + frame.height);
     }
-    await page.keyboard.press("ArrowRight");
-    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "prototypes");
+    await page.keyboard.press("ArrowLeft");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "tech");
     expect(problems).toEqual([]);
   });
 
   test("prototype costs and financial model are interactive without moving the deck", async ({ page }) => {
     const problems = watchConsole(page);
-    await openDeck(page, 12);
+    await openDeck(page, 18);
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "prototypes");
     await page.getByTestId("prototype-3").click();
     await expect(page.getByTestId("breakdown-budget")).toHaveText("457,70 €");
@@ -156,7 +155,6 @@ test.describe("presentation", () => {
     expect(await slideId(page)).toBe("prototypes");
 
     await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "finance");
     await page.getByTestId("preset-j3-ambitioniert").click();
     await expect(page.getByTestId("kpi-paying")).toHaveAttribute("data-value", "10000");
@@ -165,19 +163,19 @@ test.describe("presentation", () => {
       await page.getByTestId(`tab-${t}`).click();
       await expect(page.getByTestId(`panel-${t}`)).toBeVisible();
     }
-    // arrows move a focused slider, not the deck; a presenter clicker (PageDown) still advances
+    // arrows move a focused slider, not the deck; PageUp still moves the deck
     const churn = page.getByTestId("slider-churn");
     await churn.focus();
     await page.keyboard.press("ArrowRight");
     await expect(churn).toHaveValue("5.5");
     expect(await slideId(page)).toBe("finance");
-    await page.keyboard.press("PageDown");
-    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "next-steps");
+    await page.keyboard.press("PageUp");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "prototypes");
     expect(problems).toEqual([]);
   });
 
   test("speaker notes from the PPTX are available", async ({ page }) => {
-    await openDeck(page, 5);
+    await openDeck(page, 7);
     await page.keyboard.press("n");
     await expect(page.getByTestId("speaker-notes")).toContainText("KfW Research");
   });

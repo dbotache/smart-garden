@@ -43,22 +43,25 @@ Source: `original_presentation.pptx`, 9 slides, 16:9 (12 192 000 × 6 858 000 EM
 |---|---|---|---|---|---|
 | 1 | `Slide01.tsx` | 1 | PlantWiz – Dein Garten, dein Plan. | green panel, logo, 66 pt title, tagline, event, raised-bed photo | no page number, as in the original |
 | 2 | `Slide02.tsx` | 2 | Team + Mission | 2 profile cards with photos, mission card with icon | ✓ notes |
-| 3 | `Slide03.tsx` | 3 | Problem + Challenges | seedling photo, persona quote, 4 challenge cards with icons | ✓ notes |
-| 4 | `Slide04.tsx` | 4 | Vision | app calendar screenshot, target-vision box, "läuft heute" (6) vs "kommt als Nächstes" (4) with icons | ✓ notes |
-| 5 | `Slide05.tsx` | 5 | Zielgruppe + Markt | 3 KPI cards (24,6 Mio. / 13.155 / 44.500) with sources, agriculture banner | ✓ notes (sources) |
-| 6 | `Slide06.tsx` | 6 | Technische Realisierung | 3 numbered layers with status pills, garden-plan screenshot, 2 stats | ✓ notes |
-| 7 | `Slide07.tsx` | — *new* | Live-Demo 1: Planung | live garden, stage "planning" | demonstrates layer 1 |
-| 8 | `Slide08.tsx` | — *new* | Live-Demo 2: Empfehlungen | live garden, stage "planting" | uses app features listed on slide 4 |
-| 9 | `Slide09.tsx` | — *new* | Live-Demo 3: Sensoren | live garden, stage "monitoring" | layer 2, labelled *geplant* |
-| 10 | `Slide10.tsx` | — *new* | Live-Demo 4: Bewässerung | live garden, stage "irrigation" | layer 3, labelled *geplant* |
-| 11 | `Slide11.tsx` | — *new* | Systemarchitektur | interactive architecture diagram (`@/architecture`), migrated from `original_prototype/gardentwin` | follows the demo; marked *Konzept* |
-| 12 | `Slide12.tsx` | — *new* | Prototypen + Kosten | 3 prototypes, animated budgets, fleet scaling, parts lists (`@/business`) | from `source_documents/`; see `business.md` |
-| 13 | `Slide13.tsx` | 7 | Geschäftsmodell | 4 tiers (Basic highlighted dark), footnote | **updated** to the business-model document (prices, kit purchase, Free limits); notes marked `[Aktualisiert]` |
-| 14 | `Slide14.tsx` | — *new* | Finanzmodell | interactive financial model: presets, sliders, KPIs, 4 views (`@/business`) | from `source_documents/`; see `business.md` |
-| 15 | `Slide15.tsx` | 8 | Nächste Schritte | 4 work streams with icons, 3-step timeline (home-plate arrows via `clip-path`) | ✓ notes |
-| 16 | `Slide16.tsx` | 9 | Call + Outlook | dark slide, 3 ask cards, 4-step outlook chevrons, contact line | ✓ notes |
+| 3 | `Slide17.tsx` | — *new* | PlantWiz-Video | short video after the team introduction | still image in the PDF |
+| 4 | `Slide03.tsx` | 3 | Problem + Challenges | seedling photo, persona quote, 4 challenge cards with icons | ✓ notes |
+| 5 | `Slide04.tsx` | 4 | Vision | app calendar screenshot, target-vision box, "läuft heute" (6) vs "kommt als Nächstes" (4) with icons | ✓ notes |
+| 6 | `Slide19.tsx` | — *new* | PlantWiz in Aktion | four product clips that play in sequence and loop at 2× | first clip's still image in the PDF |
+| 7 | `Slide05.tsx` | 5 | Zielgruppe + Markt | 3 KPI cards (24,6 Mio. / 13.155 / 44.500) with sources, agriculture banner | ✓ notes (sources) |
+| 8 | `Slide07.tsx` | — *new* | Live-Demo 1: Planung | live garden, stage "planning" | demonstrates layer 1 |
+| 9 | `Slide08.tsx` | — *new* | Live-Demo 2: Empfehlungen | live garden, stage "planting" | uses app features listed on slide 4 |
+| 10 | `Slide09.tsx` | — *new* | Live-Demo 3: Sensoren | live garden, stage "monitoring" | layer 2, labelled *geplant* |
+| 11 | `Slide10.tsx` | — *new* | Live-Demo 4: Bewässerung | live garden, stage "irrigation" | layer 3, labelled *geplant* |
+| 12 | `Slide13.tsx` | 7 | Geschäftsmodell | Free, Basic and planned Erweitert tier | pricing and beta metrics |
+| 13 | `Slide18.tsx` | — *new* | Roadmap | mobile version, garden reconstruction from images or video, UX, market research and scalability | ✓ notes |
+| 14 | `Slide15.tsx` | 8 | Nächste Schritte | 4 work streams with icons, 3-step timeline (home-plate arrows via `clip-path`) | ✓ notes |
+| 15 | `Slide16.tsx` | 9 | Call + Outlook | dark slide, 3 ask cards, 4-step outlook chevrons, contact line | ✓ notes |
+| 16 | `Slide06.tsx` | 6 | Anhang · Technische Realisierung | 3 numbered layers with status pills, garden-plan screenshot, 2 stats | ✓ notes |
+| 17 | `Slide11.tsx` | — *new* | Anhang · Systemarchitektur | interactive architecture diagram (`@/architecture`), migrated from `original_prototype/gardentwin` | marked *Konzept* |
+| 18 | `Slide12.tsx` | — *new* | Anhang · Prototypen + Kosten | 3 prototypes, animated budgets, fleet scaling, parts lists (`@/business`) | from `source_documents/`; see `business.md` |
+| 19 | `Slide14.tsx` | — *new* | Anhang · Finanzmodell | interactive financial model: presets, sliders, KPIs, 4 views (`@/business`) | from `source_documents/`; see `business.md` |
 
-**Why the demo sits after slide 6:** slide 6 introduces the three layers (Digitaler Zwilling → IoT-Sensoren → Teilautomatisierung). The four demo slides walk through exactly that progression on the 3D twin before the business model. The demo eyebrows mark layers 2 and 3 as *geplant*, so nothing is presented as already running. The architecture slide (11) comes right after the demo: it shows the infrastructure behind the same three levels. Then come the prototype costs (12), the tier slide (13, PPTX 7) and the interactive financial model (14). The tier slide stays before the model so investors see the offer before the numbers. PPTX slides 7, 8, 9 are web slides 13, 15, 16.
+**Presentation order.** The intro video (3) follows the team introduction (2). The product playlist (6) follows the vision slide (5). The four live demo slides (8–11) lead into the tier slide (12), roadmap (13), next steps (14) and Call + Outlook (15). The appendix covers technical realisation (16), system architecture (17), prototype costs (18) and the financial model (19).
 
 **Assets:** every picture was taken from `ppt/media` and renamed (`public/assets/images`, `public/assets/icons`; the icons are the original white glyphs on brand-green badges). No diagram had to be rasterised: all shapes (cards, pills, chevrons, home-plates, circles) are HTML/CSS.
 

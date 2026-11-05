@@ -5,7 +5,7 @@ An interactive 3D smart-garden prototype (planning → plant recommendations →
 | Route | What |
 |---|---|
 | `/presentation/print` | PDF export: all slides as 16:9 pages. The deck's **PDF** button opens it and downloads `PlantWiz-Praesentation.pdf` |
-| `/presentation` | The deck (16 slides; live garden on slides 7–10, architecture 11, prototype costs 12, interactive financial model 14). `#/7` deep-links a slide |
+| `/presentation` | The deck (19 slides; intro video on slide 3, product playlist on slide 6, live garden on slides 8–11, business model 12, roadmap 13, appendix 16–19). `#/7` deep-links a slide |
 | `/architecture` | The interactive system architecture on its own |
 | `/prototype` | The garden on its own. `?stage=monitoring&lang=de&intro=0` |
 | `/original/index.html` | The untouched original prototype, for comparison |
@@ -76,7 +76,7 @@ original_prototype/ (incl. gardentwin/), original_presentation.pptx, reference_i
 - [architecture.md](docs/architecture.md): module structure and the decisions behind it
 - [design-system.md](docs/design-system.md): how the references and the PPTX map to the scene and UI
 - [prototype.md](docs/prototype.md): stages, hardware model, decision logic, extension guide
-- [architecture-diagram.md](docs/architecture-diagram.md): the migrated system-architecture visualisation (slide 11)
+- [architecture-diagram.md](docs/architecture-diagram.md): the migrated system-architecture visualisation (slide 17)
 - [business.md](docs/business.md): prototype costs and financial model (slides 12–14), **corrections to the source documents**, consistency changes
 - [presentation.md](docs/presentation.md): controls, **PPTX migration map**, editing slides
 - [testing.md](docs/testing.md): the test suite and determinism

@@ -1,31 +1,51 @@
 import { SlideLayout } from "../components/SlideLayout";
 import { At, Bullets, Card } from "../components/SlidePrimitives";
 
-// Updated for consistency with the business-model document (Nov 2026); PPTX wording where still valid.
-const TIERS = [
-  { level: "LEVEL 1", name: "Free", price: "0 €", sub: "digital, eingeschränkte Funktionen", items: ["Garten auslegen und planen", "1 Garten mit bis zu 3 Zonen"], x: 0, dark: false },
-  { level: "LEVEL 2", name: "Basic", price: "4,99 €", sub: "pro Monat, Preisvorschlag", items: ["Wetterbasierte Pflegeempfehlungen", "Basis ist der digitale Zwilling"], x: 223, dark: true },
-  { level: "LEVEL 3", name: "Erweitert", price: "9,99 €", sub: "pro Monat + Sensor-Kit (Kauf)", items: ["Sensoren, Historie und Benachrichtigungen", "Nur von uns freigegebene Modelle"], x: 445, dark: false },
-  { level: "LEVEL 4", name: "Expert", price: "14,99 €", sub: "pro Monat, eigene Hardware", items: ["Eigene Sensoren einbinden", "Offene Schnittstellen, Datenexport"], x: 667, dark: false },
-];
-
-/** PPTX 7 — Business model: four tiers (Basic highlighted). Prices and hardware model updated to the business-model document; see docs/business.md. */
 export default function Slide13() {
   return (
-    <SlideLayout eyebrow="HOW · GESCHÄFTSMODELL" title="Kostenlos einsteigen, mit Assistenz und Sensoren wachsen">
-      {TIERS.map((t) => (
-        <At key={t.level} x={t.x} y={0} w={206} h={284}>
-          <Card dark={t.dark} className="h-full u-px-16 u-py-12">
-            <p className={`u-fs-12 font-bold tracking-[0.08em] ${t.dark ? "text-pw-200" : "text-pw-muted"}`}>{t.level}</p>
-            <p className={`font-serif u-fs-24 font-bold ${t.dark ? "text-white" : "text-pw-900"}`}>{t.name}</p>
-            <p className={`u-mt-6 u-fs-22 font-bold ${t.dark ? "text-pw-200" : "text-pw-700"}`}>{t.price}</p>
-            <p className={`u-fs-12 ${t.dark ? "text-pw-200" : "text-pw-muted"}`}>{t.sub}</p>
-            <Bullets items={t.items} className={`u-mt-14 u-fs-14 leading-snug ${t.dark ? "text-white" : "text-pw-ink"}`} />
-          </Card>
-        </At>
-      ))}
-      <At x={0} y={297} w={873} h={43}>
-        <p className="u-fs-13 leading-snug text-pw-muted">Preise brutto pro Monat bei Jahreszahlung (Planungsannahme). Sensor-Kit 149–199 € als Kauf, Miete erst nach Pilotdaten. Die App kennt heute die Stufen Free und Pro. Zusätzlich möglich: Affiliate-Links zu Saatgut und Werkzeug.</p>
+    <SlideLayout eyebrow="HOW · GESCHÄFTSMODELL" title="Kostenlos starten, mit Basic planen und pflegen">
+      <At x={0} y={0} w={279} h={254}>
+        <Card className="h-full u-px-18 u-py-16">
+          <h3 className="font-serif u-fs-24 font-bold text-pw-900">Free</h3>
+          <p className="u-mt-6 u-fs-22 font-bold text-pw-700">0 €</p>
+          <p className="u-fs-14 text-pw-muted">Zum Ausprobieren</p>
+          <Bullets className="u-mt-18 u-fs-16 leading-snug" items={[
+            "1 Garten anlegen",
+            "Begrenzte Pflanzen­erkennungen",
+            "Begrenzte Krankheitsanalysen",
+          ]} />
+        </Card>
+      </At>
+
+      <At x={297} y={0} w={279} h={254}>
+        <Card dark className="h-full u-px-18 u-py-16">
+          <h3 className="font-serif u-fs-24 font-bold">Basic</h3>
+          <p className="u-mt-6 u-fs-22 font-bold text-pw-200">4,99 € <span className="u-fs-14 font-normal">pro Monat*</span></p>
+          <p className="u-fs-14 text-pw-200">Alle digitalen Funktionen</p>
+          <Bullets className="u-mt-18 u-fs-16 leading-snug" items={[
+            "Mehrere Gärten planen",
+            "Pflanzenerkennung und Diagnose",
+            "Beetvorschläge & Pflegekalender",
+          ]} />
+        </Card>
+      </At>
+
+      <At x={594} y={0} w={279} h={254}>
+        <Card className="h-full bg-[#eef0ee]! u-px-18 u-py-16 text-[#515952]">
+          <h3 className="font-serif u-fs-24 font-bold">Erweitert</h3>
+          <p className="u-mt-6 u-fs-22 font-bold">Geplant</p>
+          <p className="u-fs-14">Für vernetzte Gärten</p>
+          <Bullets className="u-mt-18 u-fs-16 leading-snug" items={[
+            "Sensor-Kit und Messverlauf",
+            "Benachrichtigungen bei Pflegebedarf",
+            "Später automatische Bewässerung",
+          ]} />
+        </Card>
+      </At>
+
+      <At x={0} y={270} w={873}>
+        <p className="u-fs-16 font-bold text-pw-900">Geplante Affiliate-Provisionen für Saatgut, Dünger, Gartenwerkzeug, Pflanzen und Bäume.</p>
+        <p className="u-mt-6 u-fs-12 text-pw-muted">In der Beta messen wir die Upgrade-Quote und KI-Kosten. * Preisvorschlag bei Jahreszahlung, KI-Kontingente noch offen.</p>
       </At>
     </SlideLayout>
   );

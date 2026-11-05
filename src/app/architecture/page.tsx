@@ -5,7 +5,7 @@ import { ArchitectureDiagram } from "@/architecture";
 
 export const metadata: Metadata = { title: "PlantWiz · Systemarchitektur" };
 
-/** Standalone route for the architecture diagram (the same component as slide 11). */
+/** Standalone route for the architecture diagram (the same component as in the presentation appendix). */
 export default function ArchitecturePage() {
   return (
     <main className="min-h-dvh bg-[#e9ece7]">
@@ -15,7 +15,7 @@ export default function ArchitecturePage() {
           <span className="font-serif text-lg font-bold text-pw-900">PlantWiz</span>
           <span className="hidden text-sm text-pw-muted sm:inline">· Systemarchitektur</span>
         </Link>
-        <Link href="/presentation#/11" className="text-sm font-semibold text-pw-700 hover:underline">
+        <Link href="/presentation#/17" className="text-sm font-semibold text-pw-700 hover:underline">
           Präsentation →
         </Link>
       </header>

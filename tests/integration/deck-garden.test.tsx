@@ -48,11 +48,11 @@ describe("slide deck with embedded garden", () => {
     expect(current()).toBe("team");
     fireEvent.click(screen.getByTestId("deck-next"));
     await flush();
-    expect(current()).toBe("problem");
+    expect(current()).toBe("pitch-video");
     await key("ArrowLeft");
     expect(current()).toBe("team");
     await key("End");
-    expect(current()).toBe("call");
+    expect(current()).toBe("finance");
     await key("Home");
     expect(current()).toBe("title");
   });
@@ -64,11 +64,11 @@ describe("slide deck with embedded garden", () => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown", bubbles: true, cancelable: true }));
     });
     await flush();
-    expect(current()).toBe("problem");
+    expect(current()).toBe("pitch-video");
   });
 
   it("mounts ONE garden for all demo slides and drives its stage from the slide", async () => {
-    window.location.hash = "#/6";
+    window.location.hash = "#/7";
     await flush();
     render(<SlideDeck slides={SLIDES} />);
     expect(screen.queryByTestId("stub-garden")).toBeNull(); // no WebGL work before the first garden slide
@@ -80,7 +80,7 @@ describe("slide deck with embedded garden", () => {
     expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-stage", "monitoring");
     await key("ArrowRight");
     await key("ArrowRight"); // leave the demo
-    expect(current()).toBe("architecture");
+    expect(current()).toBe("business");
     expect(screen.getByTestId("deck-garden")).toHaveAttribute("data-visible", "false");
     expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-active", "false"); // render loop paused
     await key("ArrowLeft");
@@ -89,7 +89,7 @@ describe("slide deck with embedded garden", () => {
   });
 
   it("lets the garden change its stage without changing the slide", async () => {
-    window.location.hash = "#/8";
+    window.location.hash = "#/9";
     await flush();
     render(<SlideDeck slides={SLIDES} />);
     fireEvent.click(screen.getByTestId("stub-stage-btn"));
@@ -98,7 +98,7 @@ describe("slide deck with embedded garden", () => {
   });
 
   it("does not navigate on clicks, drags or wheel over the garden, nor on Space while a button has focus", async () => {
-    window.location.hash = "#/9";
+    window.location.hash = "#/10";
     await flush();
     render(<SlideDeck slides={SLIDES} />);
     const canvas = screen.getByTestId("stub-canvas");
@@ -117,11 +117,11 @@ describe("slide deck with embedded garden", () => {
   });
 
   it("toggles speaker notes with N and shows the PPTX notes", async () => {
-    window.location.hash = "#/3";
+    window.location.hash = "#/4";
     await flush();
     render(<SlideDeck slides={SLIDES} />);
     await key("n");
-    expect(screen.getByTestId("speaker-notes")).toHaveTextContent("Peter steht für viele Einsteiger");
+    expect(screen.getByTestId("speaker-notes")).toHaveTextContent("Peter steht für viele Menschen");
     await key("Escape");
     expect(screen.queryByTestId("speaker-notes")).toBeNull();
   });

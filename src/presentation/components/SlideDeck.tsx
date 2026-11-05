@@ -100,7 +100,7 @@ export function SlideDeck({ slides }: { slides: SlideDefinition[] }) {
       {notesOpen && !fs && (
         <aside className="mx-3 mb-3 max-h-[120px] overflow-y-auto rounded-lg bg-white p-3 text-sm leading-relaxed text-pw-ink ring-1 ring-pw-200 sm:mx-5" aria-label="Sprechernotizen" data-testid="speaker-notes">
           <p className="mb-1 text-xs font-bold uppercase tracking-wider text-pw-700">Sprechernotizen · {slide.source.type === "pptx" ? `PPTX-Folie ${slide.source.slide}` : "neue Folie"}</p>
-          <p>{slide.notes ?? "—"}</p>
+          <p className="whitespace-pre-line">{slide.notes ?? "—"}</p>
         </aside>
       )}
     </div>

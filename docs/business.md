@@ -1,12 +1,14 @@
-# Prototype costs and financial model (slides 12–14)
+# Business model (slide 12) and appendix (slides 18–19)
 
 Sources (saved unchanged): `source_documents/GardenTwin_Prototyp_Level_Kostenvergleich.md` and `source_documents/GardenTwin_Geschaeftsmodell_Finanzkalkulation.md` (both dated November 2026).
 
 | Slide | Content | Component |
 |---|---|---|
-| 12 · Prototypen + Kosten (new) | 3 prototypes, plan budgets, comparison on one scale (1/5/10/25 units), cost breakdown, full parts list | `PrototypeCosts` |
-| 13 · Geschäftsmodell (PPTX 7, updated) | Free + 3 subscriptions | static slide |
-| 14 · Finanzmodell (new) | Interactive model: presets, assumptions, KPIs, monthly result, tariffs, customer economics, hardware kit | `FinanceModel` |
+| 12 · Geschäftsmodell | Free, Basic and planned Erweitert tier | static slide |
+| 18 · Prototypen + Kosten | 3 prototypes, plan budgets, comparison on one scale (1/5/10/25 units), cost breakdown, full parts list | `PrototypeCosts` |
+| 19 · Finanzmodell | Interactive model: presets, assumptions, KPIs, monthly result, tariffs, customer economics, hardware kit | `FinanceModel` |
+
+The pitch slide focuses on the Free-to-Basic upgrade. The appendix model still uses the source scenarios, including the planned Erweitert and Expert tiers.
 
 All numbers are computed in `src/business/utils/` from the documents' **inputs** (parts lists, prices, costs, rates). No derived total is copied, and unit tests pin every displayed figure.
 

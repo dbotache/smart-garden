@@ -31,7 +31,7 @@ function PrintPage({ slide, number, total }: { slide: SlideDefinition; number: n
       data-testid={`print-${slide.id}`}
     >
       <GardenHost frameRef={frameRef} printable>
-        <SlideMetaContext.Provider value={{ number, total }}>
+        <SlideMetaContext.Provider value={{ number, total, printable: true }}>
           <div className="absolute inset-0">
             <Slide />
           </div>

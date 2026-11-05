@@ -8,7 +8,7 @@ const LAYERS = [
   { n: 3, title: "Teilautomatisierung", status: "geplant", live: false, text: "Bewässerung für einzelne Pflanzenarten", y: 227, h: 79 },
 ];
 
-/** PPTX 6 — Technical realisation: three layers. The live demo (slides 7–10) walks through exactly these layers. */
+/** PPTX 6 — Technical realisation: the three layers shown in the live demo. */
 export default function Slide06() {
   return (
     <SlideLayout eyebrow="HOW · TECHNISCHE REALISIERUNG" title="Drei Ebenen, und die erste läuft bereits">

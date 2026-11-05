@@ -26,7 +26,7 @@ test("prototype: tomato sensor detail", async ({ page }) => {
 });
 
 test("presentation: embedded garden (irrigation slide, after the demo)", async ({ page }) => {
-  await page.goto("/presentation#/10");
+  await page.goto("/presentation#/11");
   await waitForGarden(page);
   await page.getByTestId("run-irrigation").click();
   await expect(page.getByTestId("irrigation-panel")).toHaveAttribute("data-demo-status", "done", { timeout: 15_000 });
@@ -35,18 +35,18 @@ test("presentation: embedded garden (irrigation slide, after the demo)", async (
   await expect(page).toHaveScreenshot("presentation-garden-irrigation.png");
 });
 
-for (const n of [1, 2, 3, 4, 5, 6, 13, 15, 16]) {
-  test(`presentation: migrated slide ${n}`, async ({ page }) => {
-    await page.goto(`/presentation#/${n}`);
+for (const [slide, baseline] of [[1, 1], [2, 2], [4, 3], [5, 4], [7, 5], [12, 13], [14, 15], [15, 16], [16, 6]] as const) {
+  test(`presentation: migrated slide ${slide}`, async ({ page }) => {
+    await page.goto(`/presentation#/${slide}`);
     await page.waitForLoadState("networkidle");
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(500);
-    await expect(page.getByTestId("deck")).toHaveScreenshot(`slide-${String(n).padStart(2, "0")}.png`);
+    await expect(page.getByTestId("deck")).toHaveScreenshot(`slide-${String(baseline).padStart(2, "0")}.png`);
   });
 }
 
 test("presentation: architecture slide (Garden Digital Twin selected)", async ({ page }) => {
-  await page.goto("/presentation#/11");
+  await page.goto("/presentation#/17");
   await expect(page.getByTestId("deck")).toHaveAttribute("data-keys", "ready"); // hydrated: clicks are handled
   await page.waitForLoadState("networkidle");
   await page.evaluate(() => document.fonts.ready);
@@ -56,13 +56,13 @@ test("presentation: architecture slide (Garden Digital Twin selected)", async ({
   await expect(page.getByTestId("deck")).toHaveScreenshot("slide-11-architecture.png");
 });
 
-for (const [n, id] of [[12, "prototypes"], [14, "finance"]] as const) {
-  test(`presentation: slide ${n} (${id}) after its count-up`, async ({ page }) => {
-    await page.goto(`/presentation#/${n}`);
+for (const [slide, baseline, id] of [[18, 12, "prototypes"], [19, 14, "finance"]] as const) {
+  test(`presentation: slide ${slide} (${id}) after its count-up`, async ({ page }) => {
+    await page.goto(`/presentation#/${slide}`);
     await expect(page.getByTestId("deck")).toHaveAttribute("data-keys", "ready");
     await page.waitForLoadState("networkidle");
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(1500); // number count-up (900 ms) and bar growth
-    await expect(page.getByTestId("deck")).toHaveScreenshot(`slide-${n}-${id}.png`);
+    await expect(page.getByTestId("deck")).toHaveScreenshot(`slide-${baseline}-${id}.png`);
   });
 }
