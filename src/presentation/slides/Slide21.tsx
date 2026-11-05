@@ -1,40 +1,47 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { At, IconBadge, type IconName } from "../components/SlidePrimitives";
+import { At, Bullets, Card, IconBadge, type IconName } from "../components/SlidePrimitives";
+import { PhaseCostTable } from "@/business";
 
-const ASKS: { icon: IconName; tone: "red" | "green"; title: string; text: string; x: number }[] = [
-  { icon: "sprout", tone: "red", title: "Pilotgärten", text: "Kleingartenvereine und Hobbygärtner aus Nordhessen, die mit uns testen.", x: 0 },
-  { icon: "tools", tone: "green", title: "Hardware-Partner", text: "Unterstützung bei Sensoren und Bewässerung für den Prototyp.", x: 299 },
-  { icon: "handshake", tone: "green", title: "Kontakte + Förderung", text: "Mentoring und Förderprogramme für die erste Hardware-Runde.", x: 597 },
+const TRACKS: { icon: IconName; title: string; items: string[]; x: number; small?: boolean }[] = [
+  { icon: "leaf", title: "Prototyp", items: ["Pilotgarten mit Sensoren in Nordhessen", "Private Beta mit 20 bis 50 Nutzenden"], x: 0 },
+  { icon: "microchip", title: "Hardware", items: ["Sensor-Set für Boden, Luft, Temperatur und Licht festlegen", "Bewässerung für ein Beet testen"], x: 223 },
+  { icon: "code", title: "Software", items: ["Sensordaten in die Empfehlungen einbinden", "Prognosen zum Pflegezustand"], x: 445 },
+  { icon: "server", title: "Infrastruktur + Services", items: ["Bezahlung mit Stripe live schalten", "Monitoring und Backups prüfen"], x: 667, small: true },
 ];
-const OUTLOOK = ["Privatgarten", "Kleingartenverein", "Neubau", "Agrarbetrieb"];
+const MILESTONES = [
+  { when: "Jetzt", what: "Private Beta starten", x: 0, accent: false },
+  { when: "Winter 2026/27", what: "Sensor-Prototyp bauen", x: 297, accent: false },
+  { when: "Januar 2027", what: "Kampagne zur Anbauplanung", x: 594, accent: true },
+];
 
-/** PPTX 9 — Call to action + outlook (dark variant). */
+/**
+ * PPTX 8 — Next steps: four work streams and a three-step timeline (home-plate arrows), compacted (text unchanged)
+ * to make room for the costs per phase (added; from the cost slides 16–19, no staff costs).
+ */
 export default function Slide21() {
   return (
-    <SlideLayout variant="dark" eyebrow="CALL · OUTLOOK" title="Wir suchen Pilotgärten, Hardware-Partner und Förderung">
-      {ASKS.map((a) => (
-        <At key={a.title} x={a.x} y={0} w={277} h={166}>
-          <div className="h-full bg-white u-r-10 u-px-18 u-py-14 text-pw-ink">
-            <div className="flex items-center u-gap-10">
-              <IconBadge icon={a.icon} size={40} tone={a.tone} />
-              <h3 className="u-fs-18 font-bold text-pw-900">{a.title}</h3>
+    <SlideLayout eyebrow="HOW · NÄCHSTE SCHRITTE" title="Bis zur Anbausaison 2027 soll der Prototyp im Beet stehen">
+      {TRACKS.map((t) => (
+        <At key={t.title} x={t.x} y={0} w={206} h={112}>
+          <Card className="h-full u-px-12 u-py-8">
+            <div className="flex items-center u-gap-6">
+              <IconBadge icon={t.icon} size={26} />
+              <h3 className={`${t.small ? "u-fs-12" : "u-fs-14"} font-bold leading-tight text-pw-900`}>{t.title}</h3>
             </div>
-            <p className="u-mt-14 u-fs-16 leading-snug">{a.text}</p>
+            <Bullets items={t.items} className="u-mt-6 u-fs-11 leading-snug text-pw-ink" />
+          </Card>
+        </At>
+      ))}
+      {MILESTONES.map((m) => (
+        <At key={m.when} x={m.x} y={120} w={279} h={36}>
+          <div className={`flex h-full items-center u-gap-6 ${m.accent ? "bg-pw-700" : "bg-pw-900"}`} style={{ clipPath: "polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%)", paddingLeft: "calc(var(--pt)*14)" }}>
+            <p className="u-fs-12 font-bold text-pw-200">{m.when}</p>
+            <p className="u-fs-12 text-white">{m.what}</p>
           </div>
         </At>
       ))}
-      <At x={0} y={186} w={288} h={22}>
-        <p className="u-fs-13 font-bold tracking-[0.12em] text-pw-200">OUTLOOK</p>
-      </At>
-      {OUTLOOK.map((o, i) => (
-        <At key={o} x={i * 220.3} y={211} w={213} h={50}>
-          <div className={`grid h-full place-items-center u-fs-15 font-bold text-white ${i === 0 ? "bg-pw-400" : "bg-pw-700"}`} style={{ clipPath: i === 0 ? "polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%)" : "polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%, 12% 50%)" }}>
-            {o}
-          </div>
-        </At>
-      ))}
-      <At x={0} y={281} w={873} h={29}>
-        <p className="u-fs-18 font-bold text-white">Sprecht uns an: Diego Botache · Robin Steltmann</p>
+      <At x={0} y={166} w={873} h={174}>
+        <PhaseCostTable />
       </At>
     </SlideLayout>
   );

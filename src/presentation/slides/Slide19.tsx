@@ -1,14 +1,11 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { FinanceModel } from "@/business";
+import { SavingsLevers } from "@/business";
 
-/**
- * NEW (not in the PPTX) — interactive financial model for the free tier and the three subscriptions
- * (source_documents/GardenTwin_Geschaeftsmodell_Finanzkalkulation.md, derived values recalculated).
- */
+/** NEW — where the plan can save: staff via grants, technical levers in € per month, hardware levers. */
 export default function Slide19() {
   return (
-    <SlideLayout eyebrow="HOW · FINANZMODELL (PLANUNGSANNAHMEN)" title="Was ein zahlender Kunde bringt und ab wann es trägt" bodyTop={104} bodyHeight={388}>
-      <FinanceModel />
+    <SlideLayout eyebrow="HOW · KOSTEN SENKEN" title="Größter Sparhebel: Personal, nicht die Technik" bodyTop={104} bodyHeight={388}>
+      <SavingsLevers />
     </SlideLayout>
   );
 }

@@ -24,6 +24,7 @@ export type KeyLike = {
 
 const TYPING = "input, textarea, select, [contenteditable=''], [contenteditable='true']";
 const INTERACTIVE = "button, a[href], summary, [role='button'], [role='tab'], [role='switch'], [tabindex]:not([tabindex='-1']), " + TYPING;
+const VIDEO_KEYS = [" ", "Spacebar", "ArrowLeft", "ArrowRight", "Home", "End"];
 
 function closest(target: EventTarget | null | undefined, selector: string): Element | null {
   return target && typeof (target as Element).closest === "function" ? (target as Element).closest(selector) : null;
@@ -31,6 +32,7 @@ function closest(target: EventTarget | null | undefined, selector: string): Elem
 
 export function deckKeyAction(e: KeyLike): DeckAction | null {
   if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return null;
+  if (VIDEO_KEYS.includes(e.key) && closest(e.target, "video[controls]")) return null;
   if (closest(e.target, TYPING)) {
     const isRange = closest(e.target, "input[type='range']") !== null;
     if (!(isRange && (e.key === "PageDown" || e.key === "PageUp"))) return null;

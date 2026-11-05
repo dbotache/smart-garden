@@ -1,14 +1,14 @@
-# Prototype costs, financial plan and financial model (slides 12–19)
+# Prototype costs, financial plan and financial model (slides 14–20)
 
 Sources (saved unchanged): `source_documents/GardenTwin_Prototyp_Level_Kostenvergleich.md` and `source_documents/GardenTwin_Geschaeftsmodell_Finanzkalkulation.md` (both dated November 2026).
 
 | Slide | Content | Component |
 |---|---|---|
-| 12 · Prototypen + Kosten (new) | 3 prototypes, plan budgets, comparison on one scale (1/5/10/25 units), cost breakdown, full parts list | `PrototypeCosts` |
-| 13 · Geschäftsmodell (PPTX 7, updated) | Free + 3 subscriptions | static slide |
-| 14 · Finanzplan (new) | Investor summary: the three year-3 states side by side (paying customers, net MRR, costs, monthly result on one scale, progress to break-even), one paying customer (6,29 € → 4,99 € DB, CAC payback, LTV, kit DB), what the pilot measures | `FinanceSummary` |
-| 15–18 · Betriebskosten (new) | Phase 1 digital, compatibility stage, own sensor hardware, savings levers – researched prices | see `operating-costs.md` |
-| 19 · Finanzmodell (new) | Interactive model: presets, assumptions, KPIs, monthly result, tariffs, customer economics, hardware kit | `FinanceModel` |
+| 14 · Prototypen + Kosten (new) | 3 prototypes, plan budgets, comparison on one scale (1/5/10/25 units), cost breakdown, full parts list | `PrototypeCosts` |
+| 12 · Geschäftsmodell (PPTX 7) | Free, Basic, planned Erweitert (Robin's version from `pitch/plantwiz-updates`) | static slide |
+| 15 · Finanzplan (new) | Investor summary: the three year-3 states side by side (paying customers, net MRR, costs, monthly result on one scale, progress to break-even), one paying customer (6,29 € → 4,99 € DB, CAC payback, LTV, kit DB), what the pilot measures | `FinanceSummary` |
+| 16–19 · Betriebskosten (new) | Phase 1 digital, compatibility stage, own sensor hardware, savings levers – researched prices | see `operating-costs.md` |
+| 20 · Finanzmodell (new) | Interactive model: presets, assumptions, KPIs, monthly result, tariffs, customer economics, hardware kit | `FinanceModel` |
 
 All numbers are computed in `src/business/utils/` from the documents' **inputs** (parts lists, prices, costs, rates). No derived total is copied, and unit tests pin every displayed figure.
 
@@ -32,6 +32,8 @@ Unchanged and confirmed: prototypes 1 and 2, the kit calculation and price sensi
 
 ## Consistency changes to existing slides
 
+> **Since the merge of `pitch/plantwiz-updates` (2026-11-05)** the tier slide is Robin's version (slide 12): Free, Basic 4,99 € and Erweitert as "Geplant", no Expert tier and no Erweitert price. The financial slides (15–20) still use the business plan's four tiers (Erweitert 9,99 €, Expert 14,99 €, mix 60/30/10); the compatibility stage (17) sells via Expert. The table below documents the earlier 4-tier version.
+
 | Slide | Before (PPTX) | Now | Reason |
 |---|---|---|---|
 | 13 Free | "Bis zu 3 Gärten" | "1 Garten mit bis zu 3 Zonen" | business-model document, tariff table |
@@ -42,15 +44,15 @@ Unchanged and confirmed: prototypes 1 and 2, the kit calculation and price sensi
 
 Kept: Basic 4,99 € "Preisvorschlag", "Nur von uns freigegebene Modelle", "Die App kennt heute die Stufen Free und Pro", affiliate links, and the 2–5 % conversion benchmark (the model's base is 5 %, cautious 2 %).
 
-**Naming.** The prototype document calls its stages "Level 1–3". The deck already uses "Level" for the subscription tiers (slide 13) and for the architecture build-out (slide 11), so the slides say **Prototyp 1–3**. Mapping: Prototyp 1 covers architecture level 2 (sensors), Prototyp 2 adds level 3 (one irrigation zone) and a camera, and Prototyp 3 is Prototyp 2 off-grid (LTE, solar).
+**Naming.** The prototype document calls its stages "Level 1–3". The deck already uses "Level" for the subscription tiers (slide 12) and for the architecture build-out (slide 13), so the slides say **Prototyp 1–3**. Mapping: Prototyp 1 covers architecture level 2 (sensors), Prototyp 2 adds level 3 (one irrigation zone) and a camera, and Prototyp 3 is Prototyp 2 off-grid (LTE, solar).
 
 **Brand.** Both documents say "GardenTwin"; the deck says PlantWiz. The new slides avoid the brand name ("Sensor-Kit" instead of "GardenTwin-Kit").
 
-**Live demo vs prototypes.** The 3D demo (slides 7–10) shows a fully built garden with 6 beds, valves and probes. The prototypes start smaller (1–2 valves). The demo slides are labelled as demo data and *geplant*, so this is not a contradiction, but say so if asked.
+**Live demo vs prototypes.** The 3D demo (slides 8–11) shows a fully built garden with 6 beds, valves and probes. The prototypes start smaller (1–2 valves). The demo slides are labelled as demo data and *geplant*, so this is not a contradiction, but say so if asked.
 
-## Financial plan for investors (slide 14)
+## Financial plan for investors (slide 15)
 
-A static slide for the pitch; the cost slides (15–18) and the interactive model (19) follow.
+A static slide for the pitch; the cost slides (16–19) and the interactive model (20) follow.
 
 - **Scenarios** = the business plan's three states at the end of year 3 (section 11): 5.000 / 25.000 / 100.000 active users, 10 % paying, mix 60/30/10, 0,10 € per free user, fixed costs 6 / 12 / 25 k€. The slide calls the base case **"Realistisch"** (badge "Basisszenario"), as the plan's "Basis".
 - **Costs** per card = fixed costs + free-user costs + variable costs of paying customers (7.100 / 17.500 / 47.000 €). MRR − costs = monthly result (−3.953 / −1.765 / +15.941 €).

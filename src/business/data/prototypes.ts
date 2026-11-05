@@ -3,8 +3,8 @@
  * Parts lists are copied line by line. Totals are NOT copied: they are computed from the lines
  * (utils/prototypeCosts.ts), because the document's total for prototype 3 is wrong (438 € stated, 398 € summed).
  *
- * Naming: the document calls them "Level 1–3". The deck already uses "Level" for the subscription tiers (slide 13)
- * and the architecture build-out (slide 11), so the slides say "Prototyp 1–3".
+ * Naming: the document calls them "Level 1–3". The deck already uses "Level" for the subscription tiers (slide 12)
+ * and the architecture build-out (slide 13), so the slides say "Prototyp 1–3".
  */
 
 export type CostCategory = "elektronik" | "kamera" | "konnektivitaet" | "bewaesserung" | "energie" | "gehaeuse";

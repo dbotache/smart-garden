@@ -19,19 +19,19 @@ src/
 │   ├── stages/               panel content per stage (PlanningStage … IrrigationStage)
 │   ├── styles/garden.css     classes for chips inside drei <Html> (separate React roots)
 │   └── tests/                unit + component tests
-├── architecture/             ← system-architecture diagram (slide 11, /architecture); public API = index.ts
+├── architecture/             ← system-architecture diagram (slide 13, /architecture); public API = index.ts
 │   ├── data/architecture.ts  modules, flows, levels (verbatim from original_prototype/gardentwin)
 │   ├── utils/layout.ts       pure: active nodes/edges per level, edge routing (border ports, detours)
 │   ├── components/           ArchitectureDiagram
 │   ├── styles/               architecture.css (imported by globals.css)
 │   └── tests/
-├── business/                 ← prototype costs (slide 12) + financial model (slide 14); public API = index.ts
+├── business/                 ← prototype costs (slide 14), financial plan + operating costs (15–19), financial model (slide 20); public API = index.ts
 │   ├── data/                 parts lists, tariffs, kit, presets (inputs only, from source_documents/)
 │   ├── utils/                pure: prototypeCosts.ts, finance.ts, money.ts (German formatting)
 │   ├── components/           PrototypeCosts, FinanceModel, FinanceCharts (SVG), ui (count-up, slider, tiles)
 │   └── tests/
 ├── presentation/
-│   ├── slides/               Slide01.tsx … Slide21.tsx + index.ts (the registry, sole source of order)
+│   ├── slides/               Slide01.tsx … Slide22.tsx + index.ts (the registry, sole source of order)
 │   ├── components/           SlideDeck, SlideLayout, SlidePrimitives, SlideNavigation, SlideProgress,
 │   │                         GardenHost, PrototypeEmbed, SlideMeta
 │   ├── hooks/                useDeckLocation (URL hash), useFullscreen

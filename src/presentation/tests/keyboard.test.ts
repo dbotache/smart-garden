@@ -49,6 +49,14 @@ describe("deck keyboard rules", () => {
     expect(deckKeyAction({ key: "PageDown", target: el("<input type='text' />") })).toBeNull();
   });
 
+  it("leaves play/seek keys to a focused video with controls; clickers and N still work", () => {
+    const video = el("<video controls></video>");
+    for (const key of [" ", "ArrowLeft", "ArrowRight", "Home", "End"]) expect(deckKeyAction({ key, target: video }), key).toBeNull();
+    expect(deckKeyAction({ key: "PageDown", target: video })).toBe("next");
+    expect(deckKeyAction({ key: "PageUp", target: video })).toBe("prev");
+    expect(deckKeyAction({ key: "ArrowRight", target: el("<video></video>") })).toBe("next"); // no controls: deck keeps the arrows
+  });
+
   it("parses and clamps slide hashes", () => {
     expect(parseSlideHash("#/7", 13)).toBe(6);
     expect(parseSlideHash("#3", 13)).toBe(2);

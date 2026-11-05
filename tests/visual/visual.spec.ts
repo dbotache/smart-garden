@@ -27,7 +27,7 @@ test("prototype: tomato sensor detail", async ({ page }) => {
 
 test("presentation: embedded garden (irrigation slide, after the demo)", async ({ page }) => {
   test.setTimeout(240_000); // waits for the garden twice (before and after the watering demo)
-  await page.goto("/presentation#/10");
+  await page.goto("/presentation#/11");
   await waitForGarden(page);
   await page.getByTestId("run-irrigation").click();
   await expect(page.getByTestId("irrigation-panel")).toHaveAttribute("data-demo-status", "done", { timeout: 60_000 });
@@ -36,7 +36,7 @@ test("presentation: embedded garden (irrigation slide, after the demo)", async (
   await expect(page).toHaveScreenshot("presentation-garden-irrigation.png");
 });
 
-for (const n of [1, 2, 3, 4, 5, 6, 13, 20, 21]) {
+for (const n of [1, 2, 4, 5, 7, 12, 21, 22]) {
   test(`presentation: migrated slide ${n}`, async ({ page }) => {
     await page.goto(`/presentation#/${n}`);
     await page.waitForLoadState("networkidle");
@@ -47,17 +47,17 @@ for (const n of [1, 2, 3, 4, 5, 6, 13, 20, 21]) {
 }
 
 test("presentation: architecture slide (Garden Digital Twin selected)", async ({ page }) => {
-  await page.goto("/presentation#/11");
+  await page.goto("/presentation#/13");
   await expect(page.getByTestId("deck")).toHaveAttribute("data-keys", "ready"); // hydrated: clicks are handled
   await page.waitForLoadState("networkidle");
   await page.evaluate(() => document.fonts.ready);
   await page.locator('[data-node="twin"]').click();
   await page.mouse.move(0, 0);
   await page.waitForTimeout(400);
-  await expect(page.getByTestId("deck")).toHaveScreenshot("slide-11-architecture.png");
+  await expect(page.getByTestId("deck")).toHaveScreenshot("slide-13-architecture.png");
 });
 
-for (const [n, id] of [[12, "prototypes"], [14, "finance-summary"], [15, "phase1-costs"], [16, "compat-costs"], [17, "hardware-costs"], [18, "savings"], [19, "finance"]] as const) {
+for (const [n, id] of [[14, "prototypes"], [15, "finance-summary"], [16, "phase1-costs"], [17, "compat-costs"], [18, "hardware-costs"], [19, "savings"], [20, "finance"]] as const) {
   test(`presentation: slide ${n} (${id}) after its count-up`, async ({ page }) => {
     await page.goto(`/presentation#/${n}`);
     await expect(page.getByTestId("deck")).toHaveAttribute("data-keys", "ready");

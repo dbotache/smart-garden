@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { clickInScene, dragCanvas, stageButton, waitForGarden, watchConsole } from "./helpers";
 
-const ORDER = ["title", "team", "problem", "vision", "market", "tech", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation", "architecture", "prototypes", "business", "finance-summary", "phase1-costs", "compat-costs", "hardware-costs", "savings", "finance", "next-steps", "call"];
+const ORDER = ["title", "team", "pitch-video", "problem", "vision", "product-videos", "market", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation", "business", "architecture", "prototypes", "finance-summary", "phase1-costs", "compat-costs", "hardware-costs", "savings", "finance", "next-steps", "call"];
 /** open the deck and wait until hydration attached the keyboard handler (keys pressed earlier are lost) */
 async function openDeck(page: import("@playwright/test").Page, slide?: number) {
   await page.goto(slide ? `/presentation#/${slide}` : "/presentation");
@@ -26,13 +26,13 @@ test.describe("presentation", () => {
     await page.keyboard.press("Home");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "title");
     await page.getByTestId("deck-next").click();
-    await expect(page.getByTestId("deck-counter")).toHaveText("2 / 21");
+    await expect(page.getByTestId("deck-counter")).toHaveText("2 / 22");
     expect(problems).toEqual([]);
   });
 
   test("the full presenter journey: reach the garden, use it, continue", async ({ page }) => {
     const problems = watchConsole(page);
-    await openDeck(page, 6);
+    await openDeck(page, 7);
     await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "demo-planning");
     await waitForGarden(page);
@@ -82,7 +82,7 @@ test.describe("presentation", () => {
   });
 
   test("one persistent WebGL garden across demo slides; paused when hidden", async ({ page }) => {
-    await openDeck(page, 7);
+    await openDeck(page, 8);
     await waitForGarden(page);
     await page.evaluate(() => {
       (window as { __gardenCanvasNode?: Element }).__gardenCanvasNode = document.querySelector('[data-testid="garden-canvas"] canvas')!;
@@ -99,7 +99,7 @@ test.describe("presentation", () => {
   });
 
   test("garden resizes with the slide frame and in full screen", async ({ page }) => {
-    await openDeck(page, 8);
+    await openDeck(page, 9);
     await waitForGarden(page);
     const sizeOf = () => page.locator('[data-testid="garden-canvas"] canvas').evaluate((c: HTMLCanvasElement) => ({ css: Math.round(c.getBoundingClientRect().width), backing: Math.round(c.width / devicePixelRatio) }));
     const a = await sizeOf();
@@ -116,9 +116,11 @@ test.describe("presentation", () => {
     await expect.poll(() => page.evaluate(() => !!document.fullscreenElement)).toBe(false);
   });
 
-  test("architecture slide follows the garden demo and is interactive without moving the deck", async ({ page }) => {
+  test("architecture slide follows the tiers and is interactive without moving the deck", async ({ page }) => {
     const problems = watchConsole(page);
-    await openDeck(page, 10);
+    await openDeck(page, 11); // last demo slide: the garden is mounted, and must be hidden two slides later
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "business");
     await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "architecture");
     await expect(page.getByTestId("deck-garden")).toHaveAttribute("data-visible", "false");
@@ -144,7 +146,7 @@ test.describe("presentation", () => {
 
   test("prototype costs and financial model are interactive without moving the deck", async ({ page }) => {
     const problems = watchConsole(page);
-    await openDeck(page, 12);
+    await openDeck(page, 14);
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "prototypes");
     await page.getByTestId("prototype-3").click();
     await expect(page.getByTestId("breakdown-budget")).toHaveText("457,70 €");
@@ -155,7 +157,6 @@ test.describe("presentation", () => {
     await page.keyboard.press("Space"); // focused button
     expect(await slideId(page)).toBe("prototypes");
 
-    await page.keyboard.press("ArrowRight");
     await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "finance-summary");
     // investor summary: the three year-3 states of the business plan, recalculated
@@ -199,13 +200,13 @@ test.describe("presentation", () => {
   });
 
   test("speaker notes from the PPTX are available", async ({ page }) => {
-    await openDeck(page, 5);
+    await openDeck(page, 7);
     await page.keyboard.press("n");
     await expect(page.getByTestId("speaker-notes")).toContainText("KfW Research");
   });
 
   test("exports all slides as a 16:9 PDF", async ({ page }) => {
-    test.setTimeout(240_000); // 4 software-WebGL gardens + 21 page renders; slow under parallel load
+    test.setTimeout(240_000); // 4 software-WebGL gardens + 22 page renders; slow under parallel load
     const problems = watchConsole(page);
     await openDeck(page);
     const pdfLink = page.getByTestId("deck-pdf");
@@ -239,5 +240,17 @@ test.describe("presentation", () => {
     expect(printed.match(/\/Type\s*\/Page[^s]/g)?.length).toBe(ORDER.length);
     expect(printed).toMatch(/\/MediaBox\s*\[0 0 960 540\]/);
     expect(problems).toEqual([]);
+  });
+
+  test("video slides play muted and leave the deck keys to the presenter", async ({ page }) => {
+    await openDeck(page, 3);
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "pitch-video");
+    const video = page.locator("video");
+    await expect(video).toHaveAttribute("src", "/assets/videos/plantwiz-pitch.mp4");
+    expect(await video.evaluate((v: HTMLVideoElement) => v.muted && v.autoplay)).toBe(true);
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("deck")).toHaveAttribute("data-slide-id", "problem");
+    await openDeck(page, 6);
+    await expect(page.locator("video")).toHaveAttribute("src", "/assets/videos/pflegekalender.mp4");
   });
 });

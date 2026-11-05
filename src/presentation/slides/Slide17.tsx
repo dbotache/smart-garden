@@ -1,11 +1,14 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { HardwareCosts } from "@/business";
+import { CompatCosts } from "@/business";
 
-/** NEW — costs of the sensor variants: pilot + certification, contribution per kit, running cost per device. */
+/**
+ * NEW — compatibility stage before own hardware: connect third-party sensors (Expert tariff), no own device.
+ * Sources in docs/operating-costs.md.
+ */
 export default function Slide17() {
   return (
-    <SlideLayout eyebrow="HOW · PHASE 2 + 3: MIT SENSORIK" title="Hardware: erst Pilot und Zulassung, dann Gewinn" bodyTop={104} bodyHeight={388}>
-      <HardwareCosts />
+    <SlideLayout eyebrow="HOW · VORSTUFE: KOMPATIBEL STATT EIGENE HARDWARE" title="Vorstufe: fremde Sensoren statt eigenes Gerät" bodyTop={104} bodyHeight={388}>
+      <CompatCosts />
     </SlideLayout>
   );
 }

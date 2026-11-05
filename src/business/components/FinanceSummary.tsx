@@ -170,7 +170,7 @@ export function FinanceSummary() {
         <div className="min-w-0 flex-1">
           <p className="u-fs-10 font-bold uppercase tracking-[0.06em] text-pw-700">Gleiche Annahmen in allen Szenarien</p>
           <p className="u-fs-10 leading-snug text-pw-ink">
-            10 % der aktiven Nutzer zahlen · Tarifmix 60/30/10 · {euro(BASE_PARAMS.freeCost)} Kosten je Free-Nutzer. Unterschied: Größe der Nutzerbasis und Höhe der Fixkosten (laut Plan nicht aufgeschlüsselt, überwiegend Personal – siehe Folie 18).
+            10 % der aktiven Nutzer zahlen · Tarifmix 60/30/10 · {euro(BASE_PARAMS.freeCost)} Kosten je Free-Nutzer. Unterschied: Größe der Nutzerbasis und Höhe der Fixkosten (laut Plan nicht aufgeschlüsselt, überwiegend Personal – siehe Folie 19).
           </p>
           <p className="u-fs-8 leading-snug text-pw-muted">
             Laufender Monat am Ende von Geschäftsjahr 3, ohne Akquisekosten und Kit-Verkäufe – keine Umsatz- oder Cashflow-Prognose. Planungsannahmen, Businessplan Kap. 4, 8, 11, nachgerechnet.

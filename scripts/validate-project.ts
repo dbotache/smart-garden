@@ -1,6 +1,6 @@
 /**
  * Structural checks that unit tests don't cover well:
- *  - one SlideNN.tsx per registered slide, all registered, and all 9 PPTX slides mapped in order
+ *  - one SlideNN.tsx per registered slide, all registered, and the PPTX slides mapped at most once (PPTX 6 removed on purpose)
  *  - the presentation imports the prototype and the architecture module ONLY through their public entries
  *  - no Math.random in prototype data/logic (tests and screenshots must be deterministic)
  *  - original inputs are preserved
@@ -22,9 +22,10 @@ for (const f of files) if (!index.includes(`from "./${f.replace(".tsx", "")}"`))
 if (files.length !== entries.length) errors.push(`${files.length} slide files but ${entries.length} registry entries`);
 else ok(`${files.length} slide files, each registered`);
 
-const pptx = entries.filter((e) => e.type === "pptx").map((e) => e.slide);
-if (pptx.join(",") !== "1,2,3,4,5,6,7,8,9") errors.push(`PPTX mapping is ${pptx.join(",")}`);
-else ok("all 9 PPTX slides mapped once, original order kept");
+const pptx = entries.flatMap((e) => e.slide === undefined ? [] : [e.slide]).sort((a, b) => a - b);
+// PPTX 6 ("Technische Realisierung") was removed from the deck on purpose (merge of pitch/plantwiz-updates, 2026-11-05)
+if (pptx.join(",") !== "1,2,3,4,5,7,8,9") errors.push(`PPTX mapping is ${pptx.join(",")}`);
+else ok("PPTX slides 1–5 and 7–9 mapped once (6 removed on purpose)");
 
 function walk(dir: string): string[] {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]));

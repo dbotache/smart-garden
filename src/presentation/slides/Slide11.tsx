@@ -1,14 +1,11 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { ArchitectureDiagram, ARCH_TEXT } from "@/architecture";
+import { PrototypeEmbed } from "../components/PrototypeEmbed";
 
-/**
- * NEW (not in the PPTX) — interactive system architecture, migrated from original_prototype/gardentwin.
- * Follows the live garden demo: the same three levels, now as the infrastructure behind them.
- */
+/** NEW (not in the PPTX) — Stage 4 of the live garden: adaptive irrigation per bed vs. a fixed timer. */
 export default function Slide11() {
   return (
-    <SlideLayout eyebrow="HOW · SYSTEMARCHITEKTUR (KONZEPT)" title={ARCH_TEXT.title} bodyTop={104} bodyHeight={388}>
-      <ArchitectureDiagram fit="slide" />
+    <SlideLayout eyebrow="DEMO 4/4 · TEILAUTOMATISIERUNG (GEPLANT)" title="Gießen nur dort, wo es nötig ist" bodyTop={104} bodyHeight={388}>
+      <PrototypeEmbed stage="irrigation" />
     </SlideLayout>
   );
 }

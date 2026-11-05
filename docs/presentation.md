@@ -37,33 +37,34 @@ Presenter clickers send PageUp/PageDown, which always navigate, even after inter
 
 ## Migration map (PPTX → web)
 
-Source: `original_presentation.pptx`, 9 slides, 16:9 (12 192 000 × 6 858 000 EMU = 960 × 540 pt). All text, figures and sources were copied **verbatim**, except slide 13 (PPTX 7), which was updated for consistency with the November 2026 business-model document (`business.md`), and slide 20 (PPTX 8), whose original text is unchanged but compacted to add the costs per phase (`operating-costs.md`). Positions, sizes and colours were transcribed from the slide XML (`--pt` units). Speaker notes were copied verbatim into `slides/index.ts`.
+Source: `original_presentation.pptx`, 9 slides, 16:9 (12 192 000 × 6 858 000 EMU = 960 × 540 pt). All text, figures and sources were copied **verbatim**, except slide 12 (PPTX 7), which is Robin's reworked tier slide from `pitch/plantwiz-updates`, and slide 21 (PPTX 8), whose original text is unchanged but compacted to add the costs per phase (`operating-costs.md`). Positions, sizes and colours were transcribed from the slide XML (`--pt` units). Speaker notes were copied verbatim into `slides/index.ts`.
 
 | Web # | File | PPTX # | Title | Elements migrated | Notes |
 |---|---|---|---|---|---|
 | 1 | `Slide01.tsx` | 1 | PlantWiz – Dein Garten, dein Plan. | green panel, logo, 66 pt title, tagline, event, raised-bed photo | no page number, as in the original |
 | 2 | `Slide02.tsx` | 2 | Team + Mission | 2 profile cards with photos, mission card with icon | ✓ notes |
-| 3 | `Slide03.tsx` | 3 | Problem + Challenges | seedling photo, persona quote, 4 challenge cards with icons | ✓ notes |
-| 4 | `Slide04.tsx` | 4 | Vision | app calendar screenshot, target-vision box, "läuft heute" (6) vs "kommt als Nächstes" (4) with icons | ✓ notes |
-| 5 | `Slide05.tsx` | 5 | Zielgruppe + Markt | 3 KPI cards (24,6 Mio. / 13.155 / 44.500) with sources, agriculture banner | ✓ notes (sources) |
-| 6 | `Slide06.tsx` | 6 | Technische Realisierung | 3 numbered layers with status pills, garden-plan screenshot, 2 stats | ✓ notes |
-| 7 | `Slide07.tsx` | — *new* | Live-Demo 1: Planung | live garden, stage "planning" | demonstrates layer 1 |
-| 8 | `Slide08.tsx` | — *new* | Live-Demo 2: Empfehlungen | live garden, stage "planting" | uses app features listed on slide 4 |
-| 9 | `Slide09.tsx` | — *new* | Live-Demo 3: Sensoren | live garden, stage "monitoring" | layer 2, labelled *geplant* |
-| 10 | `Slide10.tsx` | — *new* | Live-Demo 4: Bewässerung | live garden, stage "irrigation" | layer 3, labelled *geplant* |
-| 11 | `Slide11.tsx` | — *new* | Systemarchitektur | interactive architecture diagram (`@/architecture`), migrated from `original_prototype/gardentwin` | follows the demo; marked *Konzept* |
-| 12 | `Slide12.tsx` | — *new* | Prototypen + Kosten | 3 prototypes, animated budgets, fleet scaling, parts lists (`@/business`) | from `source_documents/`; see `business.md` |
-| 13 | `Slide13.tsx` | 7 | Geschäftsmodell | 4 tiers (Basic highlighted dark), footnote | **updated** to the business-model document (prices, kit purchase, Free limits); notes marked `[Aktualisiert]` |
-| 14 | `Slide14.tsx` | — *new* | Finanzplan | investor summary: 3 year-3 scenarios (vorsichtig / realistisch / ambitioniert), one paying customer, pilot metrics (`@/business`) | from `source_documents/`; see `business.md` |
-| 15 | `Slide15.tsx` | — *new* | Phase 1: Kosten digital | running costs of the digital-only phase, switch users (2/10/50 k) and paid share (5/10 %), every cost line | researched prices; see `operating-costs.md` |
-| 16 | `Slide16.tsx` | — *new* | Vorstufe: kompatibel | connect third-party sensors (Home Assistant, Netatmo first; Ecowitt, Gardena after checking terms; Tuya later), avoided own-hardware costs, Expert tariff | variant of slide 17; see `operating-costs.md` |
-| 17 | `Slide17.tsx` | — *new* | Phase 2+3: Kosten Sensorik | pilot + certification, contribution per kit, running cost per device, LTE volume check | see `operating-costs.md` |
-| 18 | `Slide18.tsx` | — *new* | Kosten senken | staff via grants (EXIST, Hessen Ideen), technical levers in €/month, hardware levers | see `operating-costs.md` |
-| 19 | `Slide19.tsx` | — *new* | Finanzmodell | interactive financial model: presets, sliders, KPIs, 4 views (`@/business`) | deep dive for questions; see `business.md` |
-| 20 | `Slide20.tsx` | 8 | Nächste Schritte | 4 work streams with icons, 3-step timeline (home-plate arrows via `clip-path`), compacted; **added** costs per phase incl. advertising, no staff (`PhaseCostTable`) | PPTX text unchanged; notes marked `[Ergänzt]`; see `operating-costs.md` |
-| 21 | `Slide21.tsx` | 9 | Call + Outlook | dark slide, 3 ask cards, 4-step outlook chevrons, contact line | ✓ notes |
+| 3 | `Slide03.tsx` | — *new* | PlantWiz-Video | short video after the team introduction (`VideoSlide`, autoplay, muted) | from `pitch/plantwiz-updates`; still image in the PDF |
+| 4 | `Slide04.tsx` | 3 | Problem + Challenges | seedling photo, persona quote, 4 challenge cards with icons | ✓ notes |
+| 5 | `Slide05.tsx` | 4 | Vision | app calendar screenshot, target-vision box, "läuft heute" (6) vs "kommt als Nächstes" (4) with icons | ✓ notes |
+| 6 | `Slide06.tsx` | — *new* | PlantWiz in Aktion | four product clips that play in sequence and loop at 2× | from `pitch/plantwiz-updates`; first clip's still image in the PDF |
+| 7 | `Slide07.tsx` | 5 | Zielgruppe + Markt | 3 KPI cards (24,6 Mio. / 13.155 / 44.500) with sources, agriculture banner | ✓ notes (sources) |
+| 8 | `Slide08.tsx` | — *new* | Live-Demo 1: Planung | live garden, stage "planning" | demonstrates layer 1 |
+| 9 | `Slide09.tsx` | — *new* | Live-Demo 2: Empfehlungen | live garden, stage "planting" | uses app features listed on slide 4 |
+| 10 | `Slide10.tsx` | — *new* | Live-Demo 3: Sensoren | live garden, stage "monitoring" | layer 2, labelled *geplant* |
+| 11 | `Slide11.tsx` | — *new* | Live-Demo 4: Bewässerung | live garden, stage "irrigation" | layer 3, labelled *geplant* |
+| 12 | `Slide12.tsx` | 7 | Geschäftsmodell | Free, Basic and planned Erweitert tier, affiliate line | from `pitch/plantwiz-updates` (replaces the 4-tier version) |
+| 13 | `Slide13.tsx` | — *new* | Systemarchitektur | interactive architecture diagram (`@/architecture`), migrated from `original_prototype/gardentwin` | follows the demo; marked *Konzept* |
+| 14 | `Slide14.tsx` | — *new* | Prototypen + Kosten | 3 prototypes, animated budgets, fleet scaling, parts lists (`@/business`) | from `source_documents/`; see `business.md` |
+| 15 | `Slide15.tsx` | — *new* | Finanzplan | investor summary: 3 year-3 scenarios (vorsichtig / realistisch / ambitioniert), one paying customer, pilot metrics (`@/business`) | from `source_documents/`; see `business.md` |
+| 16 | `Slide16.tsx` | — *new* | Phase 1: Kosten digital | running costs of the digital-only phase, switch users (2/10/50 k) and paid share (5/10 %), every cost line | researched prices; see `operating-costs.md` |
+| 17 | `Slide17.tsx` | — *new* | Vorstufe: kompatibel | connect third-party sensors (Home Assistant, Netatmo first; Ecowitt, Gardena after checking terms; Tuya later), avoided own-hardware costs, Expert tariff | variant of slide 18; see `operating-costs.md` |
+| 18 | `Slide18.tsx` | — *new* | Phase 2+3: Kosten Sensorik | pilot + certification, contribution per kit, running cost per device, LTE volume check | see `operating-costs.md` |
+| 19 | `Slide19.tsx` | — *new* | Kosten senken | staff via grants (EXIST, Hessen Ideen), technical levers in €/month, hardware levers | see `operating-costs.md` |
+| 20 | `Slide20.tsx` | — *new* | Finanzmodell | interactive financial model: presets, sliders, KPIs, 4 views (`@/business`) | deep dive for questions; see `business.md` |
+| 21 | `Slide21.tsx` | 8 | Nächste Schritte | 4 work streams with icons, 3-step timeline (home-plate arrows via `clip-path`), compacted; **added** costs per phase incl. advertising, no staff (`PhaseCostTable`) | PPTX text unchanged; notes marked `[Ergänzt]`; see `operating-costs.md` |
+| 22 | `Slide22.tsx` | 9 | Call + Outlook | dark slide, 3 ask cards, 4-step outlook chevrons, contact line | ✓ notes |
 
-**Why the demo sits after slide 6:** slide 6 introduces the three layers (Digitaler Zwilling → IoT-Sensoren → Teilautomatisierung). The four demo slides walk through exactly that progression on the 3D twin before the business model. The demo eyebrows mark layers 2 and 3 as *geplant*, so nothing is presented as already running. The architecture slide (11) comes right after the demo: it shows the infrastructure behind the same three levels. Then come the prototype costs (12), the tier slide (13, PPTX 7), the static financial plan for investors (14), the cost slides (15 phase 1 digital, 16 compatibility stage with third-party sensors, 17 own sensor hardware, 18 savings) and the interactive financial model (19) as a deep dive for questions; skip 19 when time is short. The tier slide stays before the numbers so investors see the offer first. PPTX slides 7, 8, 9 are web slides 13, 20, 21.
+**Presentation order (merge of `pitch/plantwiz-updates` into `main`, 2026-11-05).** The intro video (3) follows the team (2), the product playlist (6) follows the vision (5). The four live-demo slides (8–11) lead into the tier slide (12, Robin's version). Then come the architecture (13), the prototype costs (14), the static financial plan for investors (15), the cost slides (16 phase 1 digital, 17 compatibility stage, 18 own sensor hardware, 19 savings) and the interactive financial model (20); skip 20 when time is short. Next steps (21) and Call + Outlook (22) close the deck. **PPTX slide 6 (Technische Realisierung) was removed on purpose**; the three layers are still visible in the demo eyebrows and the architecture slide. PPTX slides 7, 8, 9 are web slides 12, 21, 22. Not taken from the branch: its roadmap slide, its next-steps/call versions and its appendix order, and its notes changes on shared slides (team, problem, vision, market, demos).
 
 **Assets:** every picture was taken from `ppt/media` and renamed (`public/assets/images`, `public/assets/icons`; the icons are the original white glyphs on brand-green badges). No diagram had to be rasterised: all shapes (cards, pills, chevrons, home-plates, circles) are HTML/CSS.
 

@@ -1,11 +1,11 @@
 import { SlideLayout } from "../components/SlideLayout";
 import { PrototypeEmbed } from "../components/PrototypeEmbed";
 
-/** NEW (not in the PPTX) — Stage 4 of the live garden: adaptive irrigation per bed vs. a fixed timer. */
+/** NEW (not in the PPTX) — Stage 3 of the live garden: measured soil and weather data; health only as an estimate. */
 export default function Slide10() {
   return (
-    <SlideLayout eyebrow="DEMO 4/4 · TEILAUTOMATISIERUNG (GEPLANT)" title="Gießen nur dort, wo es nötig ist" bodyTop={104} bodyHeight={388}>
-      <PrototypeEmbed stage="irrigation" />
+    <SlideLayout eyebrow="DEMO 3/4 · IOT-SENSOREN (GEPLANT)" title="Sensoren zeigen, was der Garten gerade braucht" bodyTop={104} bodyHeight={388}>
+      <PrototypeEmbed stage="monitoring" />
     </SlideLayout>
   );
 }

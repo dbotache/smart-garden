@@ -1,11 +1,11 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { SavingsLevers } from "@/business";
+import { HardwareCosts } from "@/business";
 
-/** NEW — where the plan can save: staff via grants, technical levers in € per month, hardware levers. */
+/** NEW — costs of the sensor variants: pilot + certification, contribution per kit, running cost per device. */
 export default function Slide18() {
   return (
-    <SlideLayout eyebrow="HOW · KOSTEN SENKEN" title="Größter Sparhebel: Personal, nicht die Technik" bodyTop={104} bodyHeight={388}>
-      <SavingsLevers />
+    <SlideLayout eyebrow="HOW · PHASE 2 + 3: MIT SENSORIK" title="Hardware: erst Pilot und Zulassung, dann Gewinn" bodyTop={104} bodyHeight={388}>
+      <HardwareCosts />
     </SlideLayout>
   );
 }

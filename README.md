@@ -5,7 +5,7 @@ An interactive 3D smart-garden prototype (planning → plant recommendations →
 | Route | What |
 |---|---|
 | `/presentation/print` | PDF export: all slides as 16:9 pages. The deck's **PDF** button opens it and downloads `PlantWiz-Praesentation.pdf` |
-| `/presentation` | The deck (21 slides; live garden on slides 7–10, architecture 11, prototype costs 12, financial plan 14, operating costs 15–18, interactive financial model 19). `#/7` deep-links a slide |
+| `/presentation` | The deck (22 slides; intro video 3, product videos 6, live garden 8–11, business model 12, architecture 13, prototype costs 14, financial plan 15, operating costs 16–19, interactive financial model 20). `#/7` deep-links a slide |
 | `/architecture` | The interactive system architecture on its own |
 | `/prototype` | The garden on its own. `?stage=monitoring&lang=de&intro=0` |
 | `/original/index.html` | The untouched original prototype, for comparison |
@@ -30,7 +30,7 @@ npm run dev                         # http://localhost:3100
 | `npm test` | unit + component + integration tests (Vitest) |
 | `npm run test:e2e` | Playwright E2E against the production build (run `npm run build` first; starts `next start -p 3200`) |
 | `npm run test:visual` · `npm run test:visual:update` | visual regression · regenerate baselines (review before committing) |
-| `npm run validate` | structure checks: slide files ↔ registry ↔ PPTX map, module boundary, no `Math.random`, inputs preserved |
+| `npm run validate` | structure checks: slide files ↔ registry ↔ PPTX map (PPTX 6 removed on purpose), module boundary, no `Math.random`, inputs preserved |
 | `npm run inspect-assets` | list assets, find unreferenced or missing ones |
 | `npm run check` | lint + typecheck + unit + validate + build |
 
@@ -76,8 +76,8 @@ original_prototype/ (incl. gardentwin/), original_presentation.pptx, reference_i
 - [architecture.md](docs/architecture.md): module structure and the decisions behind it
 - [design-system.md](docs/design-system.md): how the references and the PPTX map to the scene and UI
 - [prototype.md](docs/prototype.md): stages, hardware model, decision logic, extension guide
-- [architecture-diagram.md](docs/architecture-diagram.md): the migrated system-architecture visualisation (slide 11)
-- [business.md](docs/business.md): prototype costs and financial model (slides 12–14), **corrections to the source documents**, consistency changes
+- [architecture-diagram.md](docs/architecture-diagram.md): the migrated system-architecture visualisation (slide 13)
+- [business.md](docs/business.md): prototype costs and financial model (slides 14–20), **corrections to the source documents**, consistency changes
 - [operating-costs.md](docs/operating-costs.md): researched running costs (phase 1 digital, sensor variants, savings) with sources
 - [presentation.md](docs/presentation.md): controls, **PPTX migration map**, editing slides
 - [testing.md](docs/testing.md): the test suite and determinism

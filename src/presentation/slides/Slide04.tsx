@@ -2,58 +2,37 @@ import Image from "next/image";
 import { SlideLayout } from "../components/SlideLayout";
 import { At, Card, IconBadge, type IconName } from "../components/SlidePrimitives";
 
-const TODAY: { icon: IconName; text: string }[] = [
-  { icon: "cube", text: "Digitaler Zwilling in 2D und 3D" },
-  { icon: "drop", text: "Gießempfehlung, Aufgaben und Pflegetipps" },
-  { icon: "leaf", text: "Mischkultur- und Fruchtfolge-Hinweise" },
-  { icon: "bee", text: "Insektenfreundlichkeit je Pflanze und im Plan" },
-  { icon: "wand", text: "Beet-Generator für passende Bepflanzung" },
-  { icon: "microscope", text: "KI-Chat, Foto-Check für Krankheiten und Arten" },
-];
-const NEXT: { icon: IconName; text: string }[] = [
-  { icon: "chart", text: "Prognosen zum Pflegezustand" },
-  { icon: "wifi", text: "Überwachung mit modularen Sensoren" },
-  { icon: "faucet", text: "Bewässerung für einzelne Arten" },
-  { icon: "exchange", text: "Vernetzte Gärten, z. B. Tauschbörse" },
+const CHALLENGES: { icon: IconName; title: string; text: string; x: number; y: number }[] = [
+  { icon: "book", title: "Wissenslücken", text: "Pflege kostet viel Zeit, wenn jede Frage erst nachgeschlagen werden muss.", x: 331, y: 0 },
+  { icon: "puzzle", title: "Zersplitterte Lösungen", text: "Apps, Sensoren und Bewässerung laufen getrennt voneinander.", x: 611, y: 0 },
+  { icon: "eye-slash", title: "Kein Gesamtbild", text: "Es fehlen Prognosen und ein Überblick über den Pflegezustand.", x: 331, y: 166 },
+  { icon: "ruler", title: "Aufwendige Neuplanung", text: "Beete anzulegen dauert, und oft stehen unverträgliche Arten nebeneinander.", x: 611, y: 166 },
 ];
 
-function Column({ x, title, items, tone }: { x: number; title: string; items: { icon: IconName; text: string }[]; tone: "green" | "muted" }) {
-  return (
-    <At x={x} y={0} w={204} h={331}>
-      <Card className="flex h-full flex-col u-px-13 u-py-9">
-        <h3 className="u-fs-15 font-bold text-pw-900 u-mb-4" style={{ minHeight: "calc(var(--pt) * 32)", display: "flex", alignItems: "center" }}>
-          {title}
-        </h3>
-        <ul className={`flex flex-1 flex-col ${tone === "green" ? "justify-between" : "justify-around"} u-pb-4`}>
-          {items.map((i) => (
-            <li key={i.text} className="flex items-center u-gap-8">
-              <IconBadge icon={i.icon} size={29} tone={tone} />
-              <span className="u-fs-13 leading-tight text-pw-ink">{i.text}</span>
-            </li>
-          ))}
-        </ul>
-      </Card>
-    </At>
-  );
-}
-
-/** PPTX 4 — Vision: app screenshot, target vision, "runs today" vs "coming next". */
+/** PPTX 3 — Problem: persona "Peter" + four challenges. */
 export default function Slide04() {
   return (
-    <SlideLayout eyebrow="WHAT · VISION" title="Ein Assistent, der sagt, was der Garten heute braucht">
-      <At x={0} y={0} w={425} h={216}>
-        <Image src="/assets/images/vision-season-calendar.jpg" alt="PlantWiz-Kalender mit Pflanz-, Blüte- und Erntezeiten je Beet" fill sizes="45vw" className="object-contain object-left-top" />
+    <SlideLayout eyebrow="WHY · PROBLEM + CHALLENGES" title="Peter will Gemüse ernten und hat keinen grünen Daumen">
+      <At x={0} y={0} w={302} h={173}>
+        <Image src="/assets/images/problem-seedlings.jpg" alt="Setzlinge in einer Anzuchtschale" fill sizes="30vw" className="object-cover" />
       </At>
-      <At x={0} y={222} w={425} h={22}>
-        <p className="u-fs-12 text-pw-muted">Saisonkalender in PlantWiz, hier mit einem Demo-Garten</p>
+      <At x={0} y={187} w={302} h={101}>
+        <blockquote className="font-serif u-fs-18 italic leading-[1.25] text-pw-900">„Ich hätte gern Gemüse und Blumen im eigenen Garten. Ich weiß nur nicht, was wohin gehört und wann es was braucht.“</blockquote>
       </At>
-      <At x={0} y={252} w={425} h={79}>
-        <Card dark className="flex h-full items-center u-px-18">
-          <p className="u-fs-15 leading-snug text-white">Zielbild: vorausschauende, wetterbasierte Pflege, die mit Sensoren immer genauer wird.</p>
-        </Card>
+      <At x={0} y={295} w={302} h={22}>
+        <p className="u-fs-12 text-pw-muted">Peter, Hobbygärtner (Beispielperson)</p>
       </At>
-      <Column x={450} title="Läuft heute in der App" items={TODAY} tone="green" />
-      <Column x={669} title="Kommt als Nächstes" items={NEXT} tone="muted" />
+      {CHALLENGES.map((c) => (
+        <At key={c.title} x={c.x} y={c.y} w={262} h={151}>
+          <Card className="h-full u-p-16">
+            <div className="flex items-center u-gap-10">
+              <IconBadge icon={c.icon} size={36} />
+              <h3 className="u-fs-17 font-bold leading-tight text-pw-900">{c.title}</h3>
+            </div>
+            <p className="u-mt-12 u-fs-15 leading-snug text-pw-ink">{c.text}</p>
+          </Card>
+        </At>
+      ))}
     </SlideLayout>
   );
 }

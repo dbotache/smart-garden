@@ -1,14 +1,16 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { CompatCosts } from "@/business";
+import { Phase1Costs, phase1BreakEvenUsers } from "@/business";
 
 /**
- * NEW — compatibility stage before own hardware: connect third-party sensors (Expert tariff), no own device.
- * Sources in docs/operating-costs.md.
+ * NEW — phase 1 (digital only): running costs with researched prices and marked assumptions
+ * (src/business/data/operatingCosts.ts, docs/operating-costs.md).
  */
 export default function Slide16() {
+  const users = phase1BreakEvenUsers(0.05) ?? 0;
+  const paying = Math.round(users * 0.05);
   return (
-    <SlideLayout eyebrow="HOW · VORSTUFE: KOMPATIBEL STATT EIGENE HARDWARE" title="Vorstufe: fremde Sensoren statt eigenes Gerät" bodyTop={104} bodyHeight={388}>
-      <CompatCosts />
+    <SlideLayout eyebrow="HOW · PHASE 1: NUR DIGITAL" title={`${paying.toLocaleString("de-DE")} Zahlende (${users.toLocaleString("de-DE")} Nutzer) decken den Betrieb`} bodyTop={104} bodyHeight={388}>
+      <Phase1Costs />
     </SlideLayout>
   );
 }
