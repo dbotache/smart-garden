@@ -11,11 +11,15 @@ type Props = {
   onToggleFullscreen: () => void;
   notesOpen: boolean;
   onToggleNotes: () => void;
+  /** export view of this deck */
+  pdfHref?: string;
+  /** link to the other deck (main ↔ backup) */
+  switchTo?: { href: string; label: string; title: string };
 };
 
 const btn = "grid h-9 min-w-9 place-items-center rounded-lg px-2 text-pw-900 ring-1 ring-pw-200 bg-white hover:bg-pw-50 disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-pw-700";
 
-export function SlideNavigation({ slides, index, onGo, fullscreen, onToggleFullscreen, notesOpen, onToggleNotes }: Props) {
+export function SlideNavigation({ slides, index, onGo, fullscreen, onToggleFullscreen, notesOpen, onToggleNotes, pdfHref = "/presentation/print?download", switchTo }: Props) {
   return (
     <nav aria-label="Foliennavigation" className="flex items-center gap-2 text-sm" data-testid="deck-nav">
       <button type="button" className={btn} onClick={() => onGo(index - 1)} disabled={index === 0} aria-label="Vorherige Folie" data-testid="deck-prev">
@@ -31,7 +35,12 @@ export function SlideNavigation({ slides, index, onGo, fullscreen, onToggleFulls
       <button type="button" className={btn} onClick={onToggleNotes} aria-pressed={notesOpen} title="Sprechernotizen (N)" data-testid="deck-notes">
         Notizen
       </button>
-      <a href="/presentation/print?download" target="_blank" rel="noopener" className={`${btn} grid-flow-col gap-1.5 font-semibold`} title="Alle Folien als PDF herunterladen (öffnet die Exportansicht)" data-testid="deck-pdf">
+      {switchTo && (
+        <a href={switchTo.href} className={`${btn} font-semibold`} title={switchTo.title} data-testid="deck-switch">
+          {switchTo.label}
+        </a>
+      )}
+      <a href={pdfHref} target="_blank" rel="noopener" className={`${btn} grid-flow-col gap-1.5 font-semibold`} title="Alle Folien als PDF herunterladen (öffnet die Exportansicht)" data-testid="deck-pdf">
         <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden><path d="M8 2v8m0 0 3-3m-3 3L5 7M3 12v2h10v-2" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
         PDF
       </a>

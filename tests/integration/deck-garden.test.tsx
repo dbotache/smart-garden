@@ -40,7 +40,7 @@ beforeEach(async () => {
   await new Promise((r) => setTimeout(r, 0));
 });
 
-describe("slide deck with embedded garden", () => {
+describe("slide deck", () => {
   it("navigates in registry order with arrows and buttons", async () => {
     render(<SlideDeck slides={SLIDES} />);
     expect(current()).toBe("title");
@@ -52,7 +52,7 @@ describe("slide deck with embedded garden", () => {
     await key("ArrowLeft");
     expect(current()).toBe("team");
     await key("End");
-    expect(current()).toBe("demo-irrigation");
+    expect(current()).toBe("call");
     await key("Home");
     expect(current()).toBe("title");
   });
@@ -65,56 +65,6 @@ describe("slide deck with embedded garden", () => {
     });
     await flush();
     expect(current()).toBe("problem");
-  });
-
-  it("mounts ONE garden for all demo slides and drives its stage from the slide", async () => {
-    window.location.hash = "#/17";
-    await flush();
-    render(<SlideDeck slides={SLIDES} />);
-    expect(screen.queryByTestId("stub-garden")).toBeNull(); // no WebGL work before the first garden slide
-    await key("ArrowRight");
-    expect(current()).toBe("demo-planning");
-    expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-stage", "planning");
-    await key("ArrowRight");
-    await key("ArrowRight");
-    expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-stage", "monitoring");
-    await key("ArrowRight");
-    expect(current()).toBe("demo-irrigation");
-    for (let i = 0; i < 4; i++) await key("ArrowLeft"); // leave the demo, back to the call slide
-    expect(current()).toBe("call");
-    expect(screen.getByTestId("deck-garden")).toHaveAttribute("data-visible", "false");
-    expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-active", "false"); // render loop paused
-    await key("End");
-    expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-stage", "irrigation");
-    expect(mounts).toHaveBeenCalledTimes(1); // never re-created
-  });
-
-  it("lets the garden change its stage without changing the slide", async () => {
-    window.location.hash = "#/19";
-    await flush();
-    render(<SlideDeck slides={SLIDES} />);
-    fireEvent.click(screen.getByTestId("stub-stage-btn"));
-    expect(current()).toBe("demo-planting");
-    expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-stage", "irrigation");
-  });
-
-  it("does not navigate on clicks, drags or wheel over the garden, nor on Space while a button has focus", async () => {
-    window.location.hash = "#/20";
-    await flush();
-    render(<SlideDeck slides={SLIDES} />);
-    const canvas = screen.getByTestId("stub-canvas");
-    fireEvent.pointerDown(canvas);
-    fireEvent.pointerMove(canvas, { clientX: 300 });
-    fireEvent.pointerUp(canvas);
-    fireEvent.click(canvas);
-    fireEvent.wheel(canvas, { deltaY: 400 });
-    const btn = screen.getByTestId("stub-stage-btn");
-    btn.focus();
-    await key(" ", btn);
-    expect(current()).toBe("demo-monitoring");
-    // …and navigation still works afterwards
-    await key("ArrowRight", btn);
-    expect(current()).toBe("demo-irrigation");
   });
 
   it("toggles speaker notes with N and shows the PPTX notes", async () => {

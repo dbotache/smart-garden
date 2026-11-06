@@ -162,11 +162,11 @@ async function embedFonts() {
   return out.join("\n");
 }
 
-function download(blob: Blob) {
+function download(blob: Blob, fileName: string) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = PDF_FILE_NAME;
+  a.download = fileName;
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -180,7 +180,7 @@ type ExportState = { kind: "idle" } | { kind: "running"; done: number; total: nu
  * "Drucken …" uses the print dialog (vector text, but page size depends on the browser).
  * Interactive slides are printed in their opening state; animations render their final values.
  */
-export function PrintDeck({ slides }: { slides: SlideDefinition[] }) {
+export function PrintDeck({ slides, fileName = PDF_FILE_NAME, backHref = "/presentation" }: { slides: SlideDefinition[]; fileName?: string; backHref?: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [state, setState] = useState<ExportState>({ kind: "idle" });
@@ -191,13 +191,13 @@ export function PrintDeck({ slides }: { slides: SlideDefinition[] }) {
     try {
       const blob = await buildPdf(rootRef.current, (done, total) => setState({ kind: "running", done, total }));
       window.__plantwizPdf = blob;
-      download(blob);
+      download(blob, fileName);
       setState({ kind: "done" });
     } catch (e) {
       console.error("[pdf] export failed", e);
       setState({ kind: "error", message: e instanceof Error ? e.message : String(e) });
     }
-  }, [slides.length]);
+  }, [slides.length, fileName]);
 
   useEffect(() => {
     let cancelled = false;
@@ -223,7 +223,7 @@ export function PrintDeck({ slides }: { slides: SlideDefinition[] }) {
     : state.kind === "running"
       ? `PDF wird erstellt … Folie ${state.done} von ${state.total}`
       : state.kind === "done"
-        ? `Fertig: ${PDF_FILE_NAME} wurde heruntergeladen.`
+        ? `Fertig: ${fileName} wurde heruntergeladen.`
         : state.kind === "error"
           ? `Export fehlgeschlagen (${state.message}). Alternative: „Drucken …“ und „Als PDF speichern“.`
           : "Bereit.";
@@ -231,7 +231,7 @@ export function PrintDeck({ slides }: { slides: SlideDefinition[] }) {
   return (
     <div className="print-deck min-h-dvh bg-[#e9ece7]" data-testid="print-deck" data-ready={ready} data-export={state.kind}>
       <header className="print-toolbar sticky top-0 z-50 flex flex-wrap items-center gap-3 border-b border-pw-200 bg-white/95 px-4 py-3 text-sm text-pw-ink backdrop-blur">
-        <Link href="/presentation" className="rounded-lg px-3 py-2 font-semibold text-pw-900 ring-1 ring-pw-200 hover:bg-pw-50">
+        <Link href={backHref} className="rounded-lg px-3 py-2 font-semibold text-pw-900 ring-1 ring-pw-200 hover:bg-pw-50">
           ← Zur Präsentation
         </Link>
         <div className="min-w-0 flex-1">

@@ -1,6 +1,6 @@
 /**
  * Structural checks that unit tests don't cover well:
- *  - one SlideNN.tsx per registered slide, all registered, and the PPTX slides mapped at most once (PPTX 6 removed on purpose)
+ *  - one SlideNN.tsx / BackupNN.tsx per registered slide (main deck and backup deck), all registered, and the PPTX slides mapped at most once (PPTX 6 and 8 removed on purpose)
  *  - the presentation imports the prototype and the architecture module ONLY through their public entries
  *  - no Math.random in prototype data/logic (tests and screenshots must be deterministic)
  *  - original inputs are preserved
@@ -14,18 +14,18 @@ const errors: string[] = [];
 const ok = (msg: string) => console.log(`✓ ${msg}`);
 
 const slideDir = path.join(root, "src/presentation/slides");
-const files = fs.readdirSync(slideDir).filter((f) => /^Slide\d{2}\.tsx$/.test(f)).sort();
+const files = fs.readdirSync(slideDir).filter((f) => /^(Slide|Backup)\d{2}\.tsx$/.test(f)).sort();
 // Parse the registry source (importing it would pull React components + CSS into plain Node).
 const index = fs.readFileSync(path.join(slideDir, "index.ts"), "utf8");
 const entries = [...index.matchAll(/\{ id: "([^"]+)"[^]*?source: \{ type: "(pptx|new)"(?:, slide: (\d+))?/g)].map((m) => ({ id: m[1]!, type: m[2]!, slide: m[3] ? Number(m[3]) : undefined }));
 for (const f of files) if (!index.includes(`from "./${f.replace(".tsx", "")}"`)) errors.push(`${f} is not registered in slides/index.ts`);
 if (files.length !== entries.length) errors.push(`${files.length} slide files but ${entries.length} registry entries`);
-else ok(`${files.length} slide files, each registered`);
+else ok(`${files.length} slide files (main deck + backup), each registered`);
 
 const pptx = entries.flatMap((e) => e.slide === undefined ? [] : [e.slide]).sort((a, b) => a - b);
 // PPTX 6 ("Technische Realisierung") was removed from the deck on purpose (merge of pitch/plantwiz-updates, 2026-11-05)
-if (pptx.join(",") !== "1,2,3,4,5,7,8,9") errors.push(`PPTX mapping is ${pptx.join(",")}`);
-else ok("PPTX slides 1–5 and 7–9 mapped once (6 removed on purpose)");
+if (pptx.join(",") !== "1,2,3,4,5,7,9") errors.push(`PPTX mapping is ${pptx.join(",")}`);
+else ok("PPTX slides 1–5, 7 and 9 mapped once (6 and 8 removed on purpose)");
 
 function walk(dir: string): string[] {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]));

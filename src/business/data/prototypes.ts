@@ -4,7 +4,7 @@
  * (utils/prototypeCosts.ts), because the document's total for prototype 3 is wrong (438 € stated, 398 € summed).
  *
  * Naming: the document calls them "Level 1–3". The deck already uses "Level" for the subscription tiers (slide 7)
- * and the architecture build-out (slide 8), so the slides say "Prototyp 1–3".
+ * and the architecture build-out (/architecture), so the slides say "Prototyp 1–3".
  */
 
 export type CostCategory = "elektronik" | "kamera" | "konnektivitaet" | "bewaesserung" | "energie" | "gehaeuse";

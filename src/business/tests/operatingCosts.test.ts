@@ -85,7 +85,7 @@ describe("compatibility stage (third-party sensors, no own hardware)", () => {
   });
 });
 
-describe("costs per phase incl. advertising (slide 16, next steps)", () => {
+describe("costs per phase incl. advertising (PhaseCostTable)", () => {
   it("derives the cost per registration from the ad funnel", () => {
     expect(costPerRegistration({ cpm: 10, ctr: 0.02 })).toBeCloseTo(2.5, 6); // business plan section 7.2
     expect(costPerRegistration({ cpm: 10, ctr: 0.015 })).toBeCloseTo(3.33, 2);

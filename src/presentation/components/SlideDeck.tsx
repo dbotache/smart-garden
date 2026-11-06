@@ -14,7 +14,7 @@ import { GardenHost } from "./GardenHost";
  * persistent garden for all garden slides, and owns keyboard navigation. The deck never navigates on
  * pointer or wheel input, so dragging/zooming/clicking the garden can't change slides.
  */
-export function SlideDeck({ slides }: { slides: SlideDefinition[] }) {
+export function SlideDeck({ slides, pdfHref, switchTo }: { slides: SlideDefinition[]; pdfHref?: string; switchTo?: { href: string; label: string; title: string } }) {
   const { index, go, step } = useDeckLocation(slides.length);
   const rootRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
@@ -93,7 +93,7 @@ export function SlideDeck({ slides }: { slides: SlideDefinition[] }) {
 
       <div className={fs ? "group fixed inset-x-0 bottom-0 z-50 px-4 pb-3 opacity-0 transition-opacity hover:opacity-100 focus-within:opacity-100" : "px-3 pb-3 sm:px-5"}>
         <div className={fs ? "rounded-xl bg-white/95 p-2 shadow-lg" : ""}>
-          <SlideNavigation slides={slides} index={index} onGo={go} fullscreen={fs} onToggleFullscreen={() => void fullscreen.toggle()} notesOpen={notesOpen} onToggleNotes={() => setNotesOpen((o) => !o)} />
+          <SlideNavigation slides={slides} index={index} onGo={go} fullscreen={fs} onToggleFullscreen={() => void fullscreen.toggle()} notesOpen={notesOpen} onToggleNotes={() => setNotesOpen((o) => !o)} pdfHref={pdfHref} switchTo={switchTo} />
         </div>
       </div>
 

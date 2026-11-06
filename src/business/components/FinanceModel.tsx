@@ -23,7 +23,7 @@ const TABS: { id: Tab; label: string }[] = [
 ];
 
 /**
- * Slide 15 body (873 × 388 pt): an interactive version of the business-model calculation. Left: assumptions
+ * Body (873 × 388 pt): an interactive version of the business-model calculation. Left: assumptions
  * (presets from the plan, sliders with the plan's cautious / base / positive marks). Right: KPIs and four views.
  */
 export function FinanceModel({ initialPreset = "beispiel" }: { initialPreset?: string }) {
@@ -309,7 +309,7 @@ function HardwareView({ params, set, model }: { params: FinanceParams; set: <K e
         <div style={{ height: pt(118) }}><RentalChart cumulative={rent.cumulative} payback={rent.paybackMonths} /></div>
         <p className="u-fs-10 leading-snug text-pw-ink"><b>Empfehlung des Plans:</b> Kit verkaufen; Miete erst nach Pilotdaten und rechtlicher Prüfung einer Mindestlaufzeit.</p>
         <p className="mt-auto u-fs-9 leading-snug text-pw-muted">
-          Zum Vergleich (Folie 9): Prototyp 1 kostet als Einzelstück {euro(planBudget(PROTOTYPES[0]!))}, Prototyp 2 {euro(planBudget(PROTOTYPES[1]!))}. Die 85 € Herstellkosten des Kits sind eine Annahme für Serienware und noch durch Lieferantenangebote zu belegen.
+          Zum Vergleich (Backup-Folie 2): Prototyp 1 kostet als Einzelstück {euro(planBudget(PROTOTYPES[0]!))}, Prototyp 2 {euro(planBudget(PROTOTYPES[1]!))}. Die 85 € Herstellkosten des Kits sind eine Annahme für Serienware und noch durch Lieferantenangebote zu belegen.
         </p>
       </div>
     </div>

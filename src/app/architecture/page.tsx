@@ -15,7 +15,7 @@ export default function ArchitecturePage() {
           <span className="font-serif text-lg font-bold text-pw-900">PlantWiz</span>
           <span className="hidden text-sm text-pw-muted sm:inline">· Systemarchitektur</span>
         </Link>
-        <Link href="/presentation#/8" className="text-sm font-semibold text-pw-700 hover:underline">
+        <Link href="/presentation#/17" className="text-sm font-semibold text-pw-700 hover:underline">
           Präsentation →
         </Link>
       </header>

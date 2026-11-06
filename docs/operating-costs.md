@@ -1,4 +1,4 @@
-# Operating costs: phase 1 (digital), compatibility stage, sensor variants, savings (slides 11–14)
+# Operating costs: phase 1 (digital), compatibility stage, sensor variants, savings (backup slides B1 and B3; sensor-hardware and savings slides removed on 2026-11-06)
 
 Prices were researched on 2026-11-05 and are **net of VAT**. The business plan only gives lump sums (0,10 € per free user, 0,80–2,80 € per paying customer, 6–25 k€ fixed costs), so these slides break them down with market prices.
 
@@ -94,7 +94,7 @@ The biggest variable item is photo recognition, not servers. The plan's variable
 
 Of the plan's 6.000 € fixed costs, our researched non-staff fixed costs are about 427 €, so about 5.573 € is staff. The plan does not break this down, so the split is our inference. Grants (EXIST: 2 × 2.500 € for 12 months; Hessen Ideen: 6 months) are therefore the main lever.
 
-## Compatibility stage (slide 12)
+## Compatibility stage (backup slide B3)
 
 A step between phase 1 and own hardware: connect sensors customers already own and ship no device. The data is in `COMPAT_SYSTEMS` and the calculation in `compatCosts()`.
 
@@ -107,14 +107,14 @@ A step between phase 1 and own hardware: connect sensors customers already own a
 | Tuya / Smart Life | cloud trial not for commercial use; license prices conflict (1.500 $ to 25.000 $/year) | – | later | [SaaSHub](https://www.saashub.com/tuya-smart) |
 
 What the stage avoids and what it gives up:
-- **Avoided one-off: 3,5–4,8 T€.** That is the pilot devices, the EMC/radio test and the WEEE registration, the same figures as on slide 13. There is also no stock, warranty or returns.
+- **Avoided one-off: 3,5–4,8 T€.** That is the pilot devices, the EMC/radio test and the WEEE registration, the same figures as in the sensor-hardware calculation (`hardwareCosts`). There is also no stock, warranty or returns.
 - **Given up:** the kit contribution of 25,21 € per kit.
 - **Dependency:** the stage relies on third-party APIs. With Gardena, a per-application quota of about 10.000 requests a month would not scale to many customers, if confirmed.
 - **Revenue:** the Expert tariff (14,99 €, "eigene Hardware, offene Schnittstellen") at 9,80 € contribution per month, from the plan. Erweitert stays tied to the kit. Note: since the merge, the tier slide (12) shows only Free, Basic and a planned Erweitert, no Expert.
 - **Running cost:** data polling about 0,004 € per device and month (same assumption as for own devices).
 - **Not quantified:** development time per integration (staff) and support for many device types.
 
-## Costs per phase incl. advertising (slide 16)
+## Costs per phase incl. advertising (Next-steps slide, removed on 2026-11-06)
 
 `phaseCosts()` combines the earlier figures per phase and adds advertising. Staff costs are not included.
 
@@ -137,7 +137,7 @@ Cross-checks:
 
 | Phase | One-off | Running | Advertising | Advertising basis |
 |---|---:|---|---:|---|
-| 1 · digital | – | 538–987 €/month (slide 11) | **9.333 €** (7.000–21.000 €) | 2.800 registrations (operating break-even of slide 11) × cost per registration; start with a 1.000-€ test (100.000 impressions, as in the plan) |
+| 1 · digital | – | 538–987 €/month (backup slide B1) | **9.333 €** (7.000–21.000 €) | 2.800 registrations (operating break-even of backup slide B1) × cost per registration; start with a 1.000-€ test (100.000 impressions, as in the plan) |
 | Vorstufe · kompatibel | 142 € test devices | +0,004 € per device/month | 500 € | search-ads test, about 379 clicks at 1,32 € |
 | 2 · Pilot | 2.053 € pilot devices | ≈ 0 € | 32–35 € | 1.000 A5 flyers for allotment clubs ([selbststaendigkeit.de](https://selbststaendigkeit.de/selbststaendig-machen/marketing/corporate-design/flyer-erstellen)) |
 | 3 · Kit | 1.411–2.711 € test + registration | +25,21 € per kit | 500–2.500 € | 5 micro-influencer posts at 100–500 € ([Shopify DE](https://www.shopify.com/de/blog/influencer-preise); other sources up to 5.000 € per reel); advertising per kit must stay below the 25-€ contribution |

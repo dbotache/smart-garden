@@ -17,7 +17,7 @@ function niceMax(v: number) {
 }
 
 /**
- * Slide 9 body (873 × 388 pt): three prototypes with animated budgets, a shared-scale comparison that scales to
+ * Backup slide 2 body (873 × 388 pt): three prototypes with animated budgets, a shared-scale comparison that scales to
  * pilot fleets, and the cost breakdown / parts list of the selected prototype.
  */
 export function PrototypeCosts({ initial = "p2" }: { initial?: Prototype["id"] }) {

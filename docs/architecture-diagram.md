@@ -2,7 +2,7 @@
 
 Source: `original_prototype/gardentwin/GardenTwinArchitecture.jsx` (+ its README; the zip next to it holds identical copies). The original files are untouched; `npm run validate` checks that they still exist.
 
-Shown as **slide 8** (after the tier slide) and standalone at **`/architecture`**.
+Shown standalone at **`/architecture`** (removed from the deck on 2026-11-06).
 
 ## What was kept verbatim
 

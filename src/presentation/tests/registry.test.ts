@@ -1,17 +1,16 @@
 import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
-import { SLIDES } from "../slides";
-import { GARDEN_STAGES } from "@/prototype";
+import { BACKUP_SLIDES, SLIDES } from "../slides";
 
 describe("slide registry", () => {
   it("has unique ids", () => {
     expect(new Set(SLIDES.map((s) => s.id)).size).toBe(SLIDES.length);
   });
 
-  it("keeps every PPTX slide at most once; PPTX 6 (technical layers) was removed on purpose", () => {
+  it("keeps every PPTX slide at most once; PPTX 6 (technical layers) and 8 (next steps) were removed on purpose", () => {
     const pptx = SLIDES.flatMap((s) => (s.source.type === "pptx" ? [s.source.slide] : []));
-    expect(pptx.sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5, 7, 8, 9]);
+    expect(pptx.sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5, 7, 9]);
   });
 
   it("carries speaker notes for every PPTX slide and marks notes of new slides", () => {
@@ -21,21 +20,19 @@ describe("slide registry", () => {
     }
   });
 
-  it("walks through all four garden stages in order on consecutive slides", () => {
-    const garden = SLIDES.map((s, i) => ({ i, stage: s.garden?.stage })).filter((x) => x.stage);
-    expect(garden.map((g) => g.stage)).toEqual([...GARDEN_STAGES]);
-    expect(garden.map((g) => g.i)).toEqual([17, 18, 19, 20]);
+  it("keeps the presenter's order", () => {
+    expect(SLIDES.map((s) => s.id)).toEqual(["title", "team", "problem", "market", "product-videos", "vision", "business", "roadmap", "call"]);
+    expect(BACKUP_SLIDES.map((s) => s.id)).toEqual(["phase1-costs", "prototypes", "compat-costs"]);
+    expect(new Set([...SLIDES, ...BACKUP_SLIDES].map((s) => s.id)).size).toBe(SLIDES.length + BACKUP_SLIDES.length);
   });
 
-  it("orders problem, market, videos, vision, the business part, and the live demo last", () => {
-    const ids = SLIDES.map((s) => s.id);
-    expect(ids.slice(0, 6)).toEqual(["title", "team", "problem", "market", "product-videos", "vision"]);
-    expect(ids.slice(6)).toEqual(["business", "architecture", "prototypes", "finance-summary", "phase1-costs", "compat-costs", "hardware-costs", "savings", "finance", "next-steps", "call", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation"]);
+  it("has no live-demo slides (the 3D garden runs at /prototype)", () => {
+    expect(SLIDES.some((s) => s.garden)).toBe(false);
   });
 
-  it("has one SlideNN.tsx file per registered slide", () => {
+  it("has one SlideNN.tsx / BackupNN.tsx file per registered slide", () => {
     const dir = path.resolve(__dirname, "../slides");
-    const files = fs.readdirSync(dir).filter((f) => /^Slide\d{2}\.tsx$/.test(f));
-    expect(files).toHaveLength(SLIDES.length);
+    expect(fs.readdirSync(dir).filter((f) => /^Slide\d{2}\.tsx$/.test(f))).toHaveLength(SLIDES.length);
+    expect(fs.readdirSync(dir).filter((f) => /^Backup\d{2}\.tsx$/.test(f))).toHaveLength(BACKUP_SLIDES.length);
   });
 });

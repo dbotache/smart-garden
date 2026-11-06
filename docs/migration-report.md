@@ -40,7 +40,7 @@
 
 ## Presentation
 
-The 9 PPTX slides became 9 TSX slides with unchanged text, figures, sources and notes, plus 4 new live-demo slides inserted after the "three layers" slide, the system-architecture slide after the demo, the prototype-cost slide, the financial plan for investors, four operating-cost slides and the interactive financial model (21 slides); after merging `pitch/plantwiz-updates`: 22 slides with two video slides, Robin's tier slide, and PPTX 6 removed; then the intro video moved onto the problem slide, 21 slides (see `presentation.md`). PPTX slide 7 (business model) was updated for consistency with the November 2026 business-model document. The details and known differences are in `presentation.md`.
+The 9 PPTX slides became 9 TSX slides with unchanged text, figures, sources and notes, plus 4 new live-demo slides inserted after the "three layers" slide, the system-architecture slide after the demo, the prototype-cost slide, the financial plan for investors, four operating-cost slides and the interactive financial model (21 slides); after merging `pitch/plantwiz-updates`: 22 slides with two video slides, Robin's tier slide, and PPTX 6 removed; then the intro video moved onto the problem slide, the slides were reordered (live demo last) and Robin's roadmap was added, then call, cost part, demo, architecture and prototypes reordered again; finally ten slides were removed (live demo, architecture, savings, financial model, financial plan, sensor-hardware costs, next steps): 12 slides (see `presentation.md`). PPTX slide 7 (business model) was updated for consistency with the November 2026 business-model document. The details and known differences are in `presentation.md`.
 
 ## Open points / limitations
 
