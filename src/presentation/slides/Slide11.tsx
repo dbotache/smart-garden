@@ -1,11 +1,16 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { PrototypeEmbed } from "../components/PrototypeEmbed";
+import { Phase1Costs, phase1BreakEvenUsers } from "@/business";
 
-/** NEW (not in the PPTX) — Stage 4 of the live garden: adaptive irrigation per bed vs. a fixed timer. */
+/**
+ * NEW — phase 1 (digital only): running costs with researched prices and marked assumptions
+ * (src/business/data/operatingCosts.ts, docs/operating-costs.md).
+ */
 export default function Slide11() {
+  const users = phase1BreakEvenUsers(0.05) ?? 0;
+  const paying = Math.round(users * 0.05);
   return (
-    <SlideLayout eyebrow="DEMO 4/4 · TEILAUTOMATISIERUNG (GEPLANT)" title="Gießen nur dort, wo es nötig ist" bodyTop={104} bodyHeight={388}>
-      <PrototypeEmbed stage="irrigation" />
+    <SlideLayout eyebrow="HOW · PHASE 1: NUR DIGITAL" title={`${paying.toLocaleString("de-DE")} Zahlende (${users.toLocaleString("de-DE")} Nutzer) decken den Betrieb`} bodyTop={104} bodyHeight={388}>
+      <Phase1Costs />
     </SlideLayout>
   );
 }

@@ -1,34 +1,51 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { At, Card, IconBadge, type IconName } from "../components/SlidePrimitives";
+import { At, Bullets, Card } from "../components/SlidePrimitives";
 
-const STATS: { icon: IconName; value: string; label: string; note: string; x: number }[] = [
-  { icon: "house", value: "24,6 Mio.", label: "Haushalte mit Garten", note: "Hobbygärtner: 60 % von 41 Mio. Haushalten (eigene Rechnung auf Basis KfW, 2026)", x: 0 },
-  { icon: "users", value: "13.155", label: "Kleingartenvereine", note: "mit zusammen 871.226 Kleingärten (BKD, Stand 03/2024)", x: 299 },
-  { icon: "hammer", value: "44.500", label: "neue Einfamilienhäuser", note: "Privatgärten beim Neubau: genehmigt 2025, +17,2 % (Destatis, vorläufig)", x: 597 },
-];
-
-/** PPTX 5 — Target group + market. Figures and sources unchanged from the PPTX. */
 export default function Slide07() {
   return (
-    <SlideLayout eyebrow="WHAT · ZIELGRUPPE + MARKT" title="60 % der Haushalte in Deutschland haben einen Garten">
-      {STATS.map((s) => (
-        <At key={s.value} x={s.x} y={0} w={277} h={212}>
-          <Card className="h-full u-px-18 u-py-14">
-            <IconBadge icon={s.icon} size={36} />
-            <p className="u-mt-6 font-serif u-fs-44 font-bold leading-tight text-pw-700">{s.value}</p>
-            <p className="u-fs-15 font-bold text-pw-900">{s.label}</p>
-            <p className="u-mt-4 u-fs-13 leading-snug text-pw-muted">{s.note}</p>
-          </Card>
-        </At>
-      ))}
-      <At x={0} y={230} w={873} h={94}>
-        <Card dark className="flex h-full items-center u-gap-15 u-px-22">
-          <IconBadge icon="tractor" size={42} tone="light" iconScale={0.52} />
-          <div>
-            <p className="u-fs-18 font-bold text-white">Skalierung in den Agrarsektor</p>
-            <p className="u-mt-4 u-fs-15 text-pw-200">Später interessant für besonders volatile und pflegeintensive Pflanzenarten.</p>
-          </div>
+    <SlideLayout eyebrow="HOW · GESCHÄFTSMODELL" title="Kostenlos starten, mit Basic planen und pflegen">
+      <At x={0} y={0} w={279} h={254}>
+        <Card className="h-full u-px-18 u-py-16">
+          <h3 className="font-serif u-fs-24 font-bold text-pw-900">Free</h3>
+          <p className="u-mt-6 u-fs-22 font-bold text-pw-700">0 €</p>
+          <p className="u-fs-14 text-pw-muted">Zum Ausprobieren</p>
+          <Bullets className="u-mt-18 u-fs-16 leading-snug" items={[
+            "1 Garten anlegen",
+            "Begrenzte Pflanzen­erkennungen",
+            "Begrenzte Krankheitsanalysen",
+          ]} />
         </Card>
+      </At>
+
+      <At x={297} y={0} w={279} h={254}>
+        <Card dark className="h-full u-px-18 u-py-16">
+          <h3 className="font-serif u-fs-24 font-bold">Basic</h3>
+          <p className="u-mt-6 u-fs-22 font-bold text-pw-200">4,99 € <span className="u-fs-14 font-normal">pro Monat*</span></p>
+          <p className="u-fs-14 text-pw-200">Alle digitalen Funktionen</p>
+          <Bullets className="u-mt-18 u-fs-16 leading-snug" items={[
+            "Mehrere Gärten planen",
+            "Pflanzenerkennung und Diagnose",
+            "Beetvorschläge & Pflegekalender",
+          ]} />
+        </Card>
+      </At>
+
+      <At x={594} y={0} w={279} h={254}>
+        <Card className="h-full bg-[#eef0ee]! u-px-18 u-py-16 text-[#515952]">
+          <h3 className="font-serif u-fs-24 font-bold">Erweitert</h3>
+          <p className="u-mt-6 u-fs-22 font-bold">Geplant</p>
+          <p className="u-fs-14">Für vernetzte Gärten</p>
+          <Bullets className="u-mt-18 u-fs-16 leading-snug" items={[
+            "Sensor-Kit und Messverlauf",
+            "Benachrichtigungen bei Pflegebedarf",
+            "Später automatische Bewässerung",
+          ]} />
+        </Card>
+      </At>
+
+      <At x={0} y={270} w={873}>
+        <p className="u-fs-16 font-bold text-pw-900">Geplante Affiliate-Provisionen für Saatgut, Dünger, Gartenwerkzeug, Pflanzen und Bäume.</p>
+        <p className="u-mt-6 u-fs-12 text-pw-muted">In der Beta messen wir die Upgrade-Quote und KI-Kosten. * Preisvorschlag bei Jahreszahlung, KI-Kontingente noch offen.</p>
       </At>
     </SlideLayout>
   );

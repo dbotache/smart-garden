@@ -19,13 +19,13 @@ src/
 │   ├── stages/               panel content per stage (PlanningStage … IrrigationStage)
 │   ├── styles/garden.css     classes for chips inside drei <Html> (separate React roots)
 │   └── tests/                unit + component tests
-├── architecture/             ← system-architecture diagram (slide 13, /architecture); public API = index.ts
+├── architecture/             ← system-architecture diagram (slide 8, /architecture); public API = index.ts
 │   ├── data/architecture.ts  modules, flows, levels (verbatim from original_prototype/gardentwin)
 │   ├── utils/layout.ts       pure: active nodes/edges per level, edge routing (border ports, detours)
 │   ├── components/           ArchitectureDiagram
 │   ├── styles/               architecture.css (imported by globals.css)
 │   └── tests/
-├── business/                 ← prototype costs (slide 14), financial plan + operating costs (15–19), financial model (slide 20); public API = index.ts
+├── business/                 ← prototype costs (slide 9), financial plan + operating costs (10–14), financial model (slide 15); public API = index.ts
 │   ├── data/                 parts lists, tariffs, kit, presets (inputs only, from source_documents/)
 │   ├── utils/                pure: prototypeCosts.ts, finance.ts, money.ts (German formatting)
 │   ├── components/           PrototypeCosts, FinanceModel, FinanceCharts (SVG), ui (count-up, slider, tiles)
@@ -55,7 +55,7 @@ src/
 | **Slides scale with `--pt` and container query units, not CSS `transform: scale`** | Transforms would break the pointer→ray mapping of the embedded canvas. With `--pt` (1/960 of the frame width), layouts are transcribed straight from PPTX coordinates. |
 | **Slide index in the URL hash (`#/7`), read via `useSyncExternalStore`** | Deep links, reload-safe, no hydration mismatch, and `location.replace` keeps the history clean. |
 | **The deck never navigates on pointer or wheel input** | Removes any conflict with orbiting, zooming and clicking in the garden. Keyboard rules are a pure function (`deckKeyAction`). |
-| **three.js loads lazily** | `GardenCanvas` is a `next/dynamic` (`ssr:false`) chunk. Slides 1–6 never load three.js (an E2E test asserts `window.__THREE__` is undefined). The deck prefetches the chunk one slide early. |
+| **three.js loads lazily** | `GardenCanvas` is a `next/dynamic` (`ssr:false`) chunk. Slides 1–16 never load three.js (an E2E test asserts `window.__THREE__` is undefined). The deck prefetches the chunk one slide early. |
 | **Dependencies kept minimal** | Charts are about 150 lines of SVG (`TimeSeriesChart`), so no Recharts. Animations are R3F `useFrame` plus CSS, so no Framer Motion. State is React state plus refs, so no Zustand. Each would have added weight without adding capability here. |
 | **Module stylesheets are imported by `globals.css`, not by components** | A component-level CSS import becomes a separate chunk. `<Link>` prefetches of `/presentation` then preload that chunk on pages that never use it, and Chromium logs a warning (the E2E tests require a clean console). The two sheets are 7 kB together. |
 | **Business figures are computed, never copied** | The source documents contain arithmetic errors (`business.md`). Storing only inputs and deriving every figure in pure functions makes errors visible and keeps all slides consistent. |

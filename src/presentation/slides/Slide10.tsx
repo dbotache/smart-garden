@@ -1,11 +1,14 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { PrototypeEmbed } from "../components/PrototypeEmbed";
+import { FinanceSummary } from "@/business";
 
-/** NEW (not in the PPTX) — Stage 3 of the live garden: measured soil and weather data; health only as an estimate. */
+/**
+ * NEW (not in the PPTX) — investor summary of the financial plan: three year-3 scenarios, unit economics,
+ * what the pilot validates. The cost slides (16–19) and the interactive model (20) follow.
+ */
 export default function Slide10() {
   return (
-    <SlideLayout eyebrow="DEMO 3/4 · IOT-SENSOREN (GEPLANT)" title="Sensoren zeigen, was der Garten gerade braucht" bodyTop={104} bodyHeight={388}>
-      <PrototypeEmbed stage="monitoring" />
+    <SlideLayout eyebrow="HOW · FINANZPLAN (PLANUNGSANNAHMEN)" title="Jahr 3: zwischen −4 T€ und +16 T€ pro Monat" bodyTop={104} bodyHeight={388}>
+      <FinanceSummary />
     </SlideLayout>
   );
 }

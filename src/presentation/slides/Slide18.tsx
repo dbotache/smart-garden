@@ -1,11 +1,11 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { HardwareCosts } from "@/business";
+import { PrototypeEmbed } from "../components/PrototypeEmbed";
 
-/** NEW — costs of the sensor variants: pilot + certification, contribution per kit, running cost per device. */
+/** NEW (not in the PPTX) — Stage 1 of the live garden: building, terrain and potential planting zones. */
 export default function Slide18() {
   return (
-    <SlideLayout eyebrow="HOW · PHASE 2 + 3: MIT SENSORIK" title="Hardware: erst Pilot und Zulassung, dann Gewinn" bodyTop={104} bodyHeight={388}>
-      <HardwareCosts />
+    <SlideLayout eyebrow="DEMO 1/4 · DIGITALER ZWILLING" title="Vom Grundriss zum maßstabsgetreuen Gartenplan" bodyTop={104} bodyHeight={388}>
+      <PrototypeEmbed stage="planning" />
     </SlideLayout>
   );
 }

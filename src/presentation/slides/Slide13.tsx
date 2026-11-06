@@ -1,14 +1,11 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { ArchitectureDiagram, ARCH_TEXT } from "@/architecture";
+import { HardwareCosts } from "@/business";
 
-/**
- * NEW (not in the PPTX) — interactive system architecture, migrated from original_prototype/gardentwin.
- * Follows the live garden demo: the same three levels, now as the infrastructure behind them.
- */
+/** NEW — costs of the sensor variants: pilot + certification, contribution per kit, running cost per device. */
 export default function Slide13() {
   return (
-    <SlideLayout eyebrow="HOW · SYSTEMARCHITEKTUR (KONZEPT)" title={ARCH_TEXT.title} bodyTop={104} bodyHeight={388}>
-      <ArchitectureDiagram fit="slide" />
+    <SlideLayout eyebrow="HOW · PHASE 2 + 3: MIT SENSORIK" title="Hardware: erst Pilot und Zulassung, dann Gewinn" bodyTop={104} bodyHeight={388}>
+      <HardwareCosts />
     </SlideLayout>
   );
 }

@@ -138,7 +138,7 @@ export const MARKETING = {
   influencerPost: { low: 100, high: 500, source: "influencer" as SourceId },
   flyerA5Per1000: { low: 32, high: 35, source: "flyer" as SourceId },
   // our proposals per phase
-  phase1TargetUsers: 2800, // = operating break-even of slide 16 (5 % paying)
+  phase1TargetUsers: 2800, // = operating break-even of slide 11 (5 % paying)
   phase1TestBudget: 1000, // plan example: 100.000 impressions at 10 € CPM
   compatSearchBudget: 500,
   pilotFlyers: 1000,

@@ -24,13 +24,13 @@ describe("slide registry", () => {
   it("walks through all four garden stages in order on consecutive slides", () => {
     const garden = SLIDES.map((s, i) => ({ i, stage: s.garden?.stage })).filter((x) => x.stage);
     expect(garden.map((g) => g.stage)).toEqual([...GARDEN_STAGES]);
-    expect(garden.map((g) => g.i)).toEqual([7, 8, 9, 10]);
+    expect(garden.map((g) => g.i)).toEqual([17, 18, 19, 20]);
   });
 
-  it("puts the videos after team and vision, and the tiers right after the live demo", () => {
+  it("orders problem, market, videos, vision, the business part, and the live demo last", () => {
     const ids = SLIDES.map((s) => s.id);
-    expect(ids.slice(0, 7)).toEqual(["title", "team", "pitch-video", "problem", "vision", "product-videos", "market"]);
-    expect(ids.slice(ids.indexOf("demo-irrigation"))).toEqual(["demo-irrigation", "business", "architecture", "prototypes", "finance-summary", "phase1-costs", "compat-costs", "hardware-costs", "savings", "finance", "next-steps", "call"]);
+    expect(ids.slice(0, 6)).toEqual(["title", "team", "problem", "market", "product-videos", "vision"]);
+    expect(ids.slice(6)).toEqual(["business", "architecture", "prototypes", "finance-summary", "phase1-costs", "compat-costs", "hardware-costs", "savings", "finance", "next-steps", "call", "demo-planning", "demo-planting", "demo-monitoring", "demo-irrigation"]);
   });
 
   it("has one SlideNN.tsx file per registered slide", () => {

@@ -43,7 +43,7 @@
 - Clicking **real 3D objects** (zone, tomato, pear tree, probe) through the projection bridge; dragging rotates without selecting.
 - Sensor charts; the watering demo runs to completion with animated moisture values; fixed timer vs adaptive; rain scenario; canvas resizing.
 - Presentation: order and URL; three.js **not** loaded on normal slides; the full presenter journey (reach the garden → rotate → zoom → click → switch stage → Space on a button → sensor plot → irrigation demo → continue with → and the Next button); one persistent `<canvas>` across demo slides; resize and full screen; notes.
-- PDF export: the print view has one page per slide (22), a snapshot for each of the 4 garden stages, every animated number shows its final value; "PDF herunterladen" downloads `PlantWiz-Praesentation.pdf` with one 960 × 540 pt page per slide, and the print path (`page.pdf()`) has the same page count and size.
+- PDF export: the print view has one page per slide (21), a snapshot for each of the 4 garden stages, every animated number shows its final value; "PDF herunterladen" downloads `PlantWiz-Praesentation.pdf` with one 960 × 540 pt page per slide, and the print path (`page.pdf()`) has the same page count and size.
 - Firefox is not covered by Playwright here. The download was checked once in Firefox 159 through WebDriver BiDi (headless, with the then 16 slides): 16 pages of 960 × 540 pt, compared page by page with Firefox's own rendering (1–3 % differing pixels from anti-aliasing/JPEG, no layout shifts).
 
 **Visual:**
@@ -54,7 +54,7 @@
 
 ## Load and timeouts
 
-Playwright runs with 2 workers. Every worker renders WebGL in software (SwiftShader), and since the PDF-export test (4 gardens + 22 page renders) was added, 3 workers starved the 3D tests on a busy machine. The garden visual test on slide 10 then exceeded its waits; on its own it passed. `waitForGarden` therefore allows 120 s, and the irrigation-slide garden test (it waits twice, before and after the watering demo) has a 4-minute limit.
+Playwright runs with 2 workers. Every worker renders WebGL in software (SwiftShader), and since the PDF-export test (4 gardens + 21 page renders) was added, 3 workers starved the 3D tests on a busy machine. The garden visual test on the irrigation slide then exceeded its waits; on its own it passed. `waitForGarden` therefore allows 120 s, and the irrigation-slide garden test (it waits twice, before and after the watering demo) has a 4-minute limit.
 
 ## Waiting for hydration
 

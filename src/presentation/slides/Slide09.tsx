@@ -1,11 +1,14 @@
 import { SlideLayout } from "../components/SlideLayout";
-import { PrototypeEmbed } from "../components/PrototypeEmbed";
+import { PrototypeCosts } from "@/business";
 
-/** NEW (not in the PPTX) — Stage 2 of the live garden: recommended species per bed with score and reason. */
+/**
+ * NEW (not in the PPTX) — the three hardware prototypes and their material budgets
+ * (source_documents/GardenTwin_Prototyp_Level_Kostenvergleich.md, totals recalculated from the parts lists).
+ */
 export default function Slide09() {
   return (
-    <SlideLayout eyebrow="DEMO 2/4 · PFLANZEMPFEHLUNGEN" title="Passende Arten je Beet – mit Begründung" bodyTop={104} bodyHeight={388}>
-      <PrototypeEmbed stage="planting" />
+    <SlideLayout eyebrow="HOW · PROTOTYPEN + KOSTEN" title="Drei Prototypen: von 55 € bis 458 € Material" bodyTop={104} bodyHeight={388}>
+      <PrototypeCosts />
     </SlideLayout>
   );
 }

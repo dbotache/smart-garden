@@ -1,4 +1,4 @@
-# Prototype costs, financial plan and financial model (slides 14–20)
+# Prototype costs, financial plan and financial model (slides 9–15)
 
 Sources (saved unchanged): `source_documents/GardenTwin_Prototyp_Level_Kostenvergleich.md` and `source_documents/GardenTwin_Geschaeftsmodell_Finanzkalkulation.md` (both dated November 2026).
 
@@ -32,7 +32,7 @@ Unchanged and confirmed: prototypes 1 and 2, the kit calculation and price sensi
 
 ## Consistency changes to existing slides
 
-> **Since the merge of `pitch/plantwiz-updates` (2026-11-05)** the tier slide is Robin's version (slide 12): Free, Basic 4,99 € and Erweitert as "Geplant", no Expert tier and no Erweitert price. The financial slides (15–20) still use the business plan's four tiers (Erweitert 9,99 €, Expert 14,99 €, mix 60/30/10); the compatibility stage (17) sells via Expert. The table below documents the earlier 4-tier version.
+> **Since the merge of `pitch/plantwiz-updates` (2026-11-05)** the tier slide is Robin's version (slide 7): Free, Basic 4,99 € and Erweitert as "Geplant", no Expert tier and no Erweitert price. The financial slides (10–15) still use the business plan's four tiers (Erweitert 9,99 €, Expert 14,99 €, mix 60/30/10); the compatibility stage (12) sells via Expert. The table below documents the earlier 4-tier version.
 
 | Slide | Before (PPTX) | Now | Reason |
 |---|---|---|---|
@@ -44,13 +44,13 @@ Unchanged and confirmed: prototypes 1 and 2, the kit calculation and price sensi
 
 Kept: Basic 4,99 € "Preisvorschlag", "Nur von uns freigegebene Modelle", "Die App kennt heute die Stufen Free und Pro", affiliate links, and the 2–5 % conversion benchmark (the model's base is 5 %, cautious 2 %).
 
-**Naming.** The prototype document calls its stages "Level 1–3". The deck already uses "Level" for the subscription tiers (slide 12) and for the architecture build-out (slide 13), so the slides say **Prototyp 1–3**. Mapping: Prototyp 1 covers architecture level 2 (sensors), Prototyp 2 adds level 3 (one irrigation zone) and a camera, and Prototyp 3 is Prototyp 2 off-grid (LTE, solar).
+**Naming.** The prototype document calls its stages "Level 1–3". The deck already uses "Level" for the subscription tiers (slide 7) and for the architecture build-out (slide 8), so the slides say **Prototyp 1–3**. Mapping: Prototyp 1 covers architecture level 2 (sensors), Prototyp 2 adds level 3 (one irrigation zone) and a camera, and Prototyp 3 is Prototyp 2 off-grid (LTE, solar).
 
 **Brand.** Both documents say "GardenTwin"; the deck says PlantWiz. The new slides avoid the brand name ("Sensor-Kit" instead of "GardenTwin-Kit").
 
-**Live demo vs prototypes.** The 3D demo (slides 8–11) shows a fully built garden with 6 beds, valves and probes. The prototypes start smaller (1–2 valves). The demo slides are labelled as demo data and *geplant*, so this is not a contradiction, but say so if asked.
+**Live demo vs prototypes.** The 3D demo (slides 18–21) shows a fully built garden with 6 beds, valves and probes. The prototypes start smaller (1–2 valves). The demo slides are labelled as demo data and *geplant*, so this is not a contradiction, but say so if asked.
 
-## Financial plan for investors (slide 15)
+## Financial plan for investors (slide 10)
 
 A static slide for the pitch; the cost slides (16–19) and the interactive model (20) follow.
 

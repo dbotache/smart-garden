@@ -48,11 +48,11 @@ describe("slide deck with embedded garden", () => {
     expect(current()).toBe("team");
     fireEvent.click(screen.getByTestId("deck-next"));
     await flush();
-    expect(current()).toBe("pitch-video");
+    expect(current()).toBe("problem");
     await key("ArrowLeft");
     expect(current()).toBe("team");
     await key("End");
-    expect(current()).toBe("call");
+    expect(current()).toBe("demo-irrigation");
     await key("Home");
     expect(current()).toBe("title");
   });
@@ -64,11 +64,11 @@ describe("slide deck with embedded garden", () => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown", bubbles: true, cancelable: true }));
     });
     await flush();
-    expect(current()).toBe("pitch-video");
+    expect(current()).toBe("problem");
   });
 
   it("mounts ONE garden for all demo slides and drives its stage from the slide", async () => {
-    window.location.hash = "#/7";
+    window.location.hash = "#/17";
     await flush();
     render(<SlideDeck slides={SLIDES} />);
     expect(screen.queryByTestId("stub-garden")).toBeNull(); // no WebGL work before the first garden slide
@@ -79,17 +79,18 @@ describe("slide deck with embedded garden", () => {
     await key("ArrowRight");
     expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-stage", "monitoring");
     await key("ArrowRight");
-    await key("ArrowRight"); // leave the demo
-    expect(current()).toBe("business");
+    expect(current()).toBe("demo-irrigation");
+    for (let i = 0; i < 4; i++) await key("ArrowLeft"); // leave the demo, back to the call slide
+    expect(current()).toBe("call");
     expect(screen.getByTestId("deck-garden")).toHaveAttribute("data-visible", "false");
     expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-active", "false"); // render loop paused
-    await key("ArrowLeft");
+    await key("End");
     expect(screen.getByTestId("stub-garden")).toHaveAttribute("data-stage", "irrigation");
     expect(mounts).toHaveBeenCalledTimes(1); // never re-created
   });
 
   it("lets the garden change its stage without changing the slide", async () => {
-    window.location.hash = "#/9";
+    window.location.hash = "#/19";
     await flush();
     render(<SlideDeck slides={SLIDES} />);
     fireEvent.click(screen.getByTestId("stub-stage-btn"));
@@ -98,7 +99,7 @@ describe("slide deck with embedded garden", () => {
   });
 
   it("does not navigate on clicks, drags or wheel over the garden, nor on Space while a button has focus", async () => {
-    window.location.hash = "#/10";
+    window.location.hash = "#/20";
     await flush();
     render(<SlideDeck slides={SLIDES} />);
     const canvas = screen.getByTestId("stub-canvas");
@@ -117,7 +118,7 @@ describe("slide deck with embedded garden", () => {
   });
 
   it("toggles speaker notes with N and shows the PPTX notes", async () => {
-    window.location.hash = "#/4";
+    window.location.hash = "#/3";
     await flush();
     render(<SlideDeck slides={SLIDES} />);
     await key("n");

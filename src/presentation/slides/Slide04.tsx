@@ -1,38 +1,35 @@
-import Image from "next/image";
 import { SlideLayout } from "../components/SlideLayout";
 import { At, Card, IconBadge, type IconName } from "../components/SlidePrimitives";
 
-const CHALLENGES: { icon: IconName; title: string; text: string; x: number; y: number }[] = [
-  { icon: "book", title: "Wissenslücken", text: "Pflege kostet viel Zeit, wenn jede Frage erst nachgeschlagen werden muss.", x: 331, y: 0 },
-  { icon: "puzzle", title: "Zersplitterte Lösungen", text: "Apps, Sensoren und Bewässerung laufen getrennt voneinander.", x: 611, y: 0 },
-  { icon: "eye-slash", title: "Kein Gesamtbild", text: "Es fehlen Prognosen und ein Überblick über den Pflegezustand.", x: 331, y: 166 },
-  { icon: "ruler", title: "Aufwendige Neuplanung", text: "Beete anzulegen dauert, und oft stehen unverträgliche Arten nebeneinander.", x: 611, y: 166 },
+const STATS: { icon: IconName; value: string; label: string; note: string; x: number }[] = [
+  { icon: "house", value: "24,6 Mio.", label: "Haushalte mit Garten", note: "Hobbygärtner: 60 % von 41 Mio. Haushalten (eigene Rechnung auf Basis KfW, 2026)", x: 0 },
+  { icon: "users", value: "13.155", label: "Kleingartenvereine", note: "mit zusammen 871.226 Kleingärten (BKD, Stand 03/2024)", x: 299 },
+  { icon: "hammer", value: "44.500", label: "neue Einfamilienhäuser", note: "Privatgärten beim Neubau: genehmigt 2025, +17,2 % (Destatis, vorläufig)", x: 597 },
 ];
 
-/** PPTX 3 — Problem: persona "Peter" + four challenges. */
+/** PPTX 5 — Target group + market. Figures and sources unchanged from the PPTX. */
 export default function Slide04() {
   return (
-    <SlideLayout eyebrow="WHY · PROBLEM + CHALLENGES" title="Peter will Gemüse ernten und hat keinen grünen Daumen">
-      <At x={0} y={0} w={302} h={173}>
-        <Image src="/assets/images/problem-seedlings.jpg" alt="Setzlinge in einer Anzuchtschale" fill sizes="30vw" className="object-cover" />
-      </At>
-      <At x={0} y={187} w={302} h={101}>
-        <blockquote className="font-serif u-fs-18 italic leading-[1.25] text-pw-900">„Ich hätte gern Gemüse und Blumen im eigenen Garten. Ich weiß nur nicht, was wohin gehört und wann es was braucht.“</blockquote>
-      </At>
-      <At x={0} y={295} w={302} h={22}>
-        <p className="u-fs-12 text-pw-muted">Peter, Hobbygärtner (Beispielperson)</p>
-      </At>
-      {CHALLENGES.map((c) => (
-        <At key={c.title} x={c.x} y={c.y} w={262} h={151}>
-          <Card className="h-full u-p-16">
-            <div className="flex items-center u-gap-10">
-              <IconBadge icon={c.icon} size={36} />
-              <h3 className="u-fs-17 font-bold leading-tight text-pw-900">{c.title}</h3>
-            </div>
-            <p className="u-mt-12 u-fs-15 leading-snug text-pw-ink">{c.text}</p>
+    <SlideLayout eyebrow="WHAT · ZIELGRUPPE + MARKT" title="60 % der Haushalte in Deutschland haben einen Garten">
+      {STATS.map((s) => (
+        <At key={s.value} x={s.x} y={0} w={277} h={212}>
+          <Card className="h-full u-px-18 u-py-14">
+            <IconBadge icon={s.icon} size={36} />
+            <p className="u-mt-6 font-serif u-fs-44 font-bold leading-tight text-pw-700">{s.value}</p>
+            <p className="u-fs-15 font-bold text-pw-900">{s.label}</p>
+            <p className="u-mt-4 u-fs-13 leading-snug text-pw-muted">{s.note}</p>
           </Card>
         </At>
       ))}
+      <At x={0} y={230} w={873} h={94}>
+        <Card dark className="flex h-full items-center u-gap-15 u-px-22">
+          <IconBadge icon="tractor" size={42} tone="light" iconScale={0.52} />
+          <div>
+            <p className="u-fs-18 font-bold text-white">Skalierung in den Agrarsektor</p>
+            <p className="u-mt-4 u-fs-15 text-pw-200">Später interessant für besonders volatile und pflegeintensive Pflanzenarten.</p>
+          </div>
+        </Card>
+      </At>
     </SlideLayout>
   );
 }
